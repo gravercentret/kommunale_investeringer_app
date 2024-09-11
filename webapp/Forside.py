@@ -21,5 +21,7 @@ def color_rows(row):
 # Apply the function to the DataFrame
 styled_df = df.style.apply(color_rows, axis=1)
 
+st.header('Det her er en test')
+
 # Display the DataFrame in Streamlit
 st.dataframe(styled_df)
