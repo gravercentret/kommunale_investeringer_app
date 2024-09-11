@@ -14,9 +14,9 @@ df = pd.DataFrame(data)
 # Function to color rows based on condition
 def color_rows(row):
     if row['Score'] > 80:
-        return ['background-color: lightgreen'] * len(row)
+        return ['background-color: lightgreen'] 
     else:
-        return ['background-color: lightcoral'] * len(row)
+        return ['background-color: lightcoral'] 
 
 # Apply the function to the DataFrame
 styled_df = df.style.apply(color_rows, axis=1)
