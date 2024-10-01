@@ -1,0 +1,14 @@
+streamlit
+nbstripout
+matplotlib
+sqlalchemy
+polars
+openai
+matplotlib
+xlsxwriter
+openpyxl
+black
+cryptography
+python-dotenv
+plotly
+babel
