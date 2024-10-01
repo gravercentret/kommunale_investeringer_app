@@ -8,7 +8,7 @@ import os
 import sys
 # from dotenv import load_dotenv  # Required if using .env file
 # from streamlit_extras.stylable_container import stylable_container
-from .utils.data_processing import (
+from utils.data_processing import (
     get_data,
     decrypt_dataframe,
     get_unique_kommuner,
@@ -20,8 +20,8 @@ from .utils.data_processing import (
     round_to_million,
     get_ai_text,
 )
-from .utils.plots import create_pie_chart
-from .webapp.config import set_pandas_options, set_streamlit_options
+from utils.plots import create_pie_chart
+from webapp.config import set_pandas_options, set_streamlit_options
 
 # Apply the settings
 set_pandas_options()
