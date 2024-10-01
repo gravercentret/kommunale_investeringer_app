@@ -55,7 +55,8 @@ col1, col2 = st.columns([0.3, 0.7])
 with col1:
     search_query = st.text_input("Søg i tabellen:", "")
 
-filtered_df = st.session_state.df_pl.filter(st.session_state.df_pl["Problematisk ifølge:"].is_not_null())
+# Filter the dataframe to include rows where 'Priority' is either 2 or 3
+filtered_df = st.session_state.df_pl.filter(st.session_state.df_pl["Priority"].is_in([2, 3]))
 
 filtered_df = filter_df_by_search(filtered_df, search_query)
 

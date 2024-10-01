@@ -67,9 +67,16 @@ st.markdown(
             """
 )
 with st.expander("Læs mere: Hvordan skal tallene forstås?", icon="❔"):
-    st.markdown("""Her kan vi skrive en forklarende tekst. 
-                Forklarende tekst: \n
-                - Problematiske: Dem, der er på eksklusionslisterne.  """)
+    st.markdown("""
+                For hvert værdipapir er det angivet, hvilken kommune eller region, der er ejeren, hvad værdipapirets navn er og hvad værdien af positionen er.\n
+                Værdipapirer, der er udpeget som problematiske, vil være markeret med enten en rød, en orange eller en gul firkant.\n
+                - 🟥 **Rød**: Disse værdipapirer er udstedt af problematiske selskaber.
+                - 🟧 **Orange**: Disse værdipapirer er udstedet af problematiske lande.
+                - 🟨 **Gul**: Disse værdipapirer er potentielt kontroversielle.\n
+                For hvert værdipapir, der er markeret enten med rød, orange eller gul vil der være en forklaring på, hvem, der har udpeget det som problematisk og hvad årsagen er.\n
+                Endelig kan man se, hvilke type værdipapiret er (typisk om det er en aktie eller en obligation), ISIN-nummeret (som er et unikt nummer ligesom et CPR-nummer) samt hvem, der har udstedt papiret.\n
+                Data kan downloades til Excel nedenfor tabellen.\n
+                """)
 # Get unique municipalities and sort alphabetically
 unique_kommuner = get_unique_kommuner(st.session_state.df_pl)
 
@@ -145,7 +152,7 @@ with col2:
 
                 # Count the rows where 'Problematisk ifølge:' is not empty
                 problematic_count_red = filtered_df.filter(filtered_df["Priority"] == 3).shape[0]
-                print(problematic_count_red, filtered_df.head())
+
                 # Display the number in red
                 st.markdown(
                     f'<h1 style="color:red;">{problematic_count_red}</h1>', unsafe_allow_html=True
