@@ -5,6 +5,7 @@ from io import BytesIO
 from sqlalchemy import create_engine
 import base64
 import os
+import sys
 # from dotenv import load_dotenv  # Required if using .env file
 # from streamlit_extras.stylable_container import stylable_container
 from .utils.data_processing import (
@@ -26,6 +27,7 @@ from .webapp.config import set_pandas_options, set_streamlit_options
 set_pandas_options()
 set_streamlit_options()
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Function to load and inject CSS into the Streamlit app
 def load_css(file_name):
