@@ -1,24 +1,14 @@
 import streamlit as st
-import pandas as pd
 import polars as pl
-from io import BytesIO
-from sqlalchemy import create_engine
 import base64
 import os
-import sys
 from utils.data_processing import (
     get_data,
     decrypt_dataframe,
-    get_unique_kommuner,
-    filter_dataframe_by_choice,
-    generate_organization_links,
     filter_df_by_search,
     fix_column_types_and_sort,
-    format_number_european,
     round_to_million,
-    get_ai_text,
 )
-from utils.plots import create_pie_chart
 from config import set_pandas_options, set_streamlit_options
 
 # Apply the settings
