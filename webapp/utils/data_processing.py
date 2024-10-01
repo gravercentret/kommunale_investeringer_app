@@ -23,9 +23,9 @@ def get_data():
         [Årsag til eksklusion],
         [Priority],
         CASE 
-            WHEN [OBS_Type] = 'red' THEN '🟥1️⃣🟥'
-            WHEN [OBS_Type] = 'orange' THEN '🟧2️⃣🟧'
-            WHEN [OBS_Type] = 'yellow' THEN '🟨3️⃣🟨'
+            WHEN [OBS_Type] = 'red' THEN '🟥1'
+            WHEN [OBS_Type] = 'orange' THEN '🟧2'
+            WHEN [OBS_Type] = 'yellow' THEN '🟨3'
             ELSE ''
         END AS OBS
         FROM kommunale_regioner_investeringer;
@@ -164,15 +164,28 @@ def filter_df_by_search(df, search_query):
 
         # Apply the filter
         filtered_df = df.filter(filter_expr)
+
     else:
         filtered_df = df
-
+    
     return filtered_df
+
+# Function to check if a value can be converted to float
+def to_float_safe(val):
+    try:
+        return float(val)
+    except ValueError:
+        return None
 
 
 def fix_column_types_and_sort(df):
     # Cast 'Markedsværdi (DKK)' back to float
     df = df.with_columns([pl.col("Markedsværdi (DKK)").cast(pl.Float64)])
+
+    # Apply the function - to_float_safe -to the column
+    df = df.with_columns(
+        pl.col("Priority").map_elements(to_float_safe, return_dtype=pl.Float64)
+    )
 
     # Sort first by 'Priority' (so that True comes first), then by 'Kommune' and 'ISIN kode' alphabetically
     filtered_df = df.sort(

@@ -80,8 +80,10 @@ regions = "Alle regioner"
 samsø = "Samsø"
 læsø = "Læsø"
 
+# Combine Samsø, Læsø with unique_kommuner and sort alphabetically
+sorted_kommuner = sorted(unique_kommuner + [samsø, læsø])
 # Create dropdown options
-dropdown_options = [all_values, municipalities, regions, samsø, læsø] + unique_kommuner
+dropdown_options = [all_values, municipalities, regions] + unique_kommuner
 
 # Sidebar with selection options
 with st.sidebar:
@@ -94,19 +96,23 @@ with st.sidebar:
 
     search_query = st.text_input("Søg i tabellen:", "")
 
+    # Filter dataframe based on user's selection
+    filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)
+
+    filtered_df = filter_df_by_search(filtered_df, search_query)
+
+    filtered_df = fix_column_types_and_sort(filtered_df)
+
+    if user_choice in [all_values, municipalities, regions] and search_query:
+        st.markdown(f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**")
+
     st.header("Sådan gjorde vi")
     st.markdown(
         """
-        Her kan vi have et kort metodeafsnit, og linke til mere.
+        Noget om, at vi har søgt aktindsigt.
         """
     )
 
-# Filter dataframe based on user's selection
-filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)
-
-filtered_df = filter_df_by_search(filtered_df, search_query)
-
-filtered_df = fix_column_types_and_sort(filtered_df)
 
 # Conditionally display the header based on whether a search query is provided
 if search_query:
@@ -139,7 +145,7 @@ with col2:
 
                 # Count the rows where 'Problematisk ifølge:' is not empty
                 problematic_count_red = filtered_df.filter(filtered_df["Priority"] == 3).shape[0]
-
+                print(problematic_count_red, filtered_df.head())
                 # Display the number in red
                 st.markdown(
                     f'<h1 style="color:red;">{problematic_count_red}</h1>', unsafe_allow_html=True
