@@ -94,6 +94,12 @@ if search_query:
 else: 
     st.subheader("Kommuner med flest problematiske investeringer:")
 
+if search_query:
+    st.markdown(f"***Antal kommuner/regioner, hvor '{search_query}' indgår:*** \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**")
+else: 
+    st.markdown(f"***Antal kommuner/regioner med problematiske investeringer:*** \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**")
+
+
 col_sum, col_count = st.columns(2)
 with col_sum:
     # Get top 10 municipalities for 'Alkohol'
@@ -106,10 +112,11 @@ with col_sum:
     # Display the result in the Streamlit app
     st.write("Top 10 kommuner med den største sum af problematiske investeringer:")
     st.dataframe(top_10_kommune)
-
+    
     # Display the result in the Streamlit app
     st.write("Data til grund for top 10:")
     st.dataframe(filtered_df_top_10)
+
 
 with col_count:
     # Get top 10 municipalities for 'Alkohol'
@@ -127,3 +134,6 @@ with col_count:
     st.write("Data til grund for top 10:")
     st.dataframe(filtered_df_top_10_count)
 
+# Display the result in the Streamlit app
+st.write("Data for alle:")
+st.dataframe(filtered_df)
