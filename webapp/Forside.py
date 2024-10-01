@@ -21,7 +21,7 @@ from utils.data_processing import (
     get_ai_text,
 )
 from utils.plots import create_pie_chart
-from webapp.config import set_pandas_options, set_streamlit_options
+from config import set_pandas_options, set_streamlit_options
 
 # Apply the settings
 set_pandas_options()
