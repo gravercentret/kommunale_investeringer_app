@@ -59,11 +59,12 @@ if "df_pl" not in st.session_state:
 st.logo("webapp/images/GC_navnetraek_Lille_Blaa_RGB.png")
 
 # Title of the app
-st.title("Kommunale og regionale investeringer")
+st.title("Kommunernes og regionernes investeringer")
 
 st.markdown(
     """
             Gravercentret har sammen med Danwatch undersøgt, hvilke værdipapirer de danske kommuner og regioner har valgt at investere i. \n
+            Vi har kortlagt, hvilke værdipapirer, der ligger nede i de investeringsfonde og investeringsforeninger, som kommunerne og regionerne har sat deres penge i.\n
             Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. 
             Herunder kan du se oplysninger fra alle kommuner og regioner - og du kan downloade oplysningerne i Excel-format.
             """
