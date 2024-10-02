@@ -163,7 +163,7 @@ with col2:
 
         # Using HTML to style text with color
         st.markdown(
-            f"<div style='text-align:center;'> Heraf <span style='color:red; font-size:24px;'><b>{problematic_count_red}</b></span> selskaber på eksklusionslister, "
+            f"<div style='text-align:center;'> Heraf <span style='color:red; font-size:24px;'><b>{problematic_count_red}</b></span> sortlistede selskaber, "
             f"og <span style='color:orange; font-size:24px;'><b>{problematic_count_orange}</b></span> statsobligationer fra sortlistede lande.</div>",
             unsafe_allow_html=True
         )
