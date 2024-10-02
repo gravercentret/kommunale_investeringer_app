@@ -2,13 +2,9 @@ import streamlit as st
 import pandas as pd
 import polars as pl
 from io import BytesIO
-from sqlalchemy import create_engine
 import base64
 import os
 import sys
-
-# from dotenv import load_dotenv  # Required if using .env file
-# from streamlit_extras.stylable_container import stylable_container
 from utils.data_processing import (
     get_data,
     decrypt_dataframe,
@@ -43,8 +39,6 @@ load_css("webapp/style.css")
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
         df_retrieved = get_data()
-        # Optional: load environment variables from the .env file
-        # load_dotenv()
 
         encoded_key = os.getenv("ENCRYPTION_KEY")
 
@@ -94,6 +88,7 @@ læsø = "Læsø"
 
 # Combine Samsø, Læsø with unique_kommuner and sort alphabetically
 sorted_kommuner = sorted(unique_kommuner + [samsø, læsø])
+
 # Create dropdown options
 dropdown_options = [all_values, municipalities, regions] + unique_kommuner
 
@@ -141,10 +136,8 @@ if filtered_df.shape[0] == 0:
 # Create three columns
 col1, col2 = st.columns([0.4, 0.6])
 
-# Assuming filtered_df is your Polars dataframe that has been filtered already
 # Column 1: Pie chart for "Type" based on "Markedsværdi (DKK)"
 with col1:
-
     create_pie_chart(filtered_df)
 
 # Column 2: Number of problematic investments
@@ -168,43 +161,6 @@ with col2:
             unsafe_allow_html=True
         )
 
-
-        # col2_1, col2_2, col2_3 = st.columns(3)
-        # height_col = 180
-
-        # with col2_1:
-        #     with st.container(border=True, height=height_col):
-        #         st.markdown("***Antal investeringer udpeget som problematiske:***")
-
-        #         # Count the rows where 'Problematisk ifølge:' is not empty
-        #         problematic_count_red = filtered_df.filter(filtered_df["Priority"] == 3).shape[0]
-
-        #         # Display the number in red
-        #         st.markdown(
-        #             f'<h1 style="color:red;">{problematic_count_red}</h1>', unsafe_allow_html=True
-        #         )
-        # with col2_2:
-        #     with st.container(border=True, height=height_col):
-        #         st.markdown("***Antal investeringer fra ekskluderede lande:***")
-        #         problematic_count_orange = filtered_df.filter(filtered_df["Priority"] == 2).shape[0]
-
-        #         # Display the second number in yellow
-        #         st.markdown(
-        #             f'<h1 style="color:#FE6E34;">{problematic_count_orange}</h1>',
-        #             unsafe_allow_html=True,
-        #         )
-        # with col2_3:
-        #     with st.container(border=True, height=height_col):
-        #         st.markdown("***Antal investeringer værd at undersøge nærmere:***")
-
-        #         problematic_count_yellow = filtered_df.filter(filtered_df["Priority"] == 1).shape[0]
-
-        #         # Display the second number in yellow
-        #         st.markdown(
-        #             f'<h1 style="color:#FEB342;">{problematic_count_yellow}</h1>',
-        #             unsafe_allow_html=True,
-        #         )
-
     # Nøgletal
     with st.container(border=True):
         st.subheader("Nøgletal")
@@ -224,7 +180,7 @@ with col2:
         )
 
         # Filter for problematic investments and calculate the total sum of their 'Markedsværdi (DKK)'
-        prob_df = filtered_df.filter(filtered_df["Problematisk ifølge:"].is_not_null())
+        prob_df = filtered_df.filter(filtered_df["Priority"].is_in([2, 3]))
         prob_markedsvaerdi = (
             prob_df.select(pl.sum("Markedsværdi (DKK)")).to_pandas().iloc[0, 0]
         ).astype(int)
