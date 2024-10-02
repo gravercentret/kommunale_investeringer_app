@@ -41,7 +41,7 @@ load_css("webapp/style.css")
 
 
 if "df_pl" not in st.session_state:
-    with st.spinner("Henter data..."):
+    with st.spinner("Klargør side..."):
         df_retrieved = get_data()
         # Optional: load environment variables from the .env file
         # load_dotenv()

@@ -13,3 +13,4 @@ python-dotenv
 plotly
 babel
 python-docx
+timedelta

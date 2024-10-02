@@ -66,9 +66,9 @@ with col1:
     )
 with col2:
     with st.container(border=True):
-        st.markdown("""Dette er et søgeværktøj. Vær opmærksom på, hvordan det bruges. 
-                    - Hvis du søger efter 'Kina' så finder den ikke 'China', og omvendt. 
-                    - Prøv dig frem med forskellige søgeord. 
+        st.markdown("""Dette er et søgeværktøj. Vær opmærksom på, hvordan det bruges. \n
+                    - Hvis du søger efter 'Kina' så finder den ikke 'China', og omvendt. \n 
+                    - Prøv dig frem med forskellige søgeord. \n
                     - Hvis du vil hente data, så i top højre hjørne ved tabellerne er der et download-ikon.""")
 
 # Filter the dataframe based on selected priorities

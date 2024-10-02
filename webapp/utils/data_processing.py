@@ -5,12 +5,13 @@ import polars as pl
 import pandas as pd
 import streamlit as st
 import re
+from datetime import timedelta
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import padding
 import base64
 
-
+@st.cache_data(show_spinner="Indlæser data", ttl=timedelta(hours=10))
 def get_data():
     engine = create_engine(
         "sqlite:///data/investerings_database_encrypted_new.db"
@@ -63,6 +64,7 @@ def aes_decrypt(encrypted_data, key):
 
 
 # Function to decrypt specified columns of the DataFrame using AES-CBC
+@st.cache_data(show_spinner="Dekrypterer data", ttl=timedelta(hours=10))
 def decrypt_dataframe(df, key, col_list):
     df_decrypted = df.copy()  # Create a copy of the DataFrame
 
