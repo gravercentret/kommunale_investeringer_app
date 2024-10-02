@@ -219,7 +219,7 @@ with col2:
 
         markedsvaerdi_million = round_to_million(total_markedsvaerdi)
         st.write(
-            f"**Total 'Markedsværdi (DKK)':** {markedsvaerdi_million}"  # {total_markedsvaerdi:,.2f}
+            f"**Total markedsværdi (DKK):** {markedsvaerdi_million}"  # {total_markedsvaerdi:,.2f}
         )
 
         # Filter for problematic investments and calculate the total sum of their 'Markedsværdi (DKK)'

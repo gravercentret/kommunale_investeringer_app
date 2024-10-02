@@ -64,6 +64,12 @@ with col1:
             "Resten" if x is None else {1: "Gul", 2: "Orange", 3: "Rød"}.get(x, str(x))
         ),
     )
+with col2:
+    with st.container(border=True):
+        st.markdown("""Dette er et søgeværktøj. Vær opmærksom på, hvordan det bruges. 
+                    - Hvis du søger efter 'Kina' så finder den ikke 'China', og omvendt. 
+                    - Prøv dig frem med forskellige søgeord. 
+                    - Hvis du vil hente data, så i top højre hjørne ved tabellerne er der et download-ikon.""")
 
 # Filter the dataframe based on selected priorities
 if None in selected_priorities:
