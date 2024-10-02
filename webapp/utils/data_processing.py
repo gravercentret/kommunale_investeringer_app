@@ -34,7 +34,7 @@ def get_data():
     # Execute the query and load the result into a Polars DataFrame
     with engine.connect() as conn:
         df_polars = pl.read_database(query, conn)
-    
+
     df_pandas = df_polars.to_pandas()
 
     return df_pandas
@@ -44,12 +44,12 @@ def get_data():
 def aes_decrypt(encrypted_data, key):
     if encrypted_data is None:
         return None  # Handle None values gracefully
-    
+
     # Proceed with decryption if the data is not None
     encrypted_data = base64.b64decode(encrypted_data.encode())  # Decode Base64 to bytes
     iv = encrypted_data[:16]  # Extract the first 16 bytes as the IV
     ciphertext = encrypted_data[16:]
-    
+
     cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
     decryptor = cipher.decryptor()
 
@@ -69,29 +69,26 @@ def decrypt_dataframe(df, key, col_list):
     for col in col_list:
         if pd.api.types.is_string_dtype(df_decrypted[col]):
             # Decrypt string columns
-            df_decrypted[col] = df_decrypted[col].apply(
-                lambda x: aes_decrypt(x, key)
-            )
+            df_decrypted[col] = df_decrypted[col].apply(lambda x: aes_decrypt(x, key))
         else:
             # Convert to the original data type after decryption
-            df_decrypted[col] = df_decrypted[col].apply(
-                lambda x: aes_decrypt(str(x), key)
-            )
-    
+            df_decrypted[col] = df_decrypted[col].apply(lambda x: aes_decrypt(str(x), key))
+
     df_decrypted = pl.from_pandas(df_decrypted)
 
     return df_decrypted
 
+
 def get_ai_text(area):
-        engine = create_engine(
+    engine = create_engine(
         "sqlite:///data/investerings_database_encrypted_new.db"
     )  # Ret efter udgivelse
-        with engine.connect() as conn:
-            query = f"SELECT [Resumé] FROM kommunale_regioner_ai_tekster WHERE `Kommune` = '{area}';"  # Example query
+    with engine.connect() as conn:
+        query = f"SELECT [Resumé] FROM kommunale_regioner_ai_tekster WHERE `Kommune` = '{area}';"  # Example query
 
-            # Execute the query and load the result into a Polars DataFrame
-            result_df = pd.read_sql(query, conn)
-        return result_df['Resumé'][0]
+        # Execute the query and load the result into a Polars DataFrame
+        result_df = pd.read_sql(query, conn)
+    return result_df["Resumé"][0]
 
 
 # Define a function to format numbers with European conventions
@@ -167,8 +164,9 @@ def filter_df_by_search(df, search_query):
 
     else:
         filtered_df = df
-    
+
     return filtered_df
+
 
 # Function to check if a value can be converted to float
 def to_float_safe(val):
@@ -183,9 +181,7 @@ def fix_column_types_and_sort(df):
     df = df.with_columns([pl.col("Markedsværdi (DKK)").cast(pl.Float64)])
 
     # Apply the function - to_float_safe -to the column
-    df = df.with_columns(
-        pl.col("Priority").map_elements(to_float_safe, return_dtype=pl.Float64)
-    )
+    df = df.with_columns(pl.col("Priority").map_elements(to_float_safe, return_dtype=pl.Float64))
 
     # Sort first by 'Priority' (so that True comes first), then by 'Kommune' and 'ISIN kode' alphabetically
     filtered_df = df.sort(

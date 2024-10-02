@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 import base64
 import os
 import sys
+
 # from dotenv import load_dotenv  # Required if using .env file
 # from streamlit_extras.stylable_container import stylable_container
 from utils.data_processing import (
@@ -27,7 +28,8 @@ from config import set_pandas_options, set_streamlit_options
 set_pandas_options()
 set_streamlit_options()
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 
 # Function to load and inject CSS into the Streamlit app
 def load_css(file_name):
@@ -67,7 +69,8 @@ st.markdown(
             """
 )
 with st.expander("Læs mere: Hvordan skal tallene forstås?", icon="❔"):
-    st.markdown("""
+    st.markdown(
+        """
                 For hvert værdipapir er det angivet, hvilken kommune eller region, der er ejeren, hvad værdipapirets navn er og hvad værdien af positionen er.\n
                 Værdipapirer, der er udpeget som problematiske, vil være markeret med enten en rød, en orange eller en gul firkant.\n
                 - 🟥 **Rød**: Disse værdipapirer er udstedt af problematiske selskaber.
@@ -76,7 +79,8 @@ with st.expander("Læs mere: Hvordan skal tallene forstås?", icon="❔"):
                 For hvert værdipapir, der er markeret enten med rød, orange eller gul vil der være en forklaring på, hvem, der har udpeget det som problematisk og hvad årsagen er.\n
                 Endelig kan man se, hvilke type værdipapiret er (typisk om det er en aktie eller en obligation), ISIN-nummeret (som er et unikt nummer ligesom et CPR-nummer) samt hvem, der har udstedt papiret.\n
                 Data kan downloades til Excel nedenfor tabellen.\n
-                """)
+                """
+    )
 # Get unique municipalities and sort alphabetically
 unique_kommuner = get_unique_kommuner(st.session_state.df_pl)
 
@@ -111,7 +115,9 @@ with st.sidebar:
     filtered_df = fix_column_types_and_sort(filtered_df)
 
     if user_choice in [all_values, municipalities, regions] and search_query:
-        st.markdown(f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**")
+        st.markdown(
+            f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
+        )
 
     st.header("Sådan gjorde vi")
     st.markdown(
@@ -123,9 +129,9 @@ with st.sidebar:
 
 # Conditionally display the header based on whether a search query is provided
 if search_query:
-    st.header(f'Data for "{user_choice}" og "{search_query}":')
+    st.subheader(f'Data for "{user_choice}" og "{search_query}":')
 else:
-    st.header(f'Data for "{user_choice}":')
+    st.subheader(f'Data for "{user_choice}":')
 
 if filtered_df.shape[0] == 0:
     st.subheader(f"**{user_choice} har oplyst, at den ikke har nogen investeringer.**")
@@ -143,41 +149,61 @@ with col1:
 # Column 2: Number of problematic investments
 with col2:
     with st.container(border=True):
-        col2_1, col2_2, col2_3 = st.columns(3)
-        height_col = 180
+        header_numbers = ("Antal investeringer udpeget som problematiske:")
+        st.markdown(f'<h4 style="color:black; text-align:center;">{header_numbers}</h4>', unsafe_allow_html=True)
 
-        with col2_1:
-            with st.container(border=True, height=height_col):
-                st.markdown("***Antal investeringer udpeget som problematiske:***")
+        # Count the rows where 'Problematisk ifølge:' is not empty
+        problematic_count = filtered_df.filter(filtered_df["Priority"].is_in([2, 3])).shape[0]
 
-                # Count the rows where 'Problematisk ifølge:' is not empty
-                problematic_count_red = filtered_df.filter(filtered_df["Priority"] == 3).shape[0]
+        st.markdown(f'<h2 style="color:black; text-align:center;">{problematic_count}</h2>', unsafe_allow_html=True)
 
-                # Display the number in red
-                st.markdown(
-                    f'<h1 style="color:red;">{problematic_count_red}</h1>', unsafe_allow_html=True
-                )
-        with col2_2:
-            with st.container(border=True, height=height_col):
-                st.markdown("***Antal investeringer fra ekskluderede lande:***")
-                problematic_count_orange = filtered_df.filter(filtered_df["Priority"] == 2).shape[0]
+        problematic_count_red = filtered_df.filter(filtered_df["Priority"] == 3).shape[0]
+        problematic_count_orange = filtered_df.filter(filtered_df["Priority"] == 2).shape[0]
 
-                # Display the second number in yellow
-                st.markdown(
-                    f'<h1 style="color:#FE6E34;">{problematic_count_orange}</h1>',
-                    unsafe_allow_html=True,
-                )
-        with col2_3:
-            with st.container(border=True, height=height_col):
-                st.markdown("***Antal investeringer værd at undersøge nærmere:***")
+        # Using HTML to style text with color
+        st.markdown(
+            f"<div style='text-align:center;'> Heraf <span style='color:red; font-size:24px;'><b>{problematic_count_red}</b></span> selskaber på eksklusionslister, "
+            f"og <span style='color:orange; font-size:24px;'><b>{problematic_count_orange}</b></span> statsobligationer fra sortlistede lande.</div>",
+            unsafe_allow_html=True
+        )
 
-                problematic_count_yellow = filtered_df.filter(filtered_df["Priority"] == 1).shape[0]
 
-                # Display the second number in yellow
-                st.markdown(
-                    f'<h1 style="color:#FEB342;">{problematic_count_yellow}</h1>',
-                    unsafe_allow_html=True,
-                )
+        # col2_1, col2_2, col2_3 = st.columns(3)
+        # height_col = 180
+
+        # with col2_1:
+        #     with st.container(border=True, height=height_col):
+        #         st.markdown("***Antal investeringer udpeget som problematiske:***")
+
+        #         # Count the rows where 'Problematisk ifølge:' is not empty
+        #         problematic_count_red = filtered_df.filter(filtered_df["Priority"] == 3).shape[0]
+
+        #         # Display the number in red
+        #         st.markdown(
+        #             f'<h1 style="color:red;">{problematic_count_red}</h1>', unsafe_allow_html=True
+        #         )
+        # with col2_2:
+        #     with st.container(border=True, height=height_col):
+        #         st.markdown("***Antal investeringer fra ekskluderede lande:***")
+        #         problematic_count_orange = filtered_df.filter(filtered_df["Priority"] == 2).shape[0]
+
+        #         # Display the second number in yellow
+        #         st.markdown(
+        #             f'<h1 style="color:#FE6E34;">{problematic_count_orange}</h1>',
+        #             unsafe_allow_html=True,
+        #         )
+        # with col2_3:
+        #     with st.container(border=True, height=height_col):
+        #         st.markdown("***Antal investeringer værd at undersøge nærmere:***")
+
+        #         problematic_count_yellow = filtered_df.filter(filtered_df["Priority"] == 1).shape[0]
+
+        #         # Display the second number in yellow
+        #         st.markdown(
+        #             f'<h1 style="color:#FEB342;">{problematic_count_yellow}</h1>',
+        #             unsafe_allow_html=True,
+        #         )
+
     # Nøgletal
     with st.container(border=True):
         st.subheader("Nøgletal")

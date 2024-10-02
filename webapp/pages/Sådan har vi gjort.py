@@ -5,17 +5,20 @@ from config import set_pandas_options, set_streamlit_options
 set_pandas_options()
 set_streamlit_options()
 
+
 # Function to load and inject CSS into the Streamlit app
 def load_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
 
 load_css("webapp/style.css")
 
 # Streamlit page for 'Sådan gjorde vi'
 st.title("Sådan har vi gjort")
 
-st.markdown("""
+st.markdown(
+    """
 Gravercentret har i samarbejde med Danwatch indhentet oplysninger om værdipapirbeholdningen hos alle 98 kommuner og 5 regioner.\n
 Formålet er en landsdækkende journalistisk kortlægning af de kommunale investeringer på de finansielle markeder.\n
 Vi har bedt om en komplet liste over, hvilke værdipapirer (aktier, obligationer, m.v.) kommunen eller regionen 
@@ -70,7 +73,8 @@ Optræder et værdipapir i flere farvekategorier, vil den blive farvet efter den
 Det er endelig værd at bemærke, at der er mere end 140.000 værdipapirer i datasættet og omkring 840.000 
             felter - og med så store mængder data vil der altid være en risiko for fejl og fejlmatches.\n
 
-            """)
+            """
+)
 # Fold-ud sektioner
 with st.expander("Reglerne på området:"):
     st.markdown(
@@ -88,7 +92,7 @@ with st.expander("Reglerne på området:"):
 # with st.expander("Databehandling"):
 #     st.write(
 #         """
-#     Vi har renset og struktureret dataene, så de kunne analyseres. Dette inkluderede fjernelse af irrelevante oplysninger, 
+#     Vi har renset og struktureret dataene, så de kunne analyseres. Dette inkluderede fjernelse af irrelevante oplysninger,
 #     håndtering af manglende værdier og kodning af variabler.
 #     """
 #     )
@@ -96,7 +100,7 @@ with st.expander("Reglerne på området:"):
 # with st.expander("Analysemetoder"):
 #     st.write(
 #         """
-#     De analyserede data er blevet bearbejdet ved hjælp af statistiske værktøjer, hvor vi har fokuseret på 
+#     De analyserede data er blevet bearbejdet ved hjælp af statistiske værktøjer, hvor vi har fokuseret på
 #     at identificere tendenser og mønstre, der kunne belyse de problemstillinger, vi ønskede at undersøge.
 #     """
 #     )
