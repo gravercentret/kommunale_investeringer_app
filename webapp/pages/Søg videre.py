@@ -38,7 +38,7 @@ if "df_pl" not in st.session_state:
         col_list = ["Kommune", "ISIN kode", "Værdipapirets navn"]
         st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
-st.title("Søg i databasen")
+st.title("Søg videre i databasen")
 st.subheader("Se top 10 baseret på din søgning og filtrering.")
 col1, col2 = st.columns([0.4, 0.6])
 
