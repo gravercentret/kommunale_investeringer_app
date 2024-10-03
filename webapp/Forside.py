@@ -69,7 +69,12 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
 # Title of the app
 st.title("Kommunernes og regionernes investeringer")
-
+st.markdown(
+    """ 
+    **Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, skal Gravercentret og Danwatch nævnes som kilde.** \n 
+    **F.eks.: ”Det viser data, som er indsamlet og bearbejdet af Gravercentret, Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."**
+            """
+)
 st.markdown(
     """
             Gravercentret, Danmarks Center for Undersøgende Journalistik, har sammen med Danwatch undersøgt, hvilke værdipapirer de danske kommuner og regioner har valgt at investere i. \n
@@ -78,7 +83,7 @@ st.markdown(
             Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.
             """
 )
-with st.expander("Læs mere: Hvordan skal tallene forstås?", icon="❔"):
+with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", icon="❔"): 
     st.markdown(
         """
                 For hvert værdipapir er det angivet, hvilken kommune eller region der er ejeren, hvad værdipapirets navn er, og hvad værdien af positionen er.\n
@@ -120,7 +125,7 @@ with st.sidebar:
         placeholder="Vælg problemkategori."
     )
 
-    search_query = st.text_input("Søg i tabellen:", "")
+    search_query = st.text_input("Fritekst søgning i tabellen:", "")
 
     # Filter dataframe based on user's selection
     filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)
@@ -144,7 +149,7 @@ with st.sidebar:
     st.header("Ved publicering:")
     st.markdown("""
         Hvis man laver journalistiske historier på baggrund af materialet, skal 
-                [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/)\n
+                [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/) krediteres. \n
         Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)""")
 
 
@@ -152,14 +157,16 @@ with st.sidebar:
 if selected_categories:
     select_string = ', '.join(selected_categories)
 if search_query and not selected_categories:
-    st.subheader(f'Data for "{user_choice}" og "{search_query}":')
+    st.markdown(f' ###Data for "{user_choice}" og "{search_query}":')
 if selected_categories and not search_query:
     st.subheader(f'Data for "{user_choice}" og "{select_string}":')
 if selected_categories and search_query:
     st.subheader(f'Data for "{user_choice}", "{select_string}" og "{search_query}":')
 if not selected_categories and not search_query:
-    st.subheader(f'Data for "{user_choice}":')
-
+    if user_choice == 'Hele landet':
+        st.markdown(f'### Data for alle kommuner og regioner: \n ##### (Vælg område i panelet til venstre)')
+    else: 
+        st.subheader(f'Data for "{user_choice}":')
 
 # Create three columns
 col1, col2 = st.columns([0.4, 0.6])
@@ -219,7 +226,7 @@ with col2:
             filtered_df.select(pl.sum("Markedsværdi (DKK)")).to_pandas().iloc[0, 0]
         ).astype(int)
 
-        markedsvaerdi_million = round_to_million(total_markedsvaerdi)
+        markedsvaerdi_million = format_number_european(total_markedsvaerdi)
         st.write(
             f"**Total markedsværdi (DKK):** {markedsvaerdi_million}"  # {total_markedsvaerdi:,.2f}
         )
@@ -230,9 +237,9 @@ with col2:
             prob_df.select(pl.sum("Markedsværdi (DKK)")).to_pandas().iloc[0, 0]
         ).astype(int)
 
-        prob_markedsvaerdi_million = round_to_million(prob_markedsvaerdi)
+        prob_markedsvaerdi_million = format_number_european(prob_markedsvaerdi)
         st.write(
-            f"**Markedsværdi af problematiske investeringer:** {prob_markedsvaerdi_million}"  # {prob_markedsvaerdi:,.2f}
+            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_million}"  # {prob_markedsvaerdi:,.2f}
         )
 
 
@@ -307,13 +314,14 @@ st.download_button(
 
 if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
     st.subheader(f"Eksklusionsårsager for investeringer foretaget af {user_choice}: ")
-
+    
+    st.info(
+        """Listen nedenfor er genereret med kunstig intelligens, og der tages derfor forbehold for fejl.
+        Overstående liste er muligvis ikke udtømmende.""",
+        icon="ℹ️",
+    )
     ai_text = get_ai_text(user_choice)
 
     st.markdown(ai_text)
 
-    st.info(
-        """Eksklusionslisten ovenfor er genereret med kunstig intelligens, og der tages derfor forbehold for fejl.
-        Overstående liste er muligvis ikke udtømmende, det er tilfældig udvalgte eksempler.""",
-        icon="ℹ️",
-    )
+

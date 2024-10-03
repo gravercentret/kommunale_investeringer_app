@@ -20,7 +20,9 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 set_pandas_options()
 set_streamlit_options()
 
-st.title("Noget om mulige kilder")
+st.title("Citater til fri afbenyttelse")
+
+st.subheader("Noget om at vi har fået nogle citater, der kan bruges")
 
 st.markdown(
     """

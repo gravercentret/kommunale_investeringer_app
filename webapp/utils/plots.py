@@ -19,7 +19,7 @@ def create_pie_chart(filtered_df):
 
     # Combine 'Andet' and 'Ikke angivet' into one category
     type_distribution["Type"] = type_distribution["Type"].replace(
-        {"Andet": "Andet/Ikke angivet", "Ikke angivet": "Andet/Ikke angivet"}
+        {"Andet": "Andet/ikke angivet", "Ikke angivet": "Andet/ikke angivet"}
     )
 
     # Re-aggregate the data to group by the combined category, summing only the numeric column
@@ -50,7 +50,7 @@ def create_pie_chart(filtered_df):
         names="Type",
         color="Type",  # Set colors for categories
         color_discrete_map=color_mapping,
-        title="Typer af fordel på økonomisk andel",
+        title="Fordeling af investeringer (DKK)",
     )
     fig.update_traces(
         textinfo="percent",
