@@ -101,9 +101,9 @@ with st.sidebar:
     )
 
     selected_categories = st.multiselect(
-        "Vælg årsag(er):",  # Title
+        "Vælg problemkategori:", 
         unique_categories_list,  # Options
-        help="Vælg én eller flere årsager at filtrere efter.",
+        help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
         placeholder="Vælg årsagskategorier."
     )
 
@@ -128,10 +128,10 @@ with st.sidebar:
                 f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
             )
 
-    st.header("Sådan gjorde vi")
+    st.header("Om projektet:")
     st.markdown(
         """
-        Noget om, at vi har søgt aktindsigt.
+        Noget om, at vi har søgt aktindsigt. Noget om at vi skal krediteres.
         """
     )
 
@@ -167,11 +167,14 @@ with col2:
 
         # Count the rows where 'Problematisk ifølge:' is not empty
         problematic_count = filtered_df.filter(filtered_df["Priority"].is_in([2, 3])).shape[0]
-
+        problematic_count = format_number_european(problematic_count)
         st.markdown(f'<h2 style="color:black; text-align:center;">{problematic_count}</h2>', unsafe_allow_html=True)
 
         problematic_count_red = filtered_df.filter(filtered_df["Priority"] == 3).shape[0]
+        problematic_count_red = format_number_european(problematic_count_red)
+
         problematic_count_orange = filtered_df.filter(filtered_df["Priority"] == 2).shape[0]
+        problematic_count_orange = format_number_european(problematic_count_orange)
 
         # Using HTML to style text with color
         st.markdown(
@@ -194,7 +197,8 @@ with col2:
         st.subheader("Nøgletal")
 
         # Calculate the total number of investments
-        antal_inv = len(filtered_df)
+        antal_inv = format_number_european(len(filtered_df))
+
         st.write(f"**Antal investeringer:** {antal_inv}")
 
         # Calculate the total sum of 'Markedsværdi (DKK)' and display it in both DKK and millions
