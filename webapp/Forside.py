@@ -5,6 +5,8 @@ from io import BytesIO
 import base64
 import os
 import sys
+import uuid
+from datetime import datetime
 from utils.data_processing import (
     get_data,
     decrypt_dataframe,
@@ -27,6 +29,17 @@ set_pandas_options()
 set_streamlit_options()
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# Generate or retrieve session ID
+if 'user_id' not in st.session_state:
+    st.session_state['user_id'] = str(uuid.uuid4())  # Generate a unique ID
+
+# Get the current timestamp
+timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+# Log the user session with a print statement
+user_id = st.session_state['user_id']
+print(f"[{timestamp}] New user session: {user_id} (Forside)")
 
 
 # Function to load and inject CSS into the Streamlit app
@@ -70,9 +83,9 @@ with st.expander("Læs mere: Hvordan skal tallene forstås?", icon="❔"):
         """
                 For hvert værdipapir er det angivet, hvilken kommune eller region der er ejeren, hvad værdipapirets navn er, og hvad værdien af positionen er.\n
                 Værdipapirer, der er udpeget som problematiske, vil være markeret med enten en rød, en orange eller en gul firkant.\n
-                - 🟥 **Rød**: Disse værdipapirer er udstedt af problematiske selskaber.
-                - 🟧 **Orange**: Disse værdipapirer er udstedet af problematiske lande.
-                - 🟨 **Gul**: Disse værdipapirer er potentielt kontroversielle.\n
+                - 🟥(1) - **Rød**: Disse værdipapirer er udstedt af problematiske selskaber.
+                - 🟧(2) - **Orange**: Disse værdipapirer er udstedet af problematiske lande.
+                - 🟨(3) - **Gul**: Disse værdipapirer er potentielt kontroversielle.\n
                 For hvert værdipapir, der er markeret enten med rød, orange eller gul vil der være en forklaring på, hvem der har udpeget det som problematisk, og hvad årsagen er.\n
                 Endelig kan man se, hvilke type værdipapiret er (typisk om det er en aktie eller en obligation), ISIN-nummeret (som er et unikt nummer ligesom et CPR-nummer), samt hvem der har udstedt papiret.\n
                 Data kan downloades til Excel nedenfor tabellen.\n

@@ -3,7 +3,6 @@ import plotly.express as px
 import streamlit as st
 from utils.data_processing import (
     round_to_million,
-    format_number_european
 )
 
 
