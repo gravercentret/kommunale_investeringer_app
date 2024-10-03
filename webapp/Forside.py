@@ -71,7 +71,7 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 st.title("Kommunernes og regionernes investeringer")
 st.markdown(
     """ 
-    **Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, skal Gravercentret og Danwatch nævnes som kilde.** \n 
+    **Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, skal Gravercentret og Danwatch nævnes som kilde.** 
     **F.eks.: ”Det viser data, som er indsamlet og bearbejdet af Gravercentret, Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."**
             """
 )
@@ -277,7 +277,7 @@ st.dataframe(
         "Type": "Type",
         "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
         "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
-            width="large", help="Årsagen er taget fra eksklusionslisterne."
+            width="large", help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn."
         ),  # 1200
         "Udsteder": st.column_config.TextColumn(width="large"),
     },
@@ -285,7 +285,7 @@ st.dataframe(
 )
 
 # Call the function to display relevant links based on the 'Problematisk ifølge:' column
-st.markdown("\\* Markedsværdien er baseret på det tidspunkt, hvor vi har fået data... HVAD SKAL DER STÅ?")
+st.markdown("\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplyst af kommunerne og regionerne selv ud fra deres senest opgjorte opgørelser.*")
 
 generate_organization_links(filtered_df, "Problematisk ifølge:")
 

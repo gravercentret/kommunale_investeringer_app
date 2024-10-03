@@ -34,17 +34,18 @@ st.title("Sådan har vi gjort")
 
 st.markdown(
     """
-Gravercentret, Danmarks Center for Undersøgende Journalistik, har i samarbejde med Danwatch indhentet oplysninger om værdipapirbeholdningen hos alle 98 kommuner og fem regioner.\n
+[Gravercentret](https://www.gravercentret.dk), Danmarks Center for Undersøgende Journalistik, har i samarbejde med [Danwatch](https://danwatch.dk/) indhentet oplysninger om værdipapirbeholdningen hos alle 98 kommuner og fem regioner.\n
 Formålet er en landsdækkende journalistisk kortlægning af de kommunale investeringer på de finansielle markeder.\n
-Vi har bedt om en komplet liste over, hvilke værdipapirer (aktier, obligationer, m.v.) kommunen eller regionen 
+Vi har via en aktindsigtsanmodning bedt om en komplet liste over, hvilke værdipapirer (aktier, obligationer, m.v.) kommunen eller regionen 
             ejer og hvilken værdi, papirerne udgør. Vi har undersøgt både direkte investeringer og indirekte investeringer, som forvaltes af investeringsforvaltere og fonde. \n
 Landets kommuner og regioner må ikke investere direkte i aktier, men de må godt selv investere i obligationer 
             såsom statsobligationer og realkreditobligationer.\n
 Kommuner og regioner har derfor typisk investeret deres midler gennem investeringsforeninger og fonde, 
             der ejer et udvalg af aktier og/eller obligationer. Her har vi bedt om at få oplyst værdien 
             af kommunens eller regionens ejerandel af disse underliggende værdipapirer.\n
+##### Hvad har vi bedt om?
 Vi har anmodet om de senest opgjorte beholdningslister og markedsværdier, og der kan derfor 
-            i sagens natur være variation i, hvornår tallene er opgjort. Hovedparten af kommunerne har dog valgt at trække nye opgørelser til brug for besvarelsen af vores anmodning, der blev fremsat ultimo juni 2024. Yderligere oplysninger om dette kan fremskaffes.\n
+            i sagens natur være variation i, hvornår tallene er opgjort. Hovedparten af kommunerne har dog valgt at trække nye opgørelser til brug for besvarelsen af vores anmodning, der blev fremsat ultimo juni 2024.\n
 For hvert værdipapir har vi søgt at indhente:
 - ISIN-kode
 - Værdipapirets navn
@@ -57,9 +58,10 @@ Men selv hvis de skulle have afhændet værdipapiret, så har de altså haft inv
 Det kan også være en idé at få en opdateret markedsværdi oplyst, hvis det synes relevant eller man mistænker, 
             at markedsværdien kan have ændret sig væsentligt. Det er dog værd at bemærke, at markedsværdierne 
             og valutakurserne svinger hele tiden, så man kan aldrig få en stabil værdi her.\n
+##### Fejl og mangler
 Nogle værdipapirers markedsværdi kan synes utrolig lav – helt ned til nogle få kroner. Disse lave værdier skyldes, 
             at kommuner og regioner ejer andele af aktier gennem investeringsforeninger eller fonde. Disse andele kan 
-            være meget små og giver derfor i nogle tilfælde nogle meget lave værdiansættelser.\n
+            være meget små og giver derfor i nogle tilfælde nogle meget lave markedsværdier.\n
 Som udgangspunkt har vi fjernet værdipapirpositioner, der har en værdi på mindre end ti kroner for overskuelighedens skyld.\n
 Ikke alle besvarelser fra kommuner og regioner har været komplette, og i disse tilfælde har vi søgt at skaffe de 
             manglende data gennem dialog. Enkelte gange er det ikke lykkedes, og derfor kan der nogle steder mangle data.\n
@@ -69,12 +71,13 @@ Manglende oplysninger som disse bør dog ikke have den store betydning andet end
             Alle værdipapirerne har et ISIN-nummer tilknyttet, som kan give yderligere oplysninger om investeringen, hvis man ønsker det.\n
 Data er renset for fejlposter – f.eks. er rettigheder, kontantbeholdninger i forskellige valutaer og 
             ugyldige værdipapirer ikke medtaget i det omfang, at vi har kunnet identificere dem.\n
+##### Sortlistede værdipapirer
 For at berige data har vi indhentet såkaldte eksklusionslister fra de største banker og pensionskasser, 
             i det omfang det har været muligt. Eksklusionslisterne viser, hvilke værdipapirer de pågældende banker og pensionskasser ikke ønsker at investere i, og hvorfor. Det er værd at bemærke, at nogle værdipapirer kan være ekskluderet i nogle investeringsfonde, men accepteret i andre – også inden for samme bank eller pensionsselskab.\n
 Vi har også medtaget FN’s liste over selskaber, der har aktiviteter i besatte områder på Vestbredden.\n
 Vi har markeret problematiske værdipapirer med rødt i datasættet, men listen er langt fra komplet. 
             Der vil være flere eksklusionslister at finde fra andre banker, pensionsselskaber og NGO’er i ind-og udland.\n
-Herudover har vi i datasættet markeret en række værdipapirer, der kan opfattes som kontroversielle, 
+Herudover har Gravercentret i datasættet markeret en række værdipapirer, der kan opfattes som kontroversielle, 
             men som ikke optræder på nogen af de eksklusionslister, vi har medtaget. Disse er markeret med gult.\n
 En række eksklusionslister indeholder ikke kun selskaber, men også lande. Det betyder som minimum, 
             at statsobligationer fra det pågældende land er udelukket. Disse statsobligationer 
@@ -86,8 +89,8 @@ En eksklusion af et land kan dog også betyde en eksklusion af selskaber ejet el
 Optræder et værdipapir i flere farvekategorier, vil den blive farvet efter den højeste kategori i rækkefølgen rød, 
             orange og gul. Så hvis et papir f.eks. både figurerer på en orange og en rød liste, bliver den farvet rød.\n
 Det er endelig værd at bemærke, at der er mere end 140.000 værdipapirer i datasættet og omkring 840.000 
-            felter – og med så store mængder data vil der altid være en risiko for fejl og fejlmatches.\n
-
+            felter – og med så store mængder data vil der altid være en risiko for fejl og fejlmatches.\n\n
+**Spørgsmål kan rettes til data@gravercentret.dk**
             """
 )
 

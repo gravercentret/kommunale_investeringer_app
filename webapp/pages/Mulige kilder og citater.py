@@ -20,9 +20,9 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 set_pandas_options()
 set_streamlit_options()
 
-st.title("Citater til fri afbenyttelse")
+st.header("Citater til fri afbenyttelse")
 
-st.subheader("Noget om at vi har fået nogle citater, der kan bruges")
+st.markdown(" ##### Følgende citater er til fri afbenyttelse i forbindelse med omtale af informationer fra dette datasæt")
 
 st.markdown(
     """
@@ -33,3 +33,16 @@ KL er kommet med følgende skriftlige kommentar: "KL yder ikke finansiel rådgiv
 Og Danske Regioner svarer følgende: "Det er ikke noget Danske Regioner rådgiver om."
 """
 )
+
+st.header("Mulige kilder")
+
+st.markdown("""
+            De oplagte kilder til historier på baggrund af data er naturligvis kommunen eller regionen selv. 
+            Det vil typisk være de politiske valgte, der vil være mest interessante at tale med, 
+            for der er ikke noget ulovligt i at investere i problematiske værdipapirer. Det er mere et spørgsmål om moral og etik.\n
+I kommunerne vil det være borgmesteren, der er født formand for økonomiudvalget og repræsentanter for oppositionen i kommunen, 
+            der vil være interessante at få en kommentar fra.\n
+Det samme gør sig gældende for regionerne.\n
+Det kunne også være interessant at tale med presseafdelingerne for de banker og pensionskasser, 
+            der havde sortlistet nogle bestemte papirer for at få en uddybning af årsagen til eksklusionen.\n
+""")
