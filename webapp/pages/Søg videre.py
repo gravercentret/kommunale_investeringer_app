@@ -17,6 +17,8 @@ from config import set_pandas_options, set_streamlit_options
 set_pandas_options()
 set_streamlit_options()
 
+st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
+
 
 # Function to load and inject CSS into the Streamlit app
 def load_css(file_name):
@@ -38,15 +40,11 @@ if "df_pl" not in st.session_state:
         col_list = ["Kommune", "ISIN kode", "Værdipapirets navn"]
         st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
-st.title("Søg videre i databasen")
-st.subheader("Se top 10 baseret på din søgning og filtrering.")
-col1, col2 = st.columns([0.4, 0.6])
+with st.sidebar:
+    # Multiselect defaults
+    default_priorities = [2, 3]
+    unique_categories_list = get_unique_categories(st.session_state.df_pl)
 
-# Multiselect defaults
-default_priorities = [2, 3]
-unique_categories_list = get_unique_categories(st.session_state.df_pl)
-
-with col1:
     search_query = st.text_input("Søg i tabellen:", "")
     selected_priorities = st.multiselect(
         "Vælg prioritet:",
@@ -61,14 +59,15 @@ with col1:
         placeholder="Vælg årsagskategorier."
     )
 
-with col2:
-    with st.container(border=True):
-        st.markdown("""
-            ### Sådan bruger du søgeværktøjet:
-            - **Sprogforskelle:** Søgeværktøjet skelner mellem forskellige sprog. For eksempel vil en søgning på 'Kina' ikke give resultater for 'China'. Sørg derfor for at prøve flere varianter af søgeord.
-            - **Eksperimentér med søgeord:** Hvis du ikke finder det, du leder efter med det samme, så prøv forskellige formuleringer eller delord af det, du søger.
-            - **Download data:** Ønsker du at downloade filtrerede data? Brug download-ikonet, som findes øverst i tabellen.
-            """)
+st.header("Søg videre i databasen")
+
+with st.container(border=True):
+    st.markdown("""
+        #### Sådan bruger du søgeværktøjet:
+        - **Sprogforskelle:** Søgeværktøjet skelner mellem forskellige sprog. For eksempel vil en søgning på 'Kina' ikke give resultater for 'China'. Sørg derfor for at prøve flere varianter af søgeord.
+        - **Eksperimentér med søgeord:** Hvis du ikke finder det, du leder efter med det samme, så prøv forskellige formuleringer eller delord af det, du søger.
+        - **Download data:** Ønsker du at downloade filtrerede data? Brug download-ikonet, som findes øverst i tabellen.
+        """)
 
 # Filter the dataframe by selected priorities and search query
 filtered_df = st.session_state.df_pl.filter(
@@ -118,4 +117,11 @@ with col_count:
 
 # Display the filtered dataframe
 st.write("Data for alle:")
-st.dataframe(filtered_df)
+
+display_df = filtered_df.with_columns(
+    pl.col("Markedsværdi (DKK)")
+    .map_elements(format_number_european, return_dtype=pl.Utf8)
+    .alias("Markedsværdi (DKK)"),
+)
+
+st.dataframe(display_df)

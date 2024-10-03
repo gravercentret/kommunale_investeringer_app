@@ -1,5 +1,7 @@
 import streamlit as st
 
+st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
+
 # Side-titel
 st.title("Mulige historier")
 

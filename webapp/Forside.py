@@ -52,7 +52,7 @@ if "df_pl" not in st.session_state:
         col_list = ["Kommune", "ISIN kode", "Værdipapirets navn"]
         st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
-st.logo("webapp/images/GC_navnetraek_Lille_Blaa_RGB.png")
+st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
 # Title of the app
 st.title("Kommunernes og regionernes investeringer")
@@ -128,12 +128,10 @@ with st.sidebar:
                 f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
             )
 
-    st.header("Om projektet:")
-    st.markdown(
-        """
-        Noget om, at vi har søgt aktindsigt. Noget om at vi skal krediteres.
-        """
-    )
+    st.header("Ved publicering:")
+    st.markdown("""
+        Hvis man laver journalistiske historier på baggrund af materialet, skal Gravercentret og Danwatch krediteres.\n
+        Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)""")
 
 
 # Conditionally display the header based on whether a search query is provided
@@ -182,9 +180,10 @@ with col2:
             f"og <span style='color:#FE6E34; font-size:25px;'><b>{problematic_count_orange}</b></span> statsobligationer fra sortlistede lande.</div>",
             unsafe_allow_html=True
         )
-
+        
         problematic_count_yellow = filtered_df.filter(filtered_df["Priority"] == 1).shape[0]
-
+        problematic_count_yellow = format_number_european(problematic_count_yellow)
+        
         # Using HTML to style text with color
         st.markdown(" ")
         st.markdown(

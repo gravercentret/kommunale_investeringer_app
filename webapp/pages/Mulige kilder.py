@@ -1,6 +1,8 @@
 import streamlit as st
 from config import set_pandas_options, set_streamlit_options
 
+st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
+
 # Apply the settings
 set_pandas_options()
 set_streamlit_options()
