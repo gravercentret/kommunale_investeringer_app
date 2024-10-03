@@ -152,12 +152,11 @@ with st.sidebar:
                 [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/) krediteres. \n
         Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)""")
 
-
 # Conditionally display the header based on whether a search query is provided
 if selected_categories:
     select_string = ', '.join(selected_categories)
 if search_query and not selected_categories:
-    st.markdown(f' ###Data for "{user_choice}" og "{search_query}":')
+    st.markdown(f'Data for "{user_choice}" og "{search_query}":')
 if selected_categories and not search_query:
     st.subheader(f'Data for "{user_choice}" og "{select_string}":')
 if selected_categories and search_query:
@@ -250,7 +249,6 @@ display_df = filtered_df.with_columns(
     .alias("Markedsværdi (DKK)"),
 )
 
-
 def enlarge_emoji(val):
     return f'<span style="font-size:24px;">{val}</span>'
 
@@ -264,8 +262,8 @@ st.dataframe(
             "Værdipapirets navn",
             "Markedsværdi (DKK)",
             # "Problematisk ifølge:",
-            "Årsag til eksklusion",
-            "Årsagskategori",
+            "Eksklusion (Af hvem og hvorfor)",
+            "Problemkategori",
             "Type",
             "ISIN kode",
             "Udsteder",
@@ -275,10 +273,10 @@ st.dataframe(
         "OBS": st.column_config.TextColumn(),
         "Kommune": "Kommune",
         "Udsteder": st.column_config.TextColumn(width="small"),
-        "Markedsværdi (DKK)": "Markedsværdi (DKK)",  # st.column_config.NumberColumn(format="%.2f"),
+        "Markedsværdi (DKK)": "Markedsværdi (DKK)*",  # st.column_config.NumberColumn(format="%.2f"),
         "Type": "Type",
         "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
-        "Årsag til eksklusion": st.column_config.TextColumn(
+        "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
             width="large", help="Årsagen er taget fra eksklusionslisterne."
         ),  # 1200
         "Udsteder": st.column_config.TextColumn(width="large"),
@@ -287,6 +285,8 @@ st.dataframe(
 )
 
 # Call the function to display relevant links based on the 'Problematisk ifølge:' column
+st.markdown("\\* Markedsværdien er baseret på det tidspunkt, hvor vi har fået data... HVAD SKAL DER STÅ?")
+
 generate_organization_links(filtered_df, "Problematisk ifølge:")
 
 
@@ -301,6 +301,7 @@ def to_excel(filtered_df):
 
 filtered_df = filtered_df.to_pandas()
 filtered_df.drop("Priority", axis=1, inplace=True)
+
 # Convert dataframe to Excel
 excel_data = to_excel(filtered_df)
 
@@ -317,7 +318,7 @@ if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
     
     st.info(
         """Listen nedenfor er genereret med kunstig intelligens, og der tages derfor forbehold for fejl.
-        Overstående liste er muligvis ikke udtømmende.""",
+        Nedenstående liste er muligvis ikke udtømmende.""",
         icon="ℹ️",
     )
     ai_text = get_ai_text(user_choice)

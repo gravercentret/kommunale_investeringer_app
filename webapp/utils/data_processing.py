@@ -22,7 +22,7 @@ def get_data():
         [Udsteder], [Markedsværdi (DKK)], [Type], 
         [Problematisk ifølge:], 
         [Årsag til eksklusion], 
-        [Årsagskategori],
+        [Problemkategori],
         [Priority],
         CASE 
             WHEN [OBS_Type] = 'red' THEN '🟥1'
@@ -127,9 +127,9 @@ def get_unique_kommuner(df_pl):
     return dropdown_options
 
 def get_unique_categories(df_pl):
-    # Create dropdown for 'Årsagskategori'
+    # Create dropdown for 'Problemkategori'
     unique_categories = df_pl.select(
-        pl.col("Årsagskategori")
+        pl.col("Problemkategori")
         .drop_nulls()  # Drop null values
         .str.split("; ")  # Split the categories
         .explode()  # Explode the list into separate rows
@@ -137,7 +137,7 @@ def get_unique_categories(df_pl):
     )
 
     # Convert to a sorted list for a better dropdown experience
-    unique_categories_list = sorted(pl.Series(unique_categories.select('Årsagskategori')).to_list())
+    unique_categories_list = sorted(pl.Series(unique_categories.select('Problemkategori')).to_list())
     
     return unique_categories_list
 
@@ -158,9 +158,9 @@ def filter_dataframe_by_choice(
 
 def filter_dataframe_by_category(df, selected_categories):
     if selected_categories:
-        # Filter rows where any of the selected categories are in 'Årsagskategori'
+        # Filter rows where any of the selected categories are in 'Problemkategori'
         df_filtered = df.filter(
-            pl.col("Årsagskategori").map_elements(
+            pl.col("Problemkategori").map_elements(
                 lambda x: any(cat in x for cat in selected_categories), return_dtype=pl.Boolean
             )
         )
@@ -230,6 +230,8 @@ def fix_column_types_and_sort(df):
     )
 
     filtered_df = filtered_df.with_row_index("Index", offset=1)
+
+    filtered_df = filtered_df.rename({"Årsag til eksklusion": "Eksklusion (Af hvem og hvorfor)"})
 
     return filtered_df
 

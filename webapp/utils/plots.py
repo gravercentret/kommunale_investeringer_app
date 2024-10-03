@@ -3,6 +3,7 @@ import plotly.express as px
 import streamlit as st
 from utils.data_processing import (
     round_to_million,
+    format_number_european
 )
 
 
@@ -40,7 +41,17 @@ def create_pie_chart(filtered_df):
 
     # Apply rounding to 'Total Markedsværdi' for display in hover text
     type_distribution["Markedsværdi_display"] = type_distribution["Total Markedsværdi"].apply(
-        lambda x: round_to_million(x, 2)  # Format with European conventions
+        lambda x: format_number_european(x, 0)  # Format with European conventions
+    )
+
+    total_value = type_distribution["Total Markedsværdi"].sum()
+    type_distribution["Percent"] = type_distribution["Total Markedsværdi"].apply(
+        lambda x: f"{format_number_european((x / total_value) * 100)} %" 
+    )
+
+    # Combine Markedsværdi_display and Percent into one hover text string
+    type_distribution["Hover_text"] = type_distribution.apply(
+        lambda row: f"{row['Markedsværdi_display']} ({row['Percent']})", axis=1
     )
 
     # Create a pie chart using Plotly
@@ -52,14 +63,15 @@ def create_pie_chart(filtered_df):
         color_discrete_map=color_mapping,
         title="Fordeling af investeringer (DKK)",
     )
+    
     fig.update_traces(
-        textinfo="percent",
-        hovertemplate="<b>%{label}</b><br>Markedsværdi: %{customdata}<extra></extra>",
-        customdata=type_distribution["Markedsværdi_display"],  # Use the rounded values in hover
+        textinfo="none",  # No text directly on the chart
+        hovertemplate="<b>%{label}</b><br>Markedsværdi DKK (andel): %{customdata[0]}<br>",  
+        customdata=type_distribution[["Hover_text"]].to_numpy(), 
         sort=False,  # Keeps the original order of the data
-        rotation=90,
-        #texttemplate="%{percent:.1%}".replace('.', ',')  # Proper percentage formatting with a comma
-    )  
+        rotation=90
+    )
+
 
     # Adjust the layout to prevent text from being cut off
     fig.update_layout(
@@ -77,6 +89,6 @@ def create_pie_chart(filtered_df):
         ),
         margin=dict(l=50, r=150, t=50, b=50),  # Increase right margin for legend
     )
-    fig.layout.yaxis.tickformat = ',.0%'
+    #fig.layout.yaxis.tickformat = ',.0%'
 
     st.plotly_chart(fig)
