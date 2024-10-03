@@ -117,11 +117,22 @@ def get_top_10(filtered_df, sort_by_col, top_n=10):
     ).head(top_n)
 
 # Display search results
-st.subheader(f"Top 10 for '{search_query}':" if search_query else "Kommuner med flest problematiske investeringer:")
+st.subheader(f"Top 10 for '{search_query}':" if search_query else "Kommuner med flest investeringer:")
 st.markdown(
-    f"***Antal kommuner/regioner{' med' if not search_query else ' hvor'} '{search_query or 'problematisk investering'}' indgår:*** \n **{filtered_df.select(pl.col('Kommune').n_unique()).to_numpy()[0][0]}**"
+    f"***Antallet af kommuner/regioner:*** \n **{filtered_df.select(pl.col('Kommune').n_unique()).to_numpy()[0][0]}**"
 )
 
+# Calculate the sum of all investments in the "Markedsværdi (DKK)" column
+investment_sum = filtered_df.select(pl.col('Markedsværdi (DKK)').sum()).to_numpy()[0][0]
+
+# Create the conditional text for the sum
+if search_query or selected_categories:
+    sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** (Baseret på filtrering)"
+else:
+    sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK**"
+
+# Display the sum with markdown
+st.markdown(f"{sum_text}")
 # Display top 10 based on sum and count
 col_sum, col_count = st.columns(2)
 
