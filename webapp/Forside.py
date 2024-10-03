@@ -60,21 +60,21 @@ st.title("Kommunernes og regionernes investeringer")
 st.markdown(
     """
             Gravercentret har sammen med Danwatch undersøgt, hvilke værdipapirer de danske kommuner og regioner har valgt at investere i. \n
-            Vi har kortlagt, hvilke værdipapirer, der ligger nede i de investeringsfonde og investeringsforeninger, som kommunerne og regionerne har sat deres penge i.\n
+            Vi har kortlagt, hvilke værdipapirer der ligger nede i de investeringsfonde og investeringsforeninger, som kommunerne og regionerne har sat deres penge i.\n
             Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. 
-            Herunder kan du se oplysninger fra alle kommuner og regioner - og du kan downloade oplysningerne i Excel-format.
+            Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.
             """
 )
 with st.expander("Læs mere: Hvordan skal tallene forstås?", icon="❔"):
     st.markdown(
         """
-                For hvert værdipapir er det angivet, hvilken kommune eller region, der er ejeren, hvad værdipapirets navn er og hvad værdien af positionen er.\n
+                For hvert værdipapir er det angivet, hvilken kommune eller region der er ejeren, hvad værdipapirets navn er, og hvad værdien af positionen er.\n
                 Værdipapirer, der er udpeget som problematiske, vil være markeret med enten en rød, en orange eller en gul firkant.\n
                 - 🟥 **Rød**: Disse værdipapirer er udstedt af problematiske selskaber.
                 - 🟧 **Orange**: Disse værdipapirer er udstedet af problematiske lande.
                 - 🟨 **Gul**: Disse værdipapirer er potentielt kontroversielle.\n
-                For hvert værdipapir, der er markeret enten med rød, orange eller gul vil der være en forklaring på, hvem, der har udpeget det som problematisk og hvad årsagen er.\n
-                Endelig kan man se, hvilke type værdipapiret er (typisk om det er en aktie eller en obligation), ISIN-nummeret (som er et unikt nummer ligesom et CPR-nummer) samt hvem, der har udstedt papiret.\n
+                For hvert værdipapir, der er markeret enten med rød, orange eller gul vil der være en forklaring på, hvem der har udpeget det som problematisk, og hvad årsagen er.\n
+                Endelig kan man se, hvilke type værdipapiret er (typisk om det er en aktie eller en obligation), ISIN-nummeret (som er et unikt nummer ligesom et CPR-nummer), samt hvem der har udstedt papiret.\n
                 Data kan downloades til Excel nedenfor tabellen.\n
                 """
     )
