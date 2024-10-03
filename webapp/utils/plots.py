@@ -3,6 +3,7 @@ import plotly.express as px
 import streamlit as st
 from utils.data_processing import (
     round_to_million,
+    format_number_european
 )
 
 
@@ -40,7 +41,7 @@ def create_pie_chart(filtered_df):
 
     # Apply rounding to 'Total Markedsværdi' for display in hover text
     type_distribution["Markedsværdi_display"] = type_distribution["Total Markedsværdi"].apply(
-        round_to_million
+        lambda x: round_to_million(x, 2)  # Format with European conventions
     )
 
     # Create a pie chart using Plotly
@@ -58,7 +59,8 @@ def create_pie_chart(filtered_df):
         customdata=type_distribution["Markedsværdi_display"],  # Use the rounded values in hover
         sort=False,  # Keeps the original order of the data
         rotation=90,
-    )  # Rotates the pie chart
+        #texttemplate="%{percent:.1%}".replace('.', ',')  # Proper percentage formatting with a comma
+    )  
 
     # Adjust the layout to prevent text from being cut off
     fig.update_layout(
@@ -76,4 +78,6 @@ def create_pie_chart(filtered_df):
         ),
         margin=dict(l=50, r=150, t=50, b=50),  # Increase right margin for legend
     )
+    fig.layout.yaxis.tickformat = ',.0%'
+
     st.plotly_chart(fig)

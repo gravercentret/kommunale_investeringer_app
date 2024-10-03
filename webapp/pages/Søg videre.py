@@ -59,6 +59,13 @@ with st.sidebar:
         placeholder="Vælg årsagskategorier."
     )
 
+    st.header("Ved publicering:")
+    st.markdown("""
+        Hvis man laver journalistiske historier på baggrund af materialet, skal 
+                [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/)\n
+        Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)""")
+
+
 st.header("Søg videre i databasen")
 
 with st.container(border=True):
@@ -83,7 +90,7 @@ filtered_df = fix_column_types_and_sort(filtered_df)
 
 
 # Function to get top 10 municipalities based on market value or count
-def get_top_10(filtered_df, group_by_col, sort_by_col, top_n=10):
+def get_top_10(filtered_df, sort_by_col, top_n=10):
     kommune_summary = (
         filtered_df.group_by("Kommune")
         .agg([
@@ -106,12 +113,12 @@ st.markdown(
 col_sum, col_count = st.columns(2)
 
 with col_sum:
-    top_10_sum = get_top_10(filtered_df, "Kommune", "Total Markedsværdi (DKK)")
+    top_10_sum = get_top_10(filtered_df, "Total Markedsværdi (DKK)")
     st.write("Top 10 kommuner med den største sum:")
     st.dataframe(top_10_sum)
 
 with col_count:
-    top_10_count = get_top_10(filtered_df, "Kommune", "Antal investeringer")
+    top_10_count = get_top_10(filtered_df, "Antal investeringer")
     st.write("Top 10 kommuner med det største antal af investeringer:")
     st.dataframe(top_10_count)
 

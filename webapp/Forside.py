@@ -104,7 +104,7 @@ with st.sidebar:
         "Vælg problemkategori:", 
         unique_categories_list,  # Options
         help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
-        placeholder="Vælg årsagskategorier."
+        placeholder="Vælg problemkategori."
     )
 
     search_query = st.text_input("Søg i tabellen:", "")
@@ -130,7 +130,8 @@ with st.sidebar:
 
     st.header("Ved publicering:")
     st.markdown("""
-        Hvis man laver journalistiske historier på baggrund af materialet, skal Gravercentret og Danwatch krediteres.\n
+        Hvis man laver journalistiske historier på baggrund af materialet, skal 
+                [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/)\n
         Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)""")
 
 
