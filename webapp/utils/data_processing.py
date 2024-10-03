@@ -21,7 +21,8 @@ def get_data():
         SELECT [Kommune], [ISIN kode], [Værdipapirets navn], 
         [Udsteder], [Markedsværdi (DKK)], [Type], 
         [Problematisk ifølge:], 
-        [Årsag til eksklusion],
+        [Årsag til eksklusion], 
+        [Årsagskategori],
         [Priority],
         CASE 
             WHEN [OBS_Type] = 'red' THEN '🟥1'
@@ -110,8 +111,35 @@ def get_unique_kommuner(df_pl):
     """
     Extract unique 'Kommune' values from the dataframe and sort them alphabetically.
     """
-    return sorted(df_pl["Kommune"].unique().to_list())
+    unique_kommuner = sorted(df_pl["Kommune"].unique().to_list())
+    # Define custom categories
+    all_values = "Hele landet"
+    municipalities = "Alle kommuner"
+    regions = "Alle regioner"
+    samsø = "Samsø"
+    læsø = "Læsø"
 
+    # Combine Samsø, Læsø with unique_kommuner and sort alphabetically
+    sorted_kommuner = sorted(unique_kommuner + [samsø, læsø])
+
+    # Create dropdown options
+    dropdown_options = [all_values, municipalities, regions] + sorted_kommuner
+    return dropdown_options
+
+def get_unique_categories(df_pl):
+    # Create dropdown for 'Årsagskategori'
+    unique_categories = df_pl.select(
+        pl.col("Årsagskategori")
+        .drop_nulls()  # Drop null values
+        .str.split("; ")  # Split the categories
+        .explode()  # Explode the list into separate rows
+        .unique()  # Get unique values
+    )
+
+    # Convert to a sorted list for a better dropdown experience
+    unique_categories_list = sorted(pl.Series(unique_categories.select('Årsagskategori')).to_list())
+    
+    return unique_categories_list
 
 def filter_dataframe_by_choice(
     df_pl, choice, all_values="Hele landet", municipalities="Alle kommuner", regions="Alle regioner"
@@ -128,6 +156,17 @@ def filter_dataframe_by_choice(
     else:
         return df_pl.filter(df_pl["Kommune"] == choice)
 
+def filter_dataframe_by_category(df, selected_categories):
+    if selected_categories:
+        # Filter rows where any of the selected categories are in 'Årsagskategori'
+        df_filtered = df.filter(
+            pl.col("Årsagskategori").map_elements(
+                lambda x: any(cat in x for cat in selected_categories), return_dtype=pl.Boolean
+            )
+        )
+    else: 
+        df_filtered = df
+    return df_filtered
 
 def normalize_text(text):
     # Replace special characters with a single space, collapse multiple spaces, and normalize to lowercase

@@ -9,7 +9,9 @@ from utils.data_processing import (
     get_data,
     decrypt_dataframe,
     get_unique_kommuner,
+    get_unique_categories,
     filter_dataframe_by_choice,
+    filter_dataframe_by_category,
     generate_organization_links,
     filter_df_by_search,
     fix_column_types_and_sort,
@@ -77,20 +79,17 @@ with st.expander("Læs mere: Hvordan skal tallene forstås?", icon="❔"):
                 """
     )
 # Get unique municipalities and sort alphabetically
-unique_kommuner = get_unique_kommuner(st.session_state.df_pl)
+dropdown_options = get_unique_kommuner(st.session_state.df_pl)
 
-# Define custom categories
+# Get list of categories/reasons
+unique_categories_list = get_unique_categories(st.session_state.df_pl)
+
+# Costum choice for dropdown
 all_values = "Hele landet"
 municipalities = "Alle kommuner"
 regions = "Alle regioner"
 samsø = "Samsø"
 læsø = "Læsø"
-
-# Combine Samsø, Læsø with unique_kommuner and sort alphabetically
-sorted_kommuner = sorted(unique_kommuner + [samsø, læsø])
-
-# Create dropdown options
-dropdown_options = [all_values, municipalities, regions] + unique_kommuner
 
 # Sidebar with selection options
 with st.sidebar:
@@ -101,6 +100,13 @@ with st.sidebar:
         placeholder="Vælg en kommune/region.",
     )
 
+    selected_categories = st.multiselect(
+        "Vælg årsag(er):",  # Title
+        unique_categories_list,  # Options
+        help="Vælg én eller flere årsager at filtrere efter.",
+        placeholder="Vælg årsagskategorier."
+    )
+
     search_query = st.text_input("Søg i tabellen:", "")
 
     # Filter dataframe based on user's selection
@@ -108,12 +114,19 @@ with st.sidebar:
 
     filtered_df = filter_df_by_search(filtered_df, search_query)
 
+    filtered_df = filter_dataframe_by_category(filtered_df, selected_categories)
+
     filtered_df = fix_column_types_and_sort(filtered_df)
 
-    if user_choice in [all_values, municipalities, regions] and search_query:
-        st.markdown(
-            f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
-        )
+    if user_choice in [all_values, municipalities, regions] and search_query or selected_categories:
+        if search_query:
+            st.markdown(
+                f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
+            )
+        else: 
+            st.markdown(
+                f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
+            )
 
     st.header("Sådan gjorde vi")
     st.markdown(
@@ -124,13 +137,16 @@ with st.sidebar:
 
 
 # Conditionally display the header based on whether a search query is provided
-if search_query:
+if selected_categories:
+    select_string = ', '.join(selected_categories)
+if search_query and not selected_categories:
     st.subheader(f'Data for "{user_choice}" og "{search_query}":')
-else:
+if selected_categories and not search_query:
+    st.subheader(f'Data for "{user_choice}" og "{select_string}":')
+if selected_categories and search_query:
+    st.subheader(f'Data for "{user_choice}", "{select_string}" og "{search_query}":')
+if not selected_categories and not search_query:
     st.subheader(f'Data for "{user_choice}":')
-
-if filtered_df.shape[0] == 0:
-    st.subheader(f"**{user_choice} har oplyst, at den ikke har nogen investeringer.**")
 
 
 # Create three columns
@@ -138,7 +154,10 @@ col1, col2 = st.columns([0.4, 0.6])
 
 # Column 1: Pie chart for "Type" based on "Markedsværdi (DKK)"
 with col1:
-    create_pie_chart(filtered_df)
+    if filtered_df.shape[0] == 0:
+        st.subheader(f"**Der er ingen værdipapirer/investeringer.**")
+    else:
+        create_pie_chart(filtered_df)
 
 # Column 2: Number of problematic investments
 with col2:
@@ -156,8 +175,17 @@ with col2:
 
         # Using HTML to style text with color
         st.markdown(
-            f"<div style='text-align:center;'> Heraf <span style='color:red; font-size:24px;'><b>{problematic_count_red}</b></span> sortlistede selskaber, "
-            f"og <span style='color:orange; font-size:24px;'><b>{problematic_count_orange}</b></span> statsobligationer fra sortlistede lande.</div>",
+            f"<div style='text-align:center;'> Heraf <span style='color:red; font-size:25px;'><b>{problematic_count_red}</b></span> sortlistede selskaber, "
+            f"og <span style='color:#FE6E34; font-size:25px;'><b>{problematic_count_orange}</b></span> statsobligationer fra sortlistede lande.</div>",
+            unsafe_allow_html=True
+        )
+
+        problematic_count_yellow = filtered_df.filter(filtered_df["Priority"] == 1).shape[0]
+
+        # Using HTML to style text with color
+        st.markdown(" ")
+        st.markdown(
+            f"<div style='text-align:center;'> Derudover er der <span style='color:#FEB342; font-size:20px;'><b>{problematic_count_yellow}</b></span> potentielt problematiske værdipapirer. </div>",
             unsafe_allow_html=True
         )
 
@@ -213,6 +241,7 @@ st.dataframe(
             "Markedsværdi (DKK)",
             # "Problematisk ifølge:",
             "Årsag til eksklusion",
+            "Årsagskategori",
             "Type",
             "ISIN kode",
             "Udsteder",
