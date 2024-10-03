@@ -63,13 +63,13 @@ with st.sidebar:
         "Vælg prioritet:",
         options=[None, 1, 2, 3],
         default=default_priorities,
-        format_func=lambda x: {None: "Resten", 1: "Gul", 2: "Orange", 3: "Rød"}.get(x, str(x)),
+        format_func=lambda x: {None: "Øvrige værdipapirer", 1: "Potentielt problematiske", 2: "Problematiske statsobligationer", 3: "Problematiske selskaber"}.get(x, str(x)),
     )
     selected_categories = st.multiselect(
-        "Vælg årsag(er):",
-        unique_categories_list,
-        help="Vælg én eller flere årsager at filtrere efter.",
-        placeholder="Vælg årsagskategorier."
+        "Vælg problemkategori:", 
+        unique_categories_list,  # Options
+        help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
+        placeholder="Vælg problemkategori."
     )
 
     st.header("Ved publicering:")
