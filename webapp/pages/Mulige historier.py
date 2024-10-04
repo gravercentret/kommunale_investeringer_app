@@ -112,7 +112,7 @@ with st.expander("**Kommuner investerer i selskaber med ringe rettigheder for me
         Firmaer som amerikanske Walmart og Amazon er nogle af de selskaber, som har et dårligt omdømme med hensyn til deres medarbejderes rettigheder og derfor er sortlistet af nogle banker og pensionsselskaber.\n
         Det forhindrer dog ikke en lang række kommuner og regioner i at investere i dem.\n
         75 kommuner og regioner har denne type investeringer. Beløbsmæssigt er det Frederiksberg Kommune med 14,1 millioner kroner i disse selskaber, der har flest, mens Aarhus Kommune har investeret 11,8 millioner.\n
-        I tabellen på forsiden er denne type problematiske investeringer beskrevet som "arbejdstagerrettigheder" i søgefeltet "Vælg problemkategori" i venstre side.
+        I tabellen på [forsiden](/Forside) er denne type problematiske investeringer beskrevet som "arbejdstagerrettigheder" i søgefeltet "Vælg problemkategori" i venstre side.
         """
     )
 
