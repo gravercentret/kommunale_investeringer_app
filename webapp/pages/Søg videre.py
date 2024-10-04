@@ -11,6 +11,7 @@ from utils.data_processing import (
     get_unique_categories,
     filter_dataframe_by_category,
     to_excel_function,
+    load_css,
 )
 from config import set_pandas_options, set_streamlit_options
 import uuid
@@ -34,6 +35,21 @@ set_streamlit_options()
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
 load_css("webapp/style.css")
+
+if "df_pl" not in st.session_state:
+    with st.spinner("Klargør side..."):
+        df_retrieved = get_data()
+
+        encoded_key = os.getenv("ENCRYPTION_KEY")
+
+        if encoded_key is None:
+            raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
+
+        encryption_key = base64.b64decode(encoded_key)
+
+        col_list = ["Kommune", "ISIN kode", "Værdipapirets navn"]
+        st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
+
 
 if "df_pl" not in st.session_state:
     with st.spinner("Henter data..."):
