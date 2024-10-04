@@ -12,7 +12,8 @@ from cryptography.hazmat.primitives import padding
 import base64
 from io import BytesIO
 
-@st.cache_data(show_spinner="Indlæser data") #, ttl=timedelta(hours=10)
+
+@st.cache_data(show_spinner="Indlæser data")  # , ttl=timedelta(hours=10)
 def get_data():
     engine = create_engine(
         "sqlite:///data/investerings_database_encrypted_new.db"
@@ -127,6 +128,7 @@ def get_unique_kommuner(df_pl):
     dropdown_options = [all_values, municipalities, regions] + sorted_kommuner
     return dropdown_options
 
+
 def get_unique_categories(df_pl):
     # Create dropdown for 'Problemkategori'
     unique_categories = df_pl.select(
@@ -138,9 +140,12 @@ def get_unique_categories(df_pl):
     )
 
     # Convert to a sorted list for a better dropdown experience
-    unique_categories_list = sorted(pl.Series(unique_categories.select('Problemkategori')).to_list())
-    
+    unique_categories_list = sorted(
+        pl.Series(unique_categories.select("Problemkategori")).to_list()
+    )
+
     return unique_categories_list
+
 
 def filter_dataframe_by_choice(
     df_pl, choice, all_values="Hele landet", municipalities="Alle kommuner", regions="Alle regioner"
@@ -157,6 +162,7 @@ def filter_dataframe_by_choice(
     else:
         return df_pl.filter(df_pl["Kommune"] == choice)
 
+
 def filter_dataframe_by_category(df, selected_categories):
     if selected_categories:
         # Filter rows where any of the selected categories are in 'Problemkategori'
@@ -165,9 +171,10 @@ def filter_dataframe_by_category(df, selected_categories):
                 lambda x: any(cat in x for cat in selected_categories), return_dtype=pl.Boolean
             )
         )
-    else: 
+    else:
         df_filtered = df
     return df_filtered
+
 
 def normalize_text(text):
     # Replace special characters with a single space, collapse multiple spaces, and normalize to lowercase
@@ -279,6 +286,7 @@ def generate_organization_links(df, column_name):
     # Display the bold title and links
     st.markdown(f"**Links til relevante eksklusionslister:** {links}")
 
+
 # Function to convert dataframe to Excel and create a downloadable file
 def to_excel_function(filtered_df):
     output = BytesIO()
@@ -286,6 +294,7 @@ def to_excel_function(filtered_df):
         filtered_df.to_excel(writer, index=False)
     processed_data = output.getvalue()
     return processed_data
+
 
 # Function to load and inject CSS into the Streamlit app
 def load_css(file_name):

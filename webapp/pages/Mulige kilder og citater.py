@@ -5,14 +5,14 @@ from config import set_pandas_options, set_streamlit_options
 from utils.data_processing import load_css
 
 # Generate or retrieve session ID
-if 'user_id' not in st.session_state:
-    st.session_state['user_id'] = str(uuid.uuid4())  # Generate a unique ID
+if "user_id" not in st.session_state:
+    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
 
 # Get the current timestamp
-timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # Log the user session with a print statement
-user_id = st.session_state['user_id']
+user_id = st.session_state["user_id"]
 print(f"[{timestamp}] New user session: {user_id} (Mulige kilder)")
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
@@ -24,7 +24,9 @@ load_css("webapp/style.css")
 
 st.header("Citater til fri afbenyttelse")
 
-st.markdown(" ###### Følgende citater er til fri afbenyttelse i forbindelse med omtale af informationer fra dette datasæt:")
+st.markdown(
+    " ###### Følgende citater er til fri afbenyttelse i forbindelse med omtale af informationer fra dette datasæt:"
+)
 
 st.markdown(
     """
@@ -38,7 +40,8 @@ Og Danske Regioner svarer følgende: "Det er ikke noget Danske Regioner rådgive
 
 st.header("Mulige kilder")
 
-st.markdown("""
+st.markdown(
+    """
             De oplagte kilder til historier på baggrund af data er naturligvis kommunen eller regionen selv. 
             Det vil typisk være de politiske valgte, der vil være mest interessante at tale med, 
             for der er ikke noget ulovligt i at investere i problematiske værdipapirer. Det er mere et spørgsmål om moral og etik.\n
@@ -47,4 +50,5 @@ I kommunerne vil det være borgmesteren, der er født formand for økonomiudvalg
 Det samme gør sig gældende for regionerne.\n
 Det kunne også være interessant at tale med presseafdelingerne for de banker og pensionskasser, 
             der havde sortlistet nogle bestemte papirer for at få en uddybning af årsagen til eksklusionen.\n
-""")
+"""
+)

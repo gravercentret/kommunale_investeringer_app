@@ -1,10 +1,7 @@
 import polars as pl
 import plotly.express as px
 import streamlit as st
-from utils.data_processing import (
-    round_to_million,
-    format_number_european
-)
+from utils.data_processing import round_to_million, format_number_european
 
 
 def create_pie_chart(filtered_df):
@@ -46,7 +43,7 @@ def create_pie_chart(filtered_df):
 
     total_value = type_distribution["Total Markedsværdi"].sum()
     type_distribution["Percent"] = type_distribution["Total Markedsværdi"].apply(
-        lambda x: f"{format_number_european((x / total_value) * 100, 2)} %" 
+        lambda x: f"{format_number_european((x / total_value) * 100, 2)} %"
     )
 
     # Combine Markedsværdi_display and Percent into one hover text string
@@ -63,16 +60,15 @@ def create_pie_chart(filtered_df):
         color_discrete_map=color_mapping,
         title="Fordeling af investeringer (DKK)",
     )
-    
+
     fig.update_traces(
         textinfo="percent",  # Show only percentage
         texttemplate="%{percent:.0%}",  # Rounded percentage, no decimals
-        hovertemplate="<b>%{label}</b><br>Markedsværdi DKK (andel): %{customdata[0]}<br>",  
-        customdata=type_distribution[["Hover_text"]].to_numpy(), 
+        hovertemplate="<b>%{label}</b><br>Markedsværdi DKK (andel): %{customdata[0]}<br>",
+        customdata=type_distribution[["Hover_text"]].to_numpy(),
         sort=False,  # Keeps the original order of the data
-        rotation=90
+        rotation=90,
     )
-
 
     # Adjust the layout to prevent text from being cut off
     fig.update_layout(
@@ -90,6 +86,6 @@ def create_pie_chart(filtered_df):
         ),
         margin=dict(l=50, r=150, t=50, b=50),  # Increase right margin for legend
     )
-    #fig.layout.yaxis.tickformat = ',.0%'
+    # fig.layout.yaxis.tickformat = ',.0%'
 
     st.plotly_chart(fig)

@@ -18,14 +18,14 @@ import uuid
 from datetime import datetime
 
 # Generate or retrieve session ID
-if 'user_id' not in st.session_state:
-    st.session_state['user_id'] = str(uuid.uuid4())  # Generate a unique ID
+if "user_id" not in st.session_state:
+    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
 
 # Get the current timestamp
-timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # Log the user session with a print statement
-user_id = st.session_state['user_id']
+user_id = st.session_state["user_id"]
 print(f"[{timestamp}] New user session: {user_id} (Søg videre)")
 
 # Apply the settings
@@ -36,17 +36,6 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
 load_css("webapp/style.css")
 
-# st.markdown(
-#     """
-#     <style>
-#     /* Targeting the specific class for multiselect tags based on the HTML structure */
-#     .stMultiSelect .st-ag, .stMultiSelect .st-bg, .stMultiSelect .st-e9  {
-#         max-width: none !important;  /* Remove max-width */
-#         white-space: normal !important;  /* Allow text to wrap */
-#     }
-#     </style>
-#     """, unsafe_allow_html=True
-# )
 
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
@@ -77,10 +66,12 @@ if "df_pl" not in st.session_state:
 
 with st.sidebar:
     st.header("Ved publicering:")
-    st.markdown("""
+    st.markdown(
+        """
         Hvis man laver journalistiske historier på baggrund af materialet, skal 
                 [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/)\n
-        Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)""")
+        Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)"""
+    )
 
 
 st.header("Søg videre i databasen")
@@ -97,17 +88,23 @@ with col2:
         placeholder="Klik for at vælge én eller flere.",
         options=[None, 1, 2, 3],
         default=default_priorities,
-        format_func=lambda x: {None: "Øvrige værdipapirer", 1: "Potentielt problematiske", 2: "Problematiske statsobligationer", 3: "Problematiske selskaber"}.get(x, str(x)),
+        format_func=lambda x: {
+            None: "Øvrige værdipapirer",
+            1: "Potentielt problematiske",
+            2: "Problematiske statsobligationer",
+            3: "Problematiske selskaber",
+        }.get(x, str(x)),
     )
 with col3:
     selected_categories = st.multiselect(
-        "Vælg problemkategori(er):", 
+        "Vælg problemkategori(er):",
         unique_categories_list,  # Options
         help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
-        placeholder="Vælg problemkategori."
+        placeholder="Vælg problemkategori.",
     )
 with st.expander("Om søgeværktøjet", expanded=True):
-    st.markdown("""
+    st.markdown(
+        """
     #### Sådan bruger du søgeværktøjet:
     Du søger ved først at vælge, hvilke grupper af værdipapirer du vil søge i. 
                     Vi har inddelt dem i fire grupper – værdipapirer fra problematiske selskaber, 
@@ -123,11 +120,19 @@ with st.expander("Om søgeværktøjet", expanded=True):
     )
 
 # Filter the dataframe by selected priorities and search query
-filtered_df = st.session_state.df_pl.filter(
-    (st.session_state.df_pl["Priority"].is_in([p for p in selected_priorities if p is not None])) |
-    (st.session_state.df_pl["Priority"].is_null())
-) if None in selected_priorities else st.session_state.df_pl.filter(
-    st.session_state.df_pl["Priority"].is_in(selected_priorities)
+filtered_df = (
+    st.session_state.df_pl.filter(
+        (
+            st.session_state.df_pl["Priority"].is_in(
+                [p for p in selected_priorities if p is not None]
+            )
+        )
+        | (st.session_state.df_pl["Priority"].is_null())
+    )
+    if None in selected_priorities
+    else st.session_state.df_pl.filter(
+        st.session_state.df_pl["Priority"].is_in(selected_priorities)
+    )
 )
 
 filtered_df = filter_df_by_search(filtered_df, search_query)
@@ -139,25 +144,30 @@ filtered_df = fix_column_types_and_sort(filtered_df)
 def get_municipalities(filtered_df, sort_by_col, top_n=None):
     kommune_summary = (
         filtered_df.group_by("Kommune")
-        .agg([
-            pl.len().alias("Antal investeringer"),
-            pl.sum("Markedsværdi (DKK)").alias("Total Markedsværdi (DKK)")
-        ])
+        .agg(
+            [
+                pl.len().alias("Antal investeringer"),
+                pl.sum("Markedsværdi (DKK)").alias("Total Markedsværdi (DKK)"),
+            ]
+        )
         .sort(sort_by_col, descending=True)
         .with_row_index("Placering")  # Add index column called 'Placering'
         .with_columns((pl.col("Placering") + 1).alias("Placering"))
     )
-    
+
     # Format the 'Total Markedsværdi (DKK)' column to European formatting
     kommune_summary = kommune_summary.with_columns(
-        pl.col("Total Markedsværdi (DKK)").map_elements(format_number_european, return_dtype=pl.Utf8)
+        pl.col("Total Markedsværdi (DKK)").map_elements(
+            format_number_european, return_dtype=pl.Utf8
+        )
     )
-    
+
     # If top_n is set, return only the top_n rows
     if top_n:
         return kommune_summary.head(top_n)
     else:
         return kommune_summary
+
 
 st.subheader(f"Kommuner med flest investeringer: (Sum af markedsværdi / Antal investeringer)")
 
@@ -165,7 +175,7 @@ st.subheader(f"Kommuner med flest investeringer: (Sum af markedsværdi / Antal i
 view_option = st.radio(
     "Vælg visningsmulighed:",
     ("Top 10", "Hele listen"),
-    help="Skift mellem at se top 10 og hele listen."
+    help="Skift mellem at se top 10 og hele listen.",
 )
 
 
@@ -174,12 +184,14 @@ col_sum, col_count = st.columns(2)
 
 with col_sum:
     if view_option == "Top 10":
-        top_municipalities_sum = get_municipalities(filtered_df, "Total Markedsværdi (DKK)", top_n=10)
+        top_municipalities_sum = get_municipalities(
+            filtered_df, "Total Markedsværdi (DKK)", top_n=10
+        )
         st.write("##### Top 10 kommuner med den største sum:")
     else:
         top_municipalities_sum = get_municipalities(filtered_df, "Total Markedsværdi (DKK)")
         st.write("##### Hele listen over kommuner med den største sum:")
-    
+
     st.dataframe(top_municipalities_sum)
 
 with col_count:
@@ -189,7 +201,7 @@ with col_count:
     else:
         top_municipalities_count = get_municipalities(filtered_df, "Antal investeringer")
         st.write("##### Hele listen over kommuner med det største antal af investeringer:")
-    
+
     st.dataframe(top_municipalities_count)
 
 # Display the filtered dataframe
@@ -201,7 +213,8 @@ display_df = filtered_df.with_columns(
     .alias("Markedsværdi (DKK)"),
 )
 
-st.dataframe(display_df[
+st.dataframe(
+    display_df[
         [
             # "Index",
             "OBS",
@@ -215,7 +228,9 @@ st.dataframe(display_df[
             "ISIN kode",
             "Udsteder",
         ]
-    ], hide_index=True)
+    ],
+    hide_index=True,
+)
 
 display_df = display_df.to_pandas()
 display_df.drop("Priority", axis=1, inplace=True)
@@ -238,7 +253,7 @@ st.markdown(
 )
 
 # Calculate the sum of all investments in the "Markedsværdi (DKK)" column
-investment_sum = filtered_df.select(pl.col('Markedsværdi (DKK)').sum()).to_numpy()[0][0]
+investment_sum = filtered_df.select(pl.col("Markedsværdi (DKK)").sum()).to_numpy()[0][0]
 
 # Create the conditional text for the sum
 if search_query or selected_categories:

@@ -4,14 +4,14 @@ import uuid
 from datetime import datetime
 
 # Generate or retrieve session ID
-if 'user_id' not in st.session_state:
-    st.session_state['user_id'] = str(uuid.uuid4())  # Generate a unique ID
+if "user_id" not in st.session_state:
+    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
 
 # Get the current timestamp
-timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # Log the user session with a print statement
-user_id = st.session_state['user_id']
+user_id = st.session_state["user_id"]
 print(f"[{timestamp}] New user session: {user_id} (Sådan har vi gjort)")
 
 
@@ -20,6 +20,7 @@ set_pandas_options()
 set_streamlit_options()
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
+
 
 # Function to load and inject CSS into the Streamlit app
 def load_css(file_name):

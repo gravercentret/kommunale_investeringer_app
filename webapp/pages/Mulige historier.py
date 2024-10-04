@@ -7,6 +7,7 @@ from config import set_pandas_options, set_streamlit_options
 set_pandas_options()
 set_streamlit_options()
 
+
 # Function to load and inject CSS into the Streamlit app
 def load_css(file_name):
     with open(file_name) as f:
@@ -16,14 +17,14 @@ def load_css(file_name):
 load_css("webapp/style.css")
 
 # Generate or retrieve session ID
-if 'user_id' not in st.session_state:
-    st.session_state['user_id'] = str(uuid.uuid4())  # Generate a unique ID
+if "user_id" not in st.session_state:
+    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
 
 # Get the current timestamp
-timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # Log the user session with a print statement
-user_id = st.session_state['user_id']
+user_id = st.session_state["user_id"]
 print(f"[{timestamp}] New user session: {user_id} (Mulige historier)")
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
@@ -32,14 +33,16 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 st.header("Mulige historier")
 
 # Overordnede afsnit
-st.markdown("""
+st.markdown(
+    """
             Her kan du få inspiration til, hvilke vinkler og historier, du kan lave med baggrund i det data, du finder her på siden. \n
 Databasen kortlægger alle de investeringer i værdipapirer, som kommuner og regioner havde i sommeren 2024. \n
 På forsiden kan du eksempelvis søge på en kommune og se, hvilke værdipapirer kommunen har investeret i samt om der skulle være nogle problematiske værdipapirer imellem. \n
 Altså om en dansk bank, pensionsselskab eller FN har udpeget værdipapiret som problematisk og sat det på en såkaldt eksklusionsliste. \n
 
 I det følgende finder du en liste over mulige historier, der kunne laves på baggrund af data:\n
-""")
+"""
+)
 
 with st.expander("**Kommuner og regioner har investeringer for 68,5 milliarder**"):
     st.write(
@@ -61,7 +64,9 @@ with st.expander("**Kommuner og regioner har penge i 6.259 problematiske værdip
         """
     )
 
-with st.expander("**Kommuner har penge i firmaer med aktiviteter i besatte områder på Vestbredden**"):
+with st.expander(
+    "**Kommuner har penge i firmaer med aktiviteter i besatte områder på Vestbredden**"
+):
     st.write(
         """
         62 kommuner og regioner investerer i selskaber på FN's sortliste over firmaer med aktiviteter i besatte områder på Vestbredden. I alt er der investeret for 17 millioner kroner.\n
@@ -116,7 +121,9 @@ with st.expander("**Kommuner investerer i selskaber med ringe rettigheder for me
         """
     )
 
-with st.expander("**Kommuner investerer i værdipapirer, der sammenkædes med brud på menneskerettighederne**"):
+with st.expander(
+    "**Kommuner investerer i værdipapirer, der sammenkædes med brud på menneskerettighederne**"
+):
     st.write(
         """
         63 kommuner og regioner har investeret samlet 149,6 millioner kroner i værdipapirer, der er udpeget til at være problematiske på grund af overtrædelser af menneskerettigheder.\n
@@ -179,7 +186,7 @@ with st.expander("**Kommuner investerer i casinoer og gambling**"):
     )
 
 # Footer
-st.markdown( 
+st.markdown(
     """##### Videre research:
 Der kan være flere kontroversielle værdipapirer blandt de omkring 140.000 investeringer, som kommunerne og regioner har foretaget. \n
 Hvis man vil dykke længere ned i materialet kan man få hjælp fra disse NGO-lister over kontroversielle selskaber indenfor forskellige kategorier:\n

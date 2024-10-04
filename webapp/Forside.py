@@ -33,14 +33,14 @@ load_css("webapp/style.css")
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Generate or retrieve session ID
-if 'user_id' not in st.session_state:
-    st.session_state['user_id'] = str(uuid.uuid4())  # Generate a unique ID
+if "user_id" not in st.session_state:
+    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
 
 # Get the current timestamp
-timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # Log the user session with a print statement
-user_id = st.session_state['user_id']
+user_id = st.session_state["user_id"]
 print(f"[{timestamp}] New user session: {user_id} (Forside)")
 
 if "df_pl" not in st.session_state:
@@ -76,7 +76,7 @@ st.markdown(
             I den lyseblå kollonne til venstre kan du søge i data.
             """
 )
-with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", icon="❔"): 
+with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", icon="❔"):
     st.markdown(
         """
                 I tabellen nedenfor finder du informationer om samtlige værdipapirer danske kommuner og regioner havde investeret i i sommeren 2024. \n
@@ -116,10 +116,10 @@ with st.sidebar:
     )
 
     selected_categories = st.multiselect(
-        "Vælg problemkategori:", 
+        "Vælg problemkategori:",
         unique_categories_list,  # Options
         help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
-        placeholder="Vælg problemkategori."
+        placeholder="Vælg problemkategori.",
     )
 
     search_query = st.text_input("Fritekst søgning i tabellen:", "")
@@ -138,20 +138,22 @@ with st.sidebar:
             st.markdown(
                 f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
             )
-        else: 
+        else:
             st.markdown(
                 f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
             )
 
     st.header("Ved publicering:")
-    st.markdown("""
+    st.markdown(
+        """
         Hvis man laver journalistiske historier på baggrund af materialet, skal 
                 [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/) krediteres. \n
-        Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)""")
+        Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)"""
+    )
 
 # Conditionally display the header based on whether a search query is provided
 if selected_categories:
-    select_string = ', '.join(selected_categories)
+    select_string = ", ".join(selected_categories)
 if search_query and not selected_categories:
     st.markdown(f'Data for "{user_choice}" og "{search_query}":')
 if selected_categories and not search_query:
@@ -159,9 +161,11 @@ if selected_categories and not search_query:
 if selected_categories and search_query:
     st.subheader(f'Data for "{user_choice}", "{select_string}" og "{search_query}":')
 if not selected_categories and not search_query:
-    if user_choice == 'Hele landet':
-        st.markdown(f'### Data for alle kommuner og regioner: \n ##### (Vælg en enkelt kommune eller region i panelet til venstre)')
-    else: 
+    if user_choice == "Hele landet":
+        st.markdown(
+            f"### Data for alle kommuner og regioner: \n ##### (Vælg en enkelt kommune eller region i panelet til venstre)"
+        )
+    else:
         st.subheader(f'Data for "{user_choice}":')
 
 # Create three columns
@@ -177,13 +181,19 @@ with col1:
 # Column 2: Number of problematic investments
 with col2:
     with st.container(border=True):
-        header_numbers = ("Antal investeringer udpeget som problematiske:")
-        st.markdown(f'<h4 style="color:black; text-align:center;">{header_numbers}</h4>', unsafe_allow_html=True)
+        header_numbers = "Antal investeringer udpeget som problematiske:"
+        st.markdown(
+            f'<h4 style="color:black; text-align:center;">{header_numbers}</h4>',
+            unsafe_allow_html=True,
+        )
 
         # Count the rows where 'Problematisk ifølge:' is not empty
         problematic_count = filtered_df.filter(filtered_df["Priority"].is_in([2, 3])).shape[0]
         problematic_count = format_number_european(problematic_count)
-        st.markdown(f'<h2 style="color:black; text-align:center;">{problematic_count}</h2>', unsafe_allow_html=True)
+        st.markdown(
+            f'<h2 style="color:black; text-align:center;">{problematic_count}</h2>',
+            unsafe_allow_html=True,
+        )
 
         problematic_count_red = filtered_df.filter(filtered_df["Priority"] == 3).shape[0]
         problematic_count_red = format_number_european(problematic_count_red)
@@ -195,17 +205,17 @@ with col2:
         st.markdown(
             f"<div style='text-align:center;'> Heraf <span style='color:red; font-size:25px;'><b>{problematic_count_red}</b></span> sortlistede værdipapirer fra selskaber, "
             f"og <span style='color:#FE6E34; font-size:25px;'><b>{problematic_count_orange}</b></span> statsobligationer fra sortlistede lande.</div>",
-            unsafe_allow_html=True
+            unsafe_allow_html=True,
         )
-        
+
         problematic_count_yellow = filtered_df.filter(filtered_df["Priority"] == 1).shape[0]
         problematic_count_yellow = format_number_european(problematic_count_yellow)
-        
+
         # Using HTML to style text with color
         st.markdown(" ")
         st.markdown(
             f"<div style='text-align:center;'> Derudover er der <span style='color:#FEB342; font-size:20px;'><b>{problematic_count_yellow}</b></span> potentielt problematiske værdipapirer. </div>",
-            unsafe_allow_html=True
+            unsafe_allow_html=True,
         )
 
     # Nøgletal
@@ -246,6 +256,7 @@ display_df = filtered_df.with_columns(
     .alias("Markedsværdi (DKK)"),
 )
 
+
 def enlarge_emoji(val):
     return f'<span style="font-size:24px;">{val}</span>'
 
@@ -274,7 +285,8 @@ st.dataframe(
         "Type": "Type",
         "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
         "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
-            width="large", help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn."
+            width="large",
+            help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn.",
         ),  # 1200
         "Udsteder": st.column_config.TextColumn(width="large"),
     },
@@ -282,7 +294,9 @@ st.dataframe(
 )
 
 # Call the function to display relevant links based on the 'Problematisk ifølge:' column
-st.markdown("\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplyst af kommunerne og regionerne selv ud fra deres senest opgjorte opgørelser.*")
+st.markdown(
+    "\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplyst af kommunerne og regionerne selv ud fra deres senest opgjorte opgørelser.*"
+)
 
 generate_organization_links(filtered_df, "Problematisk ifølge:")
 
@@ -302,7 +316,7 @@ st.download_button(
 
 if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
     st.subheader(f"Eksklusionsårsager for investeringer foretaget af {user_choice}: ")
-    
+
     st.info(
         """Listen nedenfor er genereret med kunstig intelligens, og der tages derfor forbehold for fejl.
         Nedenstående liste er muligvis ikke udtømmende.""",
@@ -311,5 +325,3 @@ if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
     ai_text = get_ai_text(user_choice)
 
     st.markdown(ai_text)
-
-

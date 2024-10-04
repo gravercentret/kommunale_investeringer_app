@@ -59,11 +59,11 @@ header {
     color: black !important; /* Ensure chosen element text is black */
 }
 
-.stMultiSelect .st-e2, .stMultiSelect .st-ee  {
+span[data-baseweb="tag"] {
     color: black !important;
     background-color: rgb(212, 227, 240) !important;
 }
 
 .stMultiSelect .st-ei, .stMultiSelect .st-et  {
     max-width: none !important;
-}
+} 
