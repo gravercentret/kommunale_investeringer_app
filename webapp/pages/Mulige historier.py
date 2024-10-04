@@ -34,7 +34,7 @@ st.header("Mulige historier")
 # Overordnede afsnit
 st.markdown("""
             Her kan du få inspiration til, hvilke vinkler og historier, du kan lave med baggrund i det data, du finder her på siden. \n
-Databasen kortlægger alle de investeringer i værdipapirer, som kommuner og regioner havde i XX periode. 
+Databasen kortlægger alle de investeringer i værdipapirer, som kommuner og regioner havde i sommeren 2024. \n
 De værdipapirer, som er udpeget som problematiske, er markeret med rødt. Når et værdipapir i databasen er markeret med en rød firkant, betyder det altså, at en dansk bank eller et dansk pensionsselskab har udpeget værdipapiret som problematisk og sat det på en såkaldt eksklusionsliste. \n
 Dette vil også være tilfældet for værdipapirer på FN´s liste over selskaber, der har aktiviteter i besatte områder på Vestbredden. \n
 Nogle banker og pensionsselskaber har også valgt at ekskludere lande. Statsobligationer fra disse sortlistede lande er markeret med orange i databasen.\n
@@ -143,7 +143,7 @@ with st.expander("**Regioner investerer i medicinalfirmaer**"):
 with st.expander("**Fossile brændstoffer**"):
     st.write(
         """
-        Man skulle tro, at kommuner og regioner med deres grønne profiler ikke ville røre selskaber, der beskæftigede sig med fossile brændstof – hvilket de har fået kritik for før - men 78 kommuner og regioner har fortsat investeringer i branchen forsamlet 52,5 millioner kroner.\n
+        Man skulle tro, at kommuner og regioner med deres grønne profiler ikke ville røre selskaber, der beskæftigede sig med fossile brændstoffer – hvilket de har fået kritik for før - men 78 kommuner og regioner har fortsat investeringer i branchen forsamlet 52,5 millioner kroner.\n
         Odense Kommune har investeringer for 4,3 millioner kroner i denne kategori og Region Sjælland har for 3,2 millioner kroner.\n
         Det er også værd at bemærke, at Kalundborg Kommune har intet mindre end 211 forskellige værdipapirer for samlet 1,2 millioner kroner i selskaber, der beskæftiger sig med fossile brændstoffer.
         """
