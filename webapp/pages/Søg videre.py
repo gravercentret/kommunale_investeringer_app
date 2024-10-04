@@ -97,7 +97,7 @@ with col3:
         help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
         placeholder="Vælg problemkategori.",
     )
-with st.expander("Om søgeværktøjet", expanded=True):
+with st.expander("Om søgeværktøjet (klik for at folde ud eller ind)", expanded=True):
     st.markdown(
         """
     #### Sådan bruger du søgeværktøjet:
