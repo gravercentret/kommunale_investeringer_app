@@ -41,7 +41,7 @@ Altså om en dansk bank, pensionsselskab eller FN har udpeget værdipapiret som 
 I det følgende finder du en liste over mulige historier, der kunne laves på baggrund af data:\n
 """)
 
-with st.expander("**Investeringer for 68,5 milliarder**"):
+with st.expander("**Kommuner og regioner har investeringer for 68,5 milliarder**"):
     st.write(
         """
         Kommunerne og regioner har oplyst til Gravercentret og Danwatch, at de samlet set har 140.954 værdipapirer til en samlet værdi af 68,5 mia. kroner. Der er kun to kommuner – Læsø og Samsø, der ikke har investeret i værdipapirer.\n
@@ -51,7 +51,7 @@ with st.expander("**Investeringer for 68,5 milliarder**"):
         """
     )
 
-with st.expander("**6.259 problematiske værdipapirer**"):
+with st.expander("**Kommuner og regioner har penge i 6.259 problematiske værdipapirer**"):
     st.write(
         """
         Landets kommuner og regioner har investeret i mere end 6.000 værdipapirer, der er udpeget som problematiske af enten danske banker, pensionsselskaber eller FN. Helt præcist er der tale om 6.259 værdipapirer. Dertil kommer 1.419 værdipapirer som Gravercentret vurderer potentielt kan være kontroversielle, selv om de ikke er decideret sortlistet.\n
@@ -61,7 +61,7 @@ with st.expander("**6.259 problematiske værdipapirer**"):
         """
     )
 
-with st.expander("**Firmaer med aktiviteter i besatte områder på Vestbredden**"):
+with st.expander("**Kommuner har penge i firmaer med aktiviteter i besatte områder på Vestbredden**"):
     st.write(
         """
         62 kommuner og regioner investerer i selskaber på FN's sortliste over firmaer med aktiviteter i besatte områder på Vestbredden. I alt er der investeret for 17 millioner kroner.\n
@@ -70,7 +70,7 @@ with st.expander("**Firmaer med aktiviteter i besatte områder på Vestbredden**
         """
     )
 
-with st.expander("**Sodavand og fastfood**"):
+with st.expander("**Kommuner med sundhedspolitik investerer i sodavand og fastfood**"):
     st.write(
         """
         Alle kommuner har vedtaget udførlige sundhedspolitikker, hvis mål det er, at få borgerne til at leve så sundt som muligt. Men samtidig med, at børnene ikke må have pålægschokolademadder med i madpakkerne og visionen i praktisk talt alle kommuner og regioner er, at borgerne skal være mere sunde, så investeres der på livet løs i usunde fødevarer.\n
@@ -82,15 +82,15 @@ with st.expander("**Sodavand og fastfood**"):
         """
     )
 
-with st.expander("**Kontroversielle stater**"):
+with st.expander("**Kommuner har sat penge i sortlistede lande**"):
     st.write(
         """
-        22 kommuner og regioner har investeringer i statsobligationer fra kontroversielle stater (de er farvet orange). I årsagskolonnen kan man se, hvorfor de enkelte banker og pensionsselskaber har udelukket investeringer i de pågældende lande. I alt er der tale om 843 værdipapirer til en samlet værdi af 25,6 millioner kroner.\n
+        22 kommuner og regioner har investeringer i statsobligationer fra såkaldt kontroversielle stater. Det er lande, som eksempelvis Saudi Arabien, Kina, Pakistan, Venezuela og Qatar, som er sat på eksklusionslisten af danske banker eller pensionsselskaber. I tabellen på forsiden er disse investeringer markeret med orange og i kollonnen "Eksklusion (Af hvem og hvorfor)" kan du se, hvorfor de enkelte banker og pensionsselskaber har udelukket investeringer i de pågældende lande. I alt har kommuner og regioner 843 værdipapirer af denne type til en samlet værdi af 25,6 millioner kroner.\n
         Region Nordjylland har investeret 6,9 millioner i disse sortlistede statsobligationer, mens Ringkøbing-Skjern har investeret 6,3 millioner.
         """
     )
 
-with st.expander("**Krydstogtskibe**"):
+with st.expander("**Regioner investerer millioner i krydstogtsselskaber**"):
     st.write(
         """
         44 kommuner og regioner har aktier i f.eks. Carnival Corp og Royal Caribbean, der driver krydstogtsturisme. De har et dårligt ry for at skabe masseturisme og skabe negative effekter i europæiske storbyer. Senest har krydstogtturismen også været under beskydning for at være en klima- og miljøbelastning.\n
@@ -98,7 +98,7 @@ with st.expander("**Krydstogtskibe**"):
         """
     )
 
-with st.expander("**Blackstone**"):
+with st.expander("**Kommuner har penge i Blackstone**"):
     st.write(
         """
         31 kommuner og regioner er små "medejere" af kapitalfonden og boligspekulanten Blackstone, der er blevet kritiseret skarpt for at opkøbe ejendomme og lejligheder i større danske byer, istandsætte dem og sætte lejen kraftigt op.\n
@@ -106,24 +106,26 @@ with st.expander("**Blackstone**"):
         """
     )
 
-with st.expander("**Arbejdstagerrettigheder**"):
+with st.expander("**Kommuner investerer i selskaber med ringe rettigheder for medarbejderne**"):
     st.write(
         """
-        Firmaer som amerikanske Walmart og Amazon er nogle af de selskaber, som har et dårligt omdømme med hensyn til arbejdstagerrettigheder og derfor er sortlistet af nogle banker og pensionsselskaber.\n
+        Firmaer som amerikanske Walmart og Amazon er nogle af de selskaber, som har et dårligt omdømme med hensyn til deres medarbejderes rettigheder og derfor er sortlistet af nogle banker og pensionsselskaber.\n
         Det forhindrer dog ikke en lang række kommuner og regioner i at investere i dem.\n
-        75 kommuner og regioner har denne type investeringer. Beløbsmæssigt er det Frederiksberg Kommune med 14,1 millioner kroner i disse selskaber, der har flest, mens Aarhus Kommune har investeret 11,8 millioner.
+        75 kommuner og regioner har denne type investeringer. Beløbsmæssigt er det Frederiksberg Kommune med 14,1 millioner kroner i disse selskaber, der har flest, mens Aarhus Kommune har investeret 11,8 millioner.\n
+        I tabellen på forsiden er denne type problematiske investeringer beskrevet som "arbejdstagerrettigheder" i søgefeltet "Vælg problemkategori" i venstre side.
         """
     )
 
-with st.expander("**Menneskerettigheder**"):
+with st.expander("**Kommuner investerer i værdipapirer, der sammenkædes med brud på menneskerettighederne**"):
     st.write(
         """
         63 kommuner og regioner har investeret samlet 149,6 millioner kroner i værdipapirer, der er udpeget til at være problematiske på grund af overtrædelser af menneskerettigheder.\n
-        Her har Aarhus Kommune investeret mest med 2 millioner kroner, mens Københavns Kommune har investeret 1,9 millioner.
+        Her har Aarhus Kommune investeret mest med 2 millioner kroner, mens Københavns Kommune har investeret 1,9 millioner.\n
+        I tabellen på forsiden er denne type problematiske investeringer beskrevet som "menneskerettigheder" i søgefeltet "Vælg problemkategori" i venstre side.
         """
     )
 
-with st.expander("**Aktier i flyselskaber**"):
+with st.expander("**Regioner har aktier i flyselskaber**"):
     st.write(
         """
         Kommunerne og regioner er tilsyneladende ikke ramt af flyskam. Flyselskaber som American Airlines, Emirates, Southwest Airlines, China Southern Airlines, China Airlines, Ryanair m.fl. kan betragtes som en uhensigtsmæssig og klima-uvenlig investering, men 65 kommuner og regioner har penge netop i flyselskaber.\n
@@ -134,24 +136,26 @@ with st.expander("**Aktier i flyselskaber**"):
 with st.expander("**Regioner investerer i medicinalfirmaer**"):
     st.write(
         """
-        Det kan udgøre en interessekonflikt, når regionerne investerer i medicinalselskaber som Novo Nordisk og andre. Alligevel investerer regionerne i et stort antal medicinalfirmaer. Disse er dog ikke markeret i vores base og man skal selv løbe listerne igennem for at finde dem.\n
+        Det kan udgøre en interessekonflikt, når regionerne investerer i medicinalselskaber som eksempelvis Novo Nordisk, fordi regionerne samtidig driver sygehuse og er storkunder i medicinalindustrien. Alligevel investerer regionerne i et stort antal medicinalfirmaer. Disse er dog ikke markeret i vores base og man skal selv løbe listerne igennem for at finde dem. Eksempelvis ved at søge på virksomhedsnavne som Novo Nordisk i tabellen på forsiden i venstre sides fritekstsøgefelt.\n
         F.eks. har Region Sjælland investeret 6 millioner i Novo Nordisk.
         """
     )
 
-with st.expander("**Fossile brændstoffer**"):
+with st.expander("**Kommuner investerer millioner i fossile brændstoffer**"):
     st.write(
         """
-        Man skulle tro, at kommuner og regioner med deres grønne profiler ikke ville røre selskaber, der beskæftigede sig med fossile brændstoffer – hvilket de har fået kritik for før - men 78 kommuner og regioner har fortsat investeringer i branchen forsamlet 52,5 millioner kroner.\n
+        Man skulle tro, at kommuner og regioner med deres grønne profiler ikke ville røre selskaber, der beskæftigede sig med fossile brændstoffer – hvilket de har fået kritik for før - men 78 kommuner og regioner har fortsat investeringer i branchen for samlet 52,5 millioner kroner.\n
         Odense Kommune har investeringer for 4,3 millioner kroner i denne kategori og Region Sjælland har for 3,2 millioner kroner.\n
-        Det er også værd at bemærke, at Kalundborg Kommune har intet mindre end 211 forskellige værdipapirer for samlet 1,2 millioner kroner i selskaber, der beskæftiger sig med fossile brændstoffer.
+        Det er også værd at bemærke, at Kalundborg Kommune har intet mindre end 211 forskellige værdipapirer for samlet 1,2 millioner kroner i selskaber, der beskæftiger sig med fossile brændstoffer.\n
+        Undersøg, hvordan det står til i de kommuner du dækker, på forsiden ved at vælge "fossile brændstoffer" som problemkategori i venstre side. 
         """
     )
 
-with st.expander("**Kontroversielle våben**"):
+with st.expander("**Kommuner investerer i atomvåben**"):
     st.write(
         """
-        76 kommuner og regioner har investeret i kontroversielle våben - herunder atomvåben. Samlet set er der investeret for 102,2 millioner kroner, men hovedparten står Københavns Kommune for. Her har man investeret 76,7 millioner i kontroversielle våben, mens Odense Kommune har investeret 4 millioner.
+        76 kommuner og regioner har investeret i såkaldt kontroversielle våben - herunder atomvåben og klyngebomber. Samlet set er der investeret for 102,2 millioner kroner, men hovedparten står Københavns Kommune for. Her har man investeret 76,7 millioner i kontroversielle våben, mens Odense Kommune har investeret 4 millioner.\n
+        Hvis du gerne vil kigge nærmere på, hvilke kommuner og regioner, der har investeret i våben, kan du på forsiden vælge "kontroversielle våben" som problemkategori i venstre side. Du kan også vælge "våben og militær" i samme menu, for at se på, hvor meget kommuner og regioner har investeret i våben og militær, som ikke er på den kontroversielle liste over våben.\n
         """
     )
 
