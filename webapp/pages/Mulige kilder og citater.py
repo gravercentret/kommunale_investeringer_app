@@ -1,7 +1,8 @@
 import streamlit as st
-from config import set_pandas_options, set_streamlit_options
 import uuid
 from datetime import datetime
+from config import set_pandas_options, set_streamlit_options
+from utils.data_processing import load_css
 
 # Generate or retrieve session ID
 if 'user_id' not in st.session_state:
@@ -19,10 +20,11 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 # Apply the settings
 set_pandas_options()
 set_streamlit_options()
+load_css("webapp/style.css")
 
 st.header("Citater til fri afbenyttelse")
 
-st.markdown(" ##### Følgende citater er til fri afbenyttelse i forbindelse med omtale af informationer fra dette datasæt")
+st.markdown(" ###### Følgende citater er til fri afbenyttelse i forbindelse med omtale af informationer fra dette datasæt:")
 
 st.markdown(
     """

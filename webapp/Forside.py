@@ -20,6 +20,7 @@ from utils.data_processing import (
     round_to_million,
     get_ai_text,
     to_excel_function,
+    load_css,
 )
 from utils.plots import create_pie_chart
 from config import set_pandas_options, set_streamlit_options
@@ -27,6 +28,7 @@ from config import set_pandas_options, set_streamlit_options
 # Apply the settings
 set_pandas_options()
 set_streamlit_options()
+load_css("webapp/style.css")
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -40,16 +42,6 @@ timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 # Log the user session with a print statement
 user_id = st.session_state['user_id']
 print(f"[{timestamp}] New user session: {user_id} (Forside)")
-
-
-# Function to load and inject CSS into the Streamlit app
-def load_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-
-load_css("webapp/style.css")
-
 
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
@@ -163,7 +155,7 @@ if selected_categories and search_query:
     st.subheader(f'Data for "{user_choice}", "{select_string}" og "{search_query}":')
 if not selected_categories and not search_query:
     if user_choice == 'Hele landet':
-        st.markdown(f'### Data for alle kommuner og regioner: \n ##### (Vælg område i panelet til venstre)')
+        st.markdown(f'### Data for alle kommuner og regioner: \n ##### (Vælg en enkelt kommune eller region i panelet til venstre)')
     else: 
         st.subheader(f'Data for "{user_choice}":')
 

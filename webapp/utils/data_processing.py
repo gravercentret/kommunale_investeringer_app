@@ -286,3 +286,8 @@ def to_excel_function(filtered_df):
         filtered_df.to_excel(writer, index=False)
     processed_data = output.getvalue()
     return processed_data
+
+# Function to load and inject CSS into the Streamlit app
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)

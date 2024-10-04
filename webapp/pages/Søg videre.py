@@ -33,13 +33,6 @@ set_streamlit_options()
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
-
-# Function to load and inject CSS into the Streamlit app
-def load_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-
 load_css("webapp/style.css")
 
 if "df_pl" not in st.session_state:
@@ -85,14 +78,21 @@ with col3:
         help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
         placeholder="Vælg problemkategori."
     )
-
-with st.container(border=True):
+with st.expander("Om søgeværktøjet", expanded=True):
     st.markdown("""
-        #### Sådan bruger du søgeværktøjet:
-        - **Sprogforskelle:** Søgeværktøjet skelner mellem forskellige sprog. For eksempel vil en søgning på 'Kina' ikke give resultater for 'China'. Sørg derfor for at prøve flere varianter af søgeord.
-        - **Eksperimentér med søgeord:** Hvis du ikke finder det, du leder efter med det samme, så prøv forskellige formuleringer eller delord af det, du søger.
-        - **Download data:** Ønsker du at downloade filtrerede data? Brug download-ikonet, som findes øverst i tabellen.
-        """)
+    #### Sådan bruger du søgeværktøjet:
+    Du søger ved først at vælge, hvilke grupper af værdipapirer du vil søge i. 
+                    Vi har inddelt dem i fire grupper – værdipapirer fra problematiske selskaber, 
+                    statsobligationerne fra problematiske stater, potentielt problematiske papirer og øvrige. 
+                    Hvis du vil søge i hele databasen, skal du vælge dem alle til. Vil du blot søge i de problematiske papirer, 
+                    så er de to relevante grupper tilføjet fra start som standard.\n
+    Herefter kan du fritekstsøge og/eller vælge kategorier af problematiske papirer. Vær opmærksom på:
+
+    - **Sprogforskelle:** Søgeværktøjet skelner mellem forskellige sprog. For eksempel vil en søgning på 'Kina' ikke give resultater for 'China'. Sørg derfor for at prøve flere varianter af søgeord.
+    - **Eksperimentér med søgeord:** Hvis du ikke finder det, du leder efter med det samme, så prøv forskellige formuleringer eller delord af det, du søger.
+    - **Download data:** Ønsker du at downloade top 10? Brug download-ikonet, som findes øverst i tabellen. I bunden er der en download-knap for det fulde data baseret på de valg, der er taget.
+            """
+    )
 
 # Filter the dataframe by selected priorities and search query
 filtered_df = st.session_state.df_pl.filter(
