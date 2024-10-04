@@ -46,7 +46,7 @@ def create_pie_chart(filtered_df):
 
     total_value = type_distribution["Total Markedsværdi"].sum()
     type_distribution["Percent"] = type_distribution["Total Markedsværdi"].apply(
-        lambda x: f"{format_number_european((x / total_value) * 100)} %" 
+        lambda x: f"{format_number_european((x / total_value) * 100, 2)} %" 
     )
 
     # Combine Markedsværdi_display and Percent into one hover text string
@@ -65,7 +65,8 @@ def create_pie_chart(filtered_df):
     )
     
     fig.update_traces(
-        textinfo="none",  # No text directly on the chart
+        textinfo="percent",  # Show only percentage
+        texttemplate="%{percent:.0%}",  # Rounded percentage, no decimals
         hovertemplate="<b>%{label}</b><br>Markedsværdi DKK (andel): %{customdata[0]}<br>",  
         customdata=type_distribution[["Hover_text"]].to_numpy(), 
         sort=False,  # Keeps the original order of the data

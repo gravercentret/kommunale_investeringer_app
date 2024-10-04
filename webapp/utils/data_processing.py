@@ -10,8 +10,9 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import padding
 import base64
+from io import BytesIO
 
-@st.cache_data(show_spinner="Indlæser data", ttl=timedelta(hours=10))
+@st.cache_data(show_spinner="Indlæser data") #, ttl=timedelta(hours=10)
 def get_data():
     engine = create_engine(
         "sqlite:///data/investerings_database_encrypted_new.db"
@@ -25,9 +26,9 @@ def get_data():
         [Problemkategori],
         [Priority],
         CASE 
-            WHEN [OBS_Type] = 'red' THEN '🟥1'
-            WHEN [OBS_Type] = 'orange' THEN '🟧2'
-            WHEN [OBS_Type] = 'yellow' THEN '🟨3'
+            WHEN [OBS_Type] = 'red' THEN '🟥(1)'
+            WHEN [OBS_Type] = 'orange' THEN '🟧(2)'
+            WHEN [OBS_Type] = 'yellow' THEN '🟨(3)'
             ELSE ''
         END AS OBS
         FROM kommunale_regioner_investeringer;
@@ -243,6 +244,7 @@ def generate_organization_links(df, column_name):
         "AP Pension": "https://appension.dk/globalassets/content_mz/filer-pdf/investering/eksklusionsliste.pdf",
         "ATP": "https://www.atp.dk/dokument/eksklusionsliste-sept-2023",
         "BankInvest": "https://bankinvest.dk/media/l4vmr5sh/eksklusionsliste.pdf",
+        "Danske Bank": "https://danskebank.com/-/media/danske-bank-com/file-cloud/2019/3/list-of-excluded-companies-and-issuers.pdf?rev=c48a5c91d8124298b91daf26361481d8",
         "FN": "https://www.ohchr.org/sites/default/files/documents/hrbodies/hrcouncil/sessions-regular/session31/database-hrc3136/23-06-30-Update-israeli-settlement-opt-database-hrc3136.pdf",
         "Industriens Pension": "https://www.industrienspension.dk/da/ForMedlemmer/Investeringer-medlem/AnsvarligeInvesteringer/TalOgFakta#accordion=%7B88B4276E-3431-46C7-B291-9071056A3737%7D",
         "Jyske Bank": "https://www.jyskebank.dk/wps/wcm/connect/jfo/ca08eb49-3a38-4e18-9ec1-d0c6dcef1371/2023-11-29+-+Eksklusionsliste_DK.pdf?MOD=AJPERES&CVID=oMBbB8q",
@@ -276,3 +278,11 @@ def generate_organization_links(df, column_name):
 
     # Display the bold title and links
     st.markdown(f"**Links til relevante eksklusionslister:** {links}")
+
+# Function to convert dataframe to Excel and create a downloadable file
+def to_excel_function(filtered_df):
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
+        filtered_df.to_excel(writer, index=False)
+    processed_data = output.getvalue()
+    return processed_data

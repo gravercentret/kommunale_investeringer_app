@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import polars as pl
-from io import BytesIO
 import base64
 import os
 import sys
@@ -20,6 +19,7 @@ from utils.data_processing import (
     format_number_european,
     round_to_million,
     get_ai_text,
+    to_excel_function,
 )
 from utils.plots import create_pie_chart
 from config import set_pandas_options, set_streamlit_options
@@ -196,7 +196,7 @@ with col2:
 
         # Using HTML to style text with color
         st.markdown(
-            f"<div style='text-align:center;'> Heraf <span style='color:red; font-size:25px;'><b>{problematic_count_red}</b></span> sortlistede selskaber, "
+            f"<div style='text-align:center;'> Heraf <span style='color:red; font-size:25px;'><b>{problematic_count_red}</b></span> sortlistede værdipapirer fra selskaber, "
             f"og <span style='color:#FE6E34; font-size:25px;'><b>{problematic_count_orange}</b></span> statsobligationer fra sortlistede lande.</div>",
             unsafe_allow_html=True
         )
@@ -289,21 +289,11 @@ st.markdown("\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplys
 
 generate_organization_links(filtered_df, "Problematisk ifølge:")
 
-
-# Function to convert dataframe to Excel and create a downloadable file
-def to_excel(filtered_df):
-    output = BytesIO()
-    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
-        filtered_df.to_excel(writer, index=False)
-    processed_data = output.getvalue()
-    return processed_data
-
-
 filtered_df = filtered_df.to_pandas()
 filtered_df.drop("Priority", axis=1, inplace=True)
 
 # Convert dataframe to Excel
-excel_data = to_excel(filtered_df)
+excel_data = to_excel_function(filtered_df)
 
 # Create a download button
 st.download_button(

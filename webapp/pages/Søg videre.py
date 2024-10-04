@@ -10,6 +10,7 @@ from utils.data_processing import (
     format_number_european,
     get_unique_categories,
     filter_dataframe_by_category,
+    to_excel_function,
 )
 from config import set_pandas_options, set_streamlit_options
 import uuid
@@ -72,6 +73,7 @@ with col1:
 with col2:
     selected_priorities = st.multiselect(
         "Vælg type(r):",
+        placeholder="Klik for at vælge én eller flere.",
         options=[None, 1, 2, 3],
         default=default_priorities,
         format_func=lambda x: {None: "Øvrige værdipapirer", 1: "Potentielt problematiske", 2: "Problematiske statsobligationer", 3: "Problematiske selskaber"}.get(x, str(x)),
@@ -159,3 +161,17 @@ display_df = filtered_df.with_columns(
 )
 
 st.dataframe(display_df)
+
+filtered_df = display_df.to_pandas()
+filtered_df.drop("Priority", axis=1, inplace=True)
+
+# Convert dataframe to Excel
+excel_data = to_excel_function(filtered_df)
+
+# Create a download button
+st.download_button(
+    label="Download til Excel",
+    data=excel_data,
+    file_name=f"Investeringer-{timestamp}.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
