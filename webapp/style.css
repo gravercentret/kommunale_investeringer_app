@@ -58,3 +58,8 @@ header {
 [data-testid=stSidebar] .stSelectbox div[data-baseweb="select"] span[data-select="true"] {
     color: black !important; /* Ensure chosen element text is black */
 }
+
+.st-ag, .st-bg {
+    max-width: none !important;  /* Remove max-width */
+    white-space: normal !important;  /* Allow text to wrap */
+}

@@ -54,24 +54,6 @@ if "df_pl" not in st.session_state:
         st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 with st.sidebar:
-    # Multiselect defaults
-    default_priorities = [2, 3]
-    unique_categories_list = get_unique_categories(st.session_state.df_pl)
-
-    search_query = st.text_input("Søg i tabellen:", "")
-    selected_priorities = st.multiselect(
-        "Vælg prioritet:",
-        options=[None, 1, 2, 3],
-        default=default_priorities,
-        format_func=lambda x: {None: "Øvrige værdipapirer", 1: "Potentielt problematiske", 2: "Problematiske statsobligationer", 3: "Problematiske selskaber"}.get(x, str(x)),
-    )
-    selected_categories = st.multiselect(
-        "Vælg problemkategori:", 
-        unique_categories_list,  # Options
-        help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
-        placeholder="Vælg problemkategori."
-    )
-
     st.header("Ved publicering:")
     st.markdown("""
         Hvis man laver journalistiske historier på baggrund af materialet, skal 
@@ -80,6 +62,27 @@ with st.sidebar:
 
 
 st.header("Søg videre i databasen")
+
+default_priorities = [2, 3]
+unique_categories_list = get_unique_categories(st.session_state.df_pl)
+
+col1, col2, col3 = st.columns(3)
+with col1:
+    search_query = st.text_input("Fritekst søgning i data:", "")
+with col2:
+    selected_priorities = st.multiselect(
+        "Vælg type(r):",
+        options=[None, 1, 2, 3],
+        default=default_priorities,
+        format_func=lambda x: {None: "Øvrige værdipapirer", 1: "Potentielt problematiske", 2: "Problematiske statsobligationer", 3: "Problematiske selskaber"}.get(x, str(x)),
+    )
+with col3:
+    selected_categories = st.multiselect(
+        "Vælg problemkategori(er):", 
+        unique_categories_list,  # Options
+        help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
+        placeholder="Vælg problemkategori."
+    )
 
 with st.container(border=True):
     st.markdown("""
