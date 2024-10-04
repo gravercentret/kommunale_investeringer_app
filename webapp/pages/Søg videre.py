@@ -135,8 +135,8 @@ filtered_df = filter_dataframe_by_category(filtered_df, selected_categories)
 filtered_df = fix_column_types_and_sort(filtered_df)
 
 
-# Function to get top 10 municipalities based on market value or count
-def get_top_10(filtered_df, sort_by_col, top_n=10):
+# Function to get either top 10 municipalities or the full list based on market value or count
+def get_municipalities(filtered_df, sort_by_col, top_n=None):
     kommune_summary = (
         filtered_df.group_by("Kommune")
         .agg([
@@ -144,13 +144,95 @@ def get_top_10(filtered_df, sort_by_col, top_n=10):
             pl.sum("Markedsværdi (DKK)").alias("Total Markedsværdi (DKK)")
         ])
         .sort(sort_by_col, descending=True)
+        .with_row_index("Placering")  # Add index column called 'Placering'
+        .with_columns((pl.col("Placering") + 1).alias("Placering"))
     )
-    return kommune_summary.with_columns(
+    
+    # Format the 'Total Markedsværdi (DKK)' column to European formatting
+    kommune_summary = kommune_summary.with_columns(
         pl.col("Total Markedsværdi (DKK)").map_elements(format_number_european, return_dtype=pl.Utf8)
-    ).head(top_n)
+    )
+    
+    # If top_n is set, return only the top_n rows
+    if top_n:
+        return kommune_summary.head(top_n)
+    else:
+        return kommune_summary
+
+st.subheader(f"Kommuner med flest investeringer: (Sum af markedsværdi / Antal investeringer)")
+
+# User choice to toggle between top 10 and full list
+view_option = st.radio(
+    "Vælg visningsmulighed:",
+    ("Top 10", "Hele listen"),
+    help="Skift mellem at se top 10 og hele listen."
+)
+
+
+# Display top 10 or full list based on user selection
+col_sum, col_count = st.columns(2)
+
+with col_sum:
+    if view_option == "Top 10":
+        top_municipalities_sum = get_municipalities(filtered_df, "Total Markedsværdi (DKK)", top_n=10)
+        st.write("##### Top 10 kommuner med den største sum:")
+    else:
+        top_municipalities_sum = get_municipalities(filtered_df, "Total Markedsværdi (DKK)")
+        st.write("##### Hele listen over kommuner med den største sum:")
+    
+    st.dataframe(top_municipalities_sum)
+
+with col_count:
+    if view_option == "Top 10":
+        top_municipalities_count = get_municipalities(filtered_df, "Antal investeringer", top_n=10)
+        st.write("##### Top 10 kommuner med det største antal af investeringer:")
+    else:
+        top_municipalities_count = get_municipalities(filtered_df, "Antal investeringer")
+        st.write("##### Hele listen over kommuner med det største antal af investeringer:")
+    
+    st.dataframe(top_municipalities_count)
+
+# Display the filtered dataframe
+st.write("**Data baseret på søgning/filtre:**")
+
+display_df = filtered_df.with_columns(
+    pl.col("Markedsværdi (DKK)")
+    .map_elements(format_number_european, return_dtype=pl.Utf8)
+    .alias("Markedsværdi (DKK)"),
+)
+
+st.dataframe(display_df[
+        [
+            # "Index",
+            "OBS",
+            "Kommune",
+            "Værdipapirets navn",
+            "Markedsværdi (DKK)",
+            # "Problematisk ifølge:",
+            "Eksklusion (Af hvem og hvorfor)",
+            "Problemkategori",
+            "Type",
+            "ISIN kode",
+            "Udsteder",
+        ]
+    ], hide_index=True)
+
+display_df = display_df.to_pandas()
+display_df.drop("Priority", axis=1, inplace=True)
+
+# Convert dataframe to Excel
+excel_data = to_excel_function(display_df)
+
+# Create a download button
+st.download_button(
+    label="Download til Excel",
+    data=excel_data,
+    file_name=f"Investeringer-{timestamp}.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
+
 
 # Display search results
-st.subheader(f"Top 10 for '{search_query}':" if search_query else "Kommuner med flest investeringer:")
 st.markdown(
     f"***Antallet af kommuner/regioner:*** \n **{filtered_df.select(pl.col('Kommune').n_unique()).to_numpy()[0][0]}**"
 )
@@ -166,40 +248,3 @@ else:
 
 # Display the sum with markdown
 st.markdown(f"{sum_text}")
-# Display top 10 based on sum and count
-col_sum, col_count = st.columns(2)
-
-with col_sum:
-    top_10_sum = get_top_10(filtered_df, "Total Markedsværdi (DKK)")
-    st.write("Top 10 kommuner med den største sum:")
-    st.dataframe(top_10_sum)
-
-with col_count:
-    top_10_count = get_top_10(filtered_df, "Antal investeringer")
-    st.write("Top 10 kommuner med det største antal af investeringer:")
-    st.dataframe(top_10_count)
-
-# Display the filtered dataframe
-st.write("Data for alle:")
-
-display_df = filtered_df.with_columns(
-    pl.col("Markedsværdi (DKK)")
-    .map_elements(format_number_european, return_dtype=pl.Utf8)
-    .alias("Markedsværdi (DKK)"),
-)
-
-st.dataframe(display_df)
-
-filtered_df = display_df.to_pandas()
-filtered_df.drop("Priority", axis=1, inplace=True)
-
-# Convert dataframe to Excel
-excel_data = to_excel_function(filtered_df)
-
-# Create a download button
-st.download_button(
-    label="Download til Excel",
-    data=excel_data,
-    file_name=f"Investeringer-{timestamp}.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-)

@@ -59,7 +59,9 @@ header {
     color: black !important; /* Ensure chosen element text is black */
 }
 
-.stMultiSelect .st-ag, .stMultiSelect .st-cc, .stMultiSelect .st-e9 {
+.stMultiSelect .st-cd, .stMultiSelect .st-cc, .stMultiSelect .st-e9, .stMultiSelect .st-du {
     max-width: none !important;
     white-space: normal !important;
+    color: black !important;
+    background-color: rgb(212, 227, 240) !important;
 }
