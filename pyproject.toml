@@ -1,0 +1,13 @@
+[project]
+name = "gravercentret_open" 
+version = "0.1.0"
+description = "Open Source GitHub-repo tilhørende Gravercentret - Danmarks Center for Undersøgende Journalistik."
+authors = [
+    { name="Anja Ruder Buch", email="anja@gravercentret.dk" }
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.black]
+line-length = 100
