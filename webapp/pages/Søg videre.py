@@ -169,7 +169,7 @@ def get_municipalities(filtered_df, sort_by_col, top_n=None):
         return kommune_summary
 
 
-st.subheader(f"Kommuner med flest investeringer: (Sum af markedsværdi / Antal investeringer)")
+st.markdown(f"### Kommuner og regioner, der har investeret mest:")
 
 # User choice to toggle between top 10 and full list
 view_option = st.radio(
@@ -187,17 +187,17 @@ with col_sum:
         top_municipalities_sum = get_municipalities(
             filtered_df, "Total Markedsværdi (DKK)", top_n=10
         )
-        st.write("##### Top 10 kommuner med den største sum:")
+        st.write("##### Top 10 - størst samlet markedsværdi:")
     else:
         top_municipalities_sum = get_municipalities(filtered_df, "Total Markedsværdi (DKK)")
         st.write("##### Hele listen over kommuner med den største sum:")
 
-    st.dataframe(top_municipalities_sum)
+    st.dataframe(top_municipalities_sum[['Placering', 'Kommune', 'Total Markedsværdi (DKK)', 'Antal investeringer']])
 
 with col_count:
     if view_option == "Top 10":
         top_municipalities_count = get_municipalities(filtered_df, "Antal investeringer", top_n=10)
-        st.write("##### Top 10 kommuner med det største antal af investeringer:")
+        st.write("##### Top 10 - antal af investeringer:")
     else:
         top_municipalities_count = get_municipalities(filtered_df, "Antal investeringer")
         st.write("##### Hele listen over kommuner med det største antal af investeringer:")
