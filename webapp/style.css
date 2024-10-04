@@ -64,6 +64,6 @@ span[data-baseweb="tag"] {
     background-color: rgb(212, 227, 240) !important;
 }
 
-.stMultiSelect .st-ei, .stMultiSelect .st-et  {
-    max-width: none !important;
-} 
+.stMultiSelect [data-baseweb=select] span{
+    max-width: none;
+}
