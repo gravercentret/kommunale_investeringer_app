@@ -35,11 +35,10 @@ st.header("Mulige historier")
 st.markdown("""
             Her kan du få inspiration til, hvilke vinkler og historier, du kan lave med baggrund i det data, du finder her på siden. \n
 Databasen kortlægger alle de investeringer i værdipapirer, som kommuner og regioner havde i sommeren 2024. \n
-De værdipapirer, som er udpeget som problematiske, er markeret med rødt. Når et værdipapir i databasen er markeret med en rød firkant, betyder det altså, at en dansk bank eller et dansk pensionsselskab har udpeget værdipapiret som problematisk og sat det på en såkaldt eksklusionsliste. \n
-Dette vil også være tilfældet for værdipapirer på FN´s liste over selskaber, der har aktiviteter i besatte områder på Vestbredden. \n
-Nogle banker og pensionsselskaber har også valgt at ekskludere lande. Statsobligationer fra disse sortlistede lande er markeret med orange i databasen.\n
-Endelig har vi med gult markeret en række værdipapirer, som vi i Gravercentret mener, potentielt kunne være kontroversielle.\n
-I det følgende gennemgår vi nogle af de mulige historier, der kunne laves på baggrund af data:\n
+På forsiden kan du eksempelvis søge på en kommune og se, hvilke værdipapirer kommunen har investeret i samt om der skulle være nogle problematiske værdipapirer imellem. \n
+Altså om en dansk bank, pensionsselskab eller FN har udpeget værdipapiret som problematisk og sat det på en såkaldt eksklusionsliste. \n
+
+I det følgende finder du en liste over mulige historier, der kunne laves på baggrund af data:\n
 """)
 
 with st.expander("**Investeringer for 68,5 milliarder**"):
