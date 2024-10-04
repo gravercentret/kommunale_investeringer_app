@@ -2,9 +2,7 @@ import streamlit as st
 from config import set_pandas_options, set_streamlit_options
 import uuid
 from datetime import datetime
-from utils.data_processing import (
-    load_css,
-)
+from utils.data_processing import load_css, write_markdown_sidebar
 
 # Generate or retrieve session ID
 if "user_id" not in st.session_state:
@@ -23,6 +21,9 @@ set_streamlit_options()
 
 load_css("webapp/style.css")
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
+
+with st.sidebar:
+    write_markdown_sidebar()
 
 st.subheader("Sådan er reglerne på området")
 st.markdown(

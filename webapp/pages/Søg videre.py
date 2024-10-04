@@ -12,6 +12,7 @@ from utils.data_processing import (
     filter_dataframe_by_category,
     to_excel_function,
     load_css,
+    write_markdown_sidebar,
 )
 from config import set_pandas_options, set_streamlit_options
 import uuid
@@ -65,13 +66,7 @@ if "df_pl" not in st.session_state:
         st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 with st.sidebar:
-    st.header("Ved publicering:")
-    st.markdown(
-        """
-        Hvis man laver journalistiske historier på baggrund af materialet, skal 
-                [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/)\n
-        Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)"""
-    )
+    write_markdown_sidebar()
 
 
 st.header("Søg videre i databasen")
@@ -192,7 +187,11 @@ with col_sum:
         top_municipalities_sum = get_municipalities(filtered_df, "Total Markedsværdi (DKK)")
         st.write("##### Hele listen over kommuner med den største sum:")
 
-    st.dataframe(top_municipalities_sum[['Placering', 'Kommune', 'Total Markedsværdi (DKK)', 'Antal investeringer']])
+    st.dataframe(
+        top_municipalities_sum[
+            ["Placering", "Kommune", "Total Markedsværdi (DKK)", "Antal investeringer"]
+        ]
+    )
 
 with col_count:
     if view_option == "Top 10":

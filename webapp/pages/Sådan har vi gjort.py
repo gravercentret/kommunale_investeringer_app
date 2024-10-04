@@ -2,6 +2,7 @@ import streamlit as st
 from config import set_pandas_options, set_streamlit_options
 import uuid
 from datetime import datetime
+from utils.data_processing import load_css, write_markdown_sidebar
 
 # Generate or retrieve session ID
 if "user_id" not in st.session_state:
@@ -21,14 +22,10 @@ set_streamlit_options()
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
-
-# Function to load and inject CSS into the Streamlit app
-def load_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-
 load_css("webapp/style.css")
+
+with st.sidebar:
+    write_markdown_sidebar(how_we_did=True)
 
 # Streamlit page for 'Sådan gjorde vi'
 st.title("Sådan har vi gjort")

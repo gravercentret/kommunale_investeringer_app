@@ -300,3 +300,20 @@ def to_excel_function(filtered_df):
 def load_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+
+def write_markdown_sidebar(how_we_did=False):
+    st.header("Ved publicering:")
+    st.markdown(
+        """
+        Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, 
+        skal [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/) nævnes som kilde. 
+        F.eks.: ”Det viser data, som er indsamlet og bearbejdet af Gravercentret, 
+        Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."\n
+        """
+    )
+    st.markdown(
+        f"Klik for at komme til [forsiden.](/Forside)"
+        if how_we_did
+        else "Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)"
+    )

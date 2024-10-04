@@ -2,17 +2,11 @@ import streamlit as st
 import uuid
 from datetime import datetime
 from config import set_pandas_options, set_streamlit_options
+from utils.data_processing import load_css, write_markdown_sidebar
 
 # Apply the settings
 set_pandas_options()
 set_streamlit_options()
-
-
-# Function to load and inject CSS into the Streamlit app
-def load_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
 
 load_css("webapp/style.css")
 
@@ -28,6 +22,9 @@ user_id = st.session_state["user_id"]
 print(f"[{timestamp}] New user session: {user_id} (Mulige historier)")
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
+
+with st.sidebar:
+    write_markdown_sidebar()
 
 # Side-titel
 st.header("Mulige historier")

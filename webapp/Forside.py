@@ -21,6 +21,7 @@ from utils.data_processing import (
     get_ai_text,
     to_excel_function,
     load_css,
+    write_markdown_sidebar,
 )
 from utils.plots import create_pie_chart
 from config import set_pandas_options, set_streamlit_options
@@ -143,13 +144,7 @@ with st.sidebar:
                 f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
             )
 
-    st.header("Ved publicering:")
-    st.markdown(
-        """
-        Hvis man laver journalistiske historier på baggrund af materialet, skal 
-                [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/) krediteres. \n
-        Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)"""
-    )
+    write_markdown_sidebar()
 
 # Conditionally display the header based on whether a search query is provided
 if selected_categories:
