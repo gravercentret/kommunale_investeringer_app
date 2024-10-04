@@ -33,7 +33,8 @@ st.header("Mulige historier")
 
 # Overordnede afsnit
 st.markdown("""
-            Databasen over alle kommuner og regioners investeringer i værdipapirer giver mulighed for en lang række forskellige vinkler.\n
+            Her kan du få inspiration til, hvilke vinkler og historier, du kan lave med baggrund i det data, du finder her på siden. \n
+
 For at hjælpe med researchen har vi markeret investeringer, som er udpeget som problematiske af danske banker og pensionsselskaber 
             (eller som er med på FN’s liste over selskaber, der har aktiviteter i besatte områder på Vestbredden). Alle de problematiske værdipapirer er markeret med rødt.\n
 Nogle banker og pensionsselskaber har også valgt at ekskludere lande. Statsobligationer fra disse sortlistede lande er markeret med orange i databasen.\n
