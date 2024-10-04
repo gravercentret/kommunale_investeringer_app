@@ -147,7 +147,7 @@ with st.expander("**Kommuner investerer millioner i fossile brændstoffer**"):
         Man skulle tro, at kommuner og regioner med deres grønne profiler ikke ville røre selskaber, der beskæftigede sig med fossile brændstoffer – hvilket de har fået kritik for før - men 78 kommuner og regioner har fortsat investeringer i branchen for samlet 52,5 millioner kroner.\n
         Odense Kommune har investeringer for 4,3 millioner kroner i denne kategori og Region Sjælland har for 3,2 millioner kroner.\n
         Det er også værd at bemærke, at Kalundborg Kommune har intet mindre end 211 forskellige værdipapirer for samlet 1,2 millioner kroner i selskaber, der beskæftiger sig med fossile brændstoffer.\n
-        Undersøg, hvordan det står til i de kommuner du dækker, på forsiden ved at vælge "fossile brændstoffer" som problemkategori i venstre side. 
+        Undersøg, hvordan det står til i de kommuner, du dækker, på forsiden ved at vælge "fossile brændstoffer" som problemkategori i venstre side. 
         """
     )
 
@@ -159,19 +159,22 @@ with st.expander("**Kommuner investerer i atomvåben**"):
         """
     )
 
-with st.expander("**Alkohol**"):
+with st.expander("**Kommuner sætter penge i firmaer, der sælger alkohol**"):
     st.write(
         """
-        Selv om kommunerne både skal forebygge og behandle misbrug af alkohol investerer 10 af dem i firmaer, der producerer og markedsfører alkohol. Bl.a Rødovre kommune har en del af disse investeringer – de har aktier i 18 forskellige alkoholselskaber.\n
-        Flest penge har Herning Kommune investeret med 483.000 kroner og Vejen Kommune med 393.000 kroner.
+        Selv om kommunerne både skal forebygge og behandle misbrug af alkohol, investerer 10 af dem i firmaer, der producerer og markedsfører alkohol. Bl.a Rødovre kommune har en del af disse investeringer – de har aktier i 18 forskellige alkoholselskaber.\n
+        Flest penge har Herning Kommune investeret med 483.000 kroner og Vejen Kommune med 393.000 kroner.\n
+        Se om de kommuner, du dækker, har sat penge i selskaber, der producerer og markedsfører alkohol, på forsiden ved at vælge "alkohol" som problemkategori i kollonen til venstre.
+
         """
     )
 
-with st.expander("**Pengespil og gambling**"):
+with st.expander("**Kommuner investerer i casinoer og gambling**"):
     st.write(
         """
         Man skulle ikke tro det, men 45 kommuner og regioner har investeret 1,9 millioner samlet i selskaber, der beskæftiger sig med gambling, casinoer og pengespil selv om ludomani er et samfundsproblem. Aarhus Kommune har investeret 318.000 kroner i pengespil og Furesø Kommune har investeret 297.000 kroner.\n
-        Kalundborg har satset på flest heste – de har investeret småbeløb i 21 forskellige gamblingfirmaer.
+        Kalundborg har satset på flest heste – de har investeret småbeløb i 21 forskellige gamblingfirmaer.\n
+        Undersøg, hvordan det står til i de kommuner, du dækker, på forsiden ved at vælge "gambling" som problemkategori i venstre side. 
         """
     )
 
