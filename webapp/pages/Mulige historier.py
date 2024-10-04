@@ -34,11 +34,11 @@ st.header("Mulige historier")
 # Overordnede afsnit
 st.markdown("""
             Her kan du få inspiration til, hvilke vinkler og historier, du kan lave med baggrund i det data, du finder her på siden. \n
-
-For at hjælpe med researchen har vi markeret investeringer, som er udpeget som problematiske af danske banker og pensionsselskaber 
-            (eller som er med på FN’s liste over selskaber, der har aktiviteter i besatte områder på Vestbredden). Alle de problematiske værdipapirer er markeret med rødt.\n
+Databasen kortlægger alle de investeringer i værdipapirer, som kommuner og regioner havde i XX periode. 
+De værdipapirer, som er udpeget som problematiske, er markeret med rødt. Når et værdipapir i databasen er markeret med en rød firkant, betyder det altså, at en dansk bank eller et dansk pensionsselskab har udpeget værdipapiret som problematisk og sat det på en såkaldt eksklusionsliste. \n
+Dette vil også være tilfældet for værdipapirer på FN´s liste over selskaber, der har aktiviteter i besatte områder på Vestbredden. \n
 Nogle banker og pensionsselskaber har også valgt at ekskludere lande. Statsobligationer fra disse sortlistede lande er markeret med orange i databasen.\n
-Endelig har vi med gult markeret en række værdipapirer, som vi i Gravercentret mener potentielt også kunne være kontroversielle.\n
+Endelig har vi med gult markeret en række værdipapirer, som vi i Gravercentret mener, potentielt kunne være kontroversielle.\n
 I det følgende gennemgår vi nogle af de mulige historier, der kunne laves på baggrund af data:\n
 """)
 
