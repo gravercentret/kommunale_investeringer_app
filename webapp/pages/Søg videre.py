@@ -36,6 +36,18 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
 load_css("webapp/style.css")
 
+# st.markdown(
+#     """
+#     <style>
+#     /* Targeting the specific class for multiselect tags based on the HTML structure */
+#     .stMultiSelect .st-ag, .stMultiSelect .st-bg, .stMultiSelect .st-e9  {
+#         max-width: none !important;  /* Remove max-width */
+#         white-space: normal !important;  /* Allow text to wrap */
+#     }
+#     </style>
+#     """, unsafe_allow_html=True
+# )
+
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
         df_retrieved = get_data()
