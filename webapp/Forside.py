@@ -72,20 +72,25 @@ st.markdown(
             Gravercentret, Danmarks Center for Undersøgende Journalistik, har sammen med Danwatch undersøgt, hvilke værdipapirer de danske kommuner og regioner har valgt at investere i. \n
             Vi har kortlagt, hvilke værdipapirer der ligger nede i de investeringsfonde og investeringsforeninger, som kommunerne og regionerne har sat deres penge i.\n
             Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. \n
-            Herunder kan du se og søge i oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.
+            Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.\n
+            I den lyseblå kollonne til venstre kan du søge i data.
             """
 )
 with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", icon="❔"): 
     st.markdown(
         """
-                For hvert værdipapir er det angivet, hvilken kommune eller region der er ejeren, hvad værdipapirets navn er, og hvad værdien af positionen er.\n
-                Værdipapirer, der er udpeget som problematiske, vil være markeret med enten en rød, en orange eller en gul firkant.\n
+                I tabellen nedenfor finder du informationer om samtlige værdipapirer danske kommuner og regioner havde investeret i i sommeren 2024. \n
+                For hvert værdipapir er det angivet, hvilken kommune eller region, der er ejeren, hvad værdipapirets navn er, og hvor meget værdipapiret er værd.\n
+                Værdipapirer, der er udpeget som problematiske, har vi markeret med enten en rød, en orange eller en gul firkant.\n
+                Altså viser farverne om værdipapiret optræder på en eksklusionsliste over papirer danske banker, pensionsselskaber eller FN **ikke** vil investere i af forskellige etiske årsager.\n
+                Vi har opdelt de problematiske værdipapirer i tre kategorier:\n
                 - 🟥(1) - **Rød**: Disse værdipapirer er udstedt af problematiske selskaber.
                 - 🟧(2) - **Orange**: Disse værdipapirer er udstedet af problematiske lande.
                 - 🟨(3) - **Gul**: Disse værdipapirer er potentielt kontroversielle.\n
-                For hvert værdipapir, der er markeret enten med rød, orange eller gul vil der være en forklaring på, hvem der har udpeget det som problematisk, og hvad årsagen er.\n
-                Endelig kan man se, hvilke type værdipapiret er (typisk om det er en aktie eller en obligation), ISIN-nummeret (som er et unikt nummer ligesom et CPR-nummer), samt hvem der har udstedt papiret.\n
-                Data kan downloades til Excel nedenfor tabellen.\n
+                For hvert værdipapir, der er markeret som problematisk, er der i tabellens kollonne "Eksklusion (Af hvem og hvorfor)" en forklaring på, hvem der har udpeget det som problematisk, og hvad årsagen er.\n
+                I tabellen kan du også se, hvilken type værdipapiret er (f.eks. aktie eller obligation), værdipapirets ISIN-nummer (et unikt nummer ligesom et CPR-nummer), samt hvem der har udstedt papiret.\n
+                Data kan downloades til Excel neden under tabellen.\n
+                Læs mere om vores metode i [her](/Sådan_har_vi_gjort).
                 """
     )
 # Get unique municipalities and sort alphabetically
