@@ -79,8 +79,8 @@ st.markdown(
     """
             Gravercentret, Danmarks Center for Undersøgende Journalistik, har sammen med Danwatch undersøgt, hvilke værdipapirer de danske kommuner og regioner har valgt at investere i. \n
             Vi har kortlagt, hvilke værdipapirer der ligger nede i de investeringsfonde og investeringsforeninger, som kommunerne og regionerne har sat deres penge i.\n
-            Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. 
-            Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.
+            Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. \n
+            Herunder kan du se og søge i oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.
             """
 )
 with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", icon="❔"): 
