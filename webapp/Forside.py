@@ -55,7 +55,7 @@ if "df_pl" not in st.session_state:
 
         encryption_key = base64.b64decode(encoded_key)
 
-        col_list = ["Kommune", "ISIN kode", "Værdipapirets navn"]
+        col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
         st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
@@ -137,11 +137,11 @@ with st.sidebar:
     if user_choice in [all_values, municipalities, regions] and search_query or selected_categories:
         if search_query:
             st.markdown(
-                f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
+                f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Område").n_unique()).to_numpy()[0][0]}**"
             )
         else:
             st.markdown(
-                f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
+                f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col("Område").n_unique()).to_numpy()[0][0]}**"
             )
 
     write_markdown_sidebar()
@@ -245,50 +245,49 @@ with col2:
             f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_euro} ({prob_markedsvaerdi_euro_short})" 
         )
 
+with st.spinner("Henter data.."):
+    # Display the dataframe below the three columns
+    display_df = filtered_df.with_columns(
+        pl.col("Markedsværdi (DKK)")
+        .map_elements(format_number_european, return_dtype=pl.Utf8)
+        .alias("Markedsværdi (DKK)"),
+    )
 
-# Display the dataframe below the three columns
-display_df = filtered_df.with_columns(
-    pl.col("Markedsværdi (DKK)")
-    .map_elements(format_number_european, return_dtype=pl.Utf8)
-    .alias("Markedsværdi (DKK)"),
-)
-
-
-def enlarge_emoji(val):
-    return f'<span style="font-size:24px;">{val}</span>'
-
-
-st.dataframe(
-    display_df[
-        [
-            # "Index",
-            "OBS",
-            "Kommune",
-            "Værdipapirets navn",
-            "Markedsværdi (DKK)",
-            # "Problematisk ifølge:",
-            "Eksklusion (Af hvem og hvorfor)",
-            "Problemkategori",
-            "Type",
-            "ISIN kode",
-            "Udsteder",
-        ]
-    ],
-    column_config={
-        "OBS": st.column_config.TextColumn(),
-        "Kommune": "Kommune",
-        "Udsteder": st.column_config.TextColumn(width="small"),
-        "Markedsværdi (DKK)": "Markedsværdi (DKK)*",  # st.column_config.NumberColumn(format="%.2f"),
-        "Type": "Type",
-        "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
-        "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
-            width="large",
-            help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn.",
-        ),  # 1200
-        "Udsteder": st.column_config.TextColumn(width="large"),
-    },
-    hide_index=True,
-)
+    st.dataframe(
+        display_df[
+            [
+                # "Index",
+                "OBS",
+                "Område",
+                "Værdipapirets navn",
+                "Markedsværdi (DKK)",
+                "Eksklusion (Af hvem og hvorfor)",
+                "Sortlistet",
+                "Problemkategori",
+                "Type",
+                "ISIN kode",
+                "Udsteder",
+            ]
+        ],
+        column_config={
+            "OBS": st.column_config.TextColumn(),
+            "Område": "Område",
+            "Udsteder": st.column_config.TextColumn(width="small"),
+            "Markedsværdi (DKK)": "Markedsværdi (DKK)*",  # st.column_config.NumberColumn(format="%.2f"),
+            "Type": "Type",
+            "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
+            "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
+                width="large",
+                help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn.",
+            ),  # 1200
+            "Sortlistet": st.column_config.TextColumn(
+                width="small",
+                help="Så mange eksklusionslister står værdipapiret på.",
+            ), 
+            "Udsteder": st.column_config.TextColumn(width="large"),
+        },
+        hide_index=True,
+    )       
 
 # Call the function to display relevant links based on the 'Problematisk ifølge:' column
 st.markdown(

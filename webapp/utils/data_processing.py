@@ -20,10 +20,11 @@ def get_data():
     )  # Ret efter udgivelse
 
     query = """
-        SELECT [Kommune], [ISIN kode], [Værdipapirets navn], 
+        SELECT [Kommune] AS [Område], [ISIN kode], [Værdipapirets navn], 
         [Udsteder], [Markedsværdi (DKK)], [Type], 
         [Problematisk ifølge:], 
-        [Årsag til eksklusion], 
+        [Årsag til eksklusion] AS [Eksklusion (Af hvem og hvorfor)], 
+        [Sortlistet],
         [Problemkategori],
         [Priority],
         CASE 
@@ -89,7 +90,7 @@ def get_ai_text(area):
         "sqlite:///data/investerings_database_encrypted_new.db"
     )  # Ret efter udgivelse
     with engine.connect() as conn:
-        query = f"SELECT [Resumé] FROM kommunale_regioner_ai_tekster WHERE `Kommune` = '{area}';"  # Example query
+        query = f"SELECT [Resumé] FROM kommunale_regioner_ai_tekster WHERE `Område` = '{area}';"  # Example query
 
         # Execute the query and load the result into a Polars DataFrame
         result_df = pd.read_sql(query, conn)
@@ -124,7 +125,7 @@ def get_unique_kommuner(df_pl):
     """
     Extract unique 'Kommune' values from the dataframe and sort them alphabetically.
     """
-    unique_kommuner = sorted(df_pl["Kommune"].unique().to_list())
+    unique_kommuner = sorted(df_pl["Område"].unique().to_list())
     # Define custom categories
     all_values = "Hele landet"
     municipalities = "Alle kommuner"
@@ -167,11 +168,11 @@ def filter_dataframe_by_choice(
     if choice == all_values:
         return df_pl
     elif choice == municipalities:
-        return df_pl.filter(~df_pl["Kommune"].str.starts_with("Region"))
+        return df_pl.filter(~df_pl["Område"].str.starts_with("Region"))
     elif choice == regions:
-        return df_pl.filter(df_pl["Kommune"].str.starts_with("Region"))
+        return df_pl.filter(df_pl["Område"].str.starts_with("Region"))
     else:
-        return df_pl.filter(df_pl["Kommune"] == choice)
+        return df_pl.filter(df_pl["Område"] == choice)
 
 
 def filter_dataframe_by_category(df, selected_categories):
@@ -240,17 +241,20 @@ def fix_column_types_and_sort(df):
     # Cast 'Markedsværdi (DKK)' back to float
     df = df.with_columns([pl.col("Markedsværdi (DKK)").cast(pl.Float64)])
 
+    # Cast 'Sortlistet' to integer
+    df = df.with_columns([pl.col("Sortlistet").cast(pl.Int32)])
+
     # Apply the function - to_float_safe -to the column
     df = df.with_columns(pl.col("Priority").map_elements(to_float_safe, return_dtype=pl.Float64))
 
-    # Sort first by 'Priority' (so that True comes first), then by 'Kommune' and 'ISIN kode' alphabetically
+    # Sort first by 'Sortlistet', then by 'Priority', followed by 'Kommune' and 'ISIN kode'
     filtered_df = df.sort(
-        ["Priority", "Kommune", "ISIN kode"], nulls_last=True, descending=[True, False, False]
+        ["Sortlistet", "Priority", "Område", "ISIN kode"], nulls_last=True, descending=[True, True, False, False]
     )
 
     filtered_df = filtered_df.with_row_index("Index", offset=1)
 
-    filtered_df = filtered_df.rename({"Årsag til eksklusion": "Eksklusion (Af hvem og hvorfor)"})
+    # filtered_df = filtered_df.rename({"Årsag til eksklusion": "Eksklusion (Af hvem og hvorfor)"})
 
     return filtered_df
 
@@ -268,7 +272,7 @@ def generate_organization_links(df, column_name):
         "Jyske Bank": "https://www.jyskebank.dk/wps/wcm/connect/jfo/ca08eb49-3a38-4e18-9ec1-d0c6dcef1371/2023-11-29+-+Eksklusionsliste_DK.pdf?MOD=AJPERES&CVID=oMBbB8q",
         "LD Fonde": "https://www.ld.dk/media/bj4bqxwz/ld-fondes-eksklusionsliste-juni-2024.pdf",
         "Lægernes Pension": "https://www.lpb.dk/Om-os/baeredygtighed/Negativliste",
-        "Lærernes Pension": "https://lppension.dk/globalassets/vores-investeringer/sadan-investerer-vi/beholdningslister/exclusion-list-may-2024-incl-countries---for-publication.pdf",
+        "Lærernes Pension": "https://lppension.dk/globalassets/50---om-larernes-pension/50-20---sadan-investerer-vi/arbejdet-medansvarlige-investeringer/eksklusionslisten.pdf",
         "Nordea": "https://www.nordea.com/en/doc/the-nordea-exclusion-list-2024-0.pdf",
         "Nykredit": "https://www.nykredit.com/samfundsansvar/investeringer/ekskluderede-selskaber/",
         "PenSam": "https://www.pensam.dk/-/media/pdf-filer/om-pensam/investering/2---eksklusionsliste-selskaber-juli-2024.pdf",
