@@ -228,7 +228,7 @@ with col2:
         ).astype(int)
 
         markedsvaerdi_euro = format_number_european(total_markedsvaerdi)
-        markedsvaerdi_euro_short = round_to_million_or_billion(total_markedsvaerdi)
+        markedsvaerdi_euro_short = round_to_million_or_billion(total_markedsvaerdi, 1)
         st.write(
             f"**Total markedsværdi (DKK):** {markedsvaerdi_euro} ({markedsvaerdi_euro_short})"  
         )
@@ -240,7 +240,7 @@ with col2:
         ).astype(int)
 
         prob_markedsvaerdi_euro = format_number_european(prob_markedsvaerdi)
-        prob_markedsvaerdi_euro_short = round_to_million_or_billion(prob_markedsvaerdi)
+        prob_markedsvaerdi_euro_short = round_to_million_or_billion(prob_markedsvaerdi, 1)
         st.write(
             f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_euro} ({prob_markedsvaerdi_euro_short})" 
         )

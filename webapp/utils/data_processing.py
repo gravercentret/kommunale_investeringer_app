@@ -102,9 +102,10 @@ def format_number_european(value, digits=0):
     return babel.numbers.format_decimal(value, locale="da_DK")
 
 def round_to_million_or_billion(value, digits=2):
+    value = int(value)
+
     # Check the length of the number
     value_length = len(str(abs(value)))  # Using abs() to ignore negative signs in length check
-    
     if value_length >= 10:
         # If the number has 10 or more characters, round to "milliard"
         in_billions = round(value / 1000000000, digits)
