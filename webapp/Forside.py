@@ -47,16 +47,16 @@ print(f"[{timestamp}] New user session: {user_id} (Forside)")
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
         df_retrieved = get_data()
+        st.session_state.df_pl = df_retrieved
+        # encoded_key = os.getenv("ENCRYPTION_KEY")
 
-        encoded_key = os.getenv("ENCRYPTION_KEY")
+        # if encoded_key is None:
+        #     raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
 
-        if encoded_key is None:
-            raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
+        # encryption_key = base64.b64decode(encoded_key)
 
-        encryption_key = base64.b64decode(encoded_key)
-
-        col_list = ["Kommune", "ISIN kode", "Værdipapirets navn"]
-        st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
+        # col_list = ["Kommune", "ISIN kode", "Værdipapirets navn"]
+        # st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
