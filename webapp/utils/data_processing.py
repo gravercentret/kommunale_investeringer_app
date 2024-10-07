@@ -321,7 +321,7 @@ def write_markdown_sidebar(how_we_did=False):
     st.header("Ved publicering:")
     st.markdown(
         """
-        Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, 
+        Hvis der anvendes data fra dette site i et journalistisk produkt eller i en anden sammenhæng, 
         skal [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/) nævnes som kilde. 
         F.eks.: ”Det viser data, som er indsamlet og bearbejdet af Gravercentret, 
         Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."\n

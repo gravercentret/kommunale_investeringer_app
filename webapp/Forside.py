@@ -322,6 +322,7 @@ if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
         Nedenstående liste er muligvis ikke udtømmende.""",
         icon="ℹ️",
     )
+    st.markdown("OBS: Teksterne er ved at blive rettet til. ")
     ai_text = get_ai_text(user_choice)
 
     st.markdown(ai_text)
