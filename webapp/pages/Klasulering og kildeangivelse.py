@@ -26,7 +26,7 @@ with st.sidebar:
     write_markdown_sidebar()
 
 st.header("Klausulering og kildeangivelse")
-# Overordnede afsnit
+
 st.markdown(
     """
             Al information på dette site er klausuleret til den 21. oktober kl. 6.00 \n
