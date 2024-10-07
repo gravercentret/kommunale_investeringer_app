@@ -26,14 +26,11 @@ with st.sidebar:
     write_markdown_sidebar()
 
 st.header("Klausulering og kildeangivelse")
-
+# Overordnede afsnit
 st.markdown(
     """
-    **Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, 
-    skal [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/) nævnes som kilde. 
-    F.eks.: ”Det viser data, som er indsamlet og bearbejdet af Gravercentret, 
-    Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."**\n
-    Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)
-    """
+            Al information på dette site er klausuleret til den 21. oktober kl. 6.00 \n
+            Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, skal Gravercentret og Danwatch nævnes som kilde. \n
+For eksempel kan du skrive: "Det viser data, som er indsamlet og bearbejdet af Gravercentret - Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."\n
+"""
 )
-
