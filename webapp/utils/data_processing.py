@@ -90,7 +90,7 @@ def get_ai_text(area):
         "sqlite:///data/investerings_database_encrypted_new.db"
     )  # Ret efter udgivelse
     with engine.connect() as conn:
-        query = f"SELECT [Resumé] FROM kommunale_regioner_ai_tekster WHERE `Område` = '{area}';"  # Example query
+        query = f"SELECT [Resumé] FROM kommunale_regioner_ai_tekster WHERE `Kommune` = '{area}';"  # Example query
 
         # Execute the query and load the result into a Polars DataFrame
         result_df = pd.read_sql(query, conn)
@@ -299,7 +299,7 @@ def generate_organization_links(df, column_name):
     links = "; ".join([f"[{org}]({org_links[org]})" for org in unique_orgs if org in org_links])
 
     # Display the bold title and links
-    st.markdown(f"**Links til relevante eksklusionslister:** {links}")
+    st.markdown(f"**Links til seneste relevante eksklusionslister:** {links}")
 
 
 # Function to convert dataframe to Excel and create a downloadable file

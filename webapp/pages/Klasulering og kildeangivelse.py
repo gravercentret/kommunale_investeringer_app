@@ -25,4 +25,15 @@ load_css("webapp/style.css")
 with st.sidebar:
     write_markdown_sidebar()
 
-st.header("Klasulering og kildeangivelse")
+st.header("Klausulering og kildeangivelse")
+
+st.markdown(
+    """
+    **Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, 
+    skal [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/) nævnes som kilde. 
+    F.eks.: ”Det viser data, som er indsamlet og bearbejdet af Gravercentret, 
+    Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."**\n
+    Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)
+    """
+)
+

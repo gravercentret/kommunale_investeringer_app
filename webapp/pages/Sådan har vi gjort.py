@@ -28,7 +28,7 @@ with st.sidebar:
     write_markdown_sidebar(how_we_did=True)
 
 # Streamlit page for 'Sådan gjorde vi'
-st.title("Sådan har vi gjort")
+st.header("Sådan har vi gjort")
 
 st.markdown(
     """
