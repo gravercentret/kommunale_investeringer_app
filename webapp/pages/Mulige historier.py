@@ -55,7 +55,7 @@ with st.expander("**Kommuner og regioner har penge i 6.162 problematiske værdip
     st.write(
         """
         Landets kommuner og regioner har investeret i mere end 6.000 værdipapirer, der er udpeget som problematiske af enten danske banker, pensionsselskaber eller FN. Helt præcist er der tale om 6.162 værdipapirer. Dertil kommer 1.419 værdipapirer som Gravercentret vurderer potentielt kan være kontroversielle, selv om de ikke er decideret sortlistet.\n
-        I alt har 81 kommuner og regioner investeret 708 millioner kroner i problematiske aktier.\n
+        I alt har 81 kommuner og regioner investeret 456 millioner kroner i problematiske aktier.\n
         Kalundborg Kommune er topscoreren med hele 631 værdipapirer, der er udpeget som problematiske, mens Rødovre Kommune har 358 problematiske værdipapirer og Fanø har 354.\n
         Beløbsmæssigt er det ikke overraskende de tre store kommuner, der har flest midler placeret i problematiske aktier. København har 287,3 millioner i problematiske aktier, Odense Kommune har 30,8 millioner og Århus har 29,8 millioner.
         """
