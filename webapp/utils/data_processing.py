@@ -111,12 +111,12 @@ def round_to_million_or_billion(value, digits=2):
         # If the number has 10 or more characters, round to "milliard"
         in_billions = round(value / 1000000000, digits)
         in_billions = format_number_european(in_billions, digits)
-        return f"{in_billions} mia."
+        return f"({in_billions} mia.)"
     elif value_length >= 7:
         # If the number has 7 or more characters, round to "million"
         in_millions = round(value / 1000000, digits)
         in_millions = format_number_european(in_millions, digits)
-        return f"{in_millions} mio."
+        return f"({in_millions} mio.)"
     else:
         return ""
 

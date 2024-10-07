@@ -123,7 +123,9 @@ with st.sidebar:
         placeholder="Vælg problemkategori.",
     )
 
-    search_query = st.text_input("Fritekst søgning i tabellen:", "")
+    search_query = st.text_input("Fritekst søgning i tabellen:", "", help="Søg f.eks. efter et selskabs navn eller et ISIN-nummer.")
+
+    st.markdown("For mere avanceret søgning, brug ['Søg videre'](/Søg_videre).")
 
     # Filter dataframe based on user's selection
     filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)
@@ -230,7 +232,7 @@ with col2:
         markedsvaerdi_euro = format_number_european(total_markedsvaerdi)
         markedsvaerdi_euro_short = round_to_million_or_billion(total_markedsvaerdi, 1)
         st.write(
-            f"**Total markedsværdi (DKK):** {markedsvaerdi_euro} ({markedsvaerdi_euro_short})"  
+            f"**Total markedsværdi (DKK):** {markedsvaerdi_euro} {markedsvaerdi_euro_short}"
         )
 
         # Filter for problematic investments and calculate the total sum of their 'Markedsværdi (DKK)'
@@ -242,10 +244,11 @@ with col2:
         prob_markedsvaerdi_euro = format_number_european(prob_markedsvaerdi)
         prob_markedsvaerdi_euro_short = round_to_million_or_billion(prob_markedsvaerdi, 1)
         st.write(
-            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_euro} ({prob_markedsvaerdi_euro_short})" 
+            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_euro} {prob_markedsvaerdi_euro_short}" 
         )
 
 with st.spinner("Henter data.."):
+
     # Display the dataframe below the three columns
     display_df = filtered_df.with_columns(
         pl.col("Markedsværdi (DKK)")
@@ -295,6 +298,7 @@ st.markdown(
 )
 
 generate_organization_links(filtered_df, "Problematisk ifølge:")
+st.markdown("**Mere om værdipapirer udpeget af Gravercentret:** [Mulige historier](/Mulige_historier)")
 
 filtered_df = filtered_df.to_pandas()
 filtered_df.drop("Priority", axis=1, inplace=True)

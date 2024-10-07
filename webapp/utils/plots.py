@@ -53,7 +53,7 @@ def create_pie_chart(filtered_df):
 
     # Combine Markedsværdi_display and Percent into one hover text string
     type_distribution["Hover_text"] = type_distribution.apply(
-        lambda row: f"{row['Markedsværdi_display']} ({row['Markedsværdi_display_mio_mia']}) ({row['Percent']})", axis=1
+        lambda row: f"{row['Markedsværdi_display']} {row['Markedsværdi_display_mio_mia']} ({row['Percent']})", axis=1
     )
 
     # Create a pie chart using Plotly
