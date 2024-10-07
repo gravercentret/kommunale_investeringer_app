@@ -1,7 +1,7 @@
 import polars as pl
 import plotly.express as px
 import streamlit as st
-from utils.data_processing import round_to_million, format_number_european
+from utils.data_processing import format_number_european
 
 
 def create_pie_chart(filtered_df):

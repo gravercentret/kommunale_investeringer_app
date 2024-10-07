@@ -17,7 +17,7 @@ from utils.data_processing import (
     filter_df_by_search,
     fix_column_types_and_sort,
     format_number_european,
-    round_to_million,
+    round_to_million_or_billion,
     get_ai_text,
     to_excel_function,
     load_css,
@@ -227,9 +227,10 @@ with col2:
             filtered_df.select(pl.sum("Markedsværdi (DKK)")).to_pandas().iloc[0, 0]
         ).astype(int)
 
-        markedsvaerdi_million = format_number_european(total_markedsvaerdi)
+        markedsvaerdi_euro = format_number_european(total_markedsvaerdi)
+        markedsvaerdi_euro_short = round_to_million_or_billion(total_markedsvaerdi)
         st.write(
-            f"**Total markedsværdi (DKK):** {markedsvaerdi_million}"  # {total_markedsvaerdi:,.2f}
+            f"**Total markedsværdi (DKK):** {markedsvaerdi_euro} ({markedsvaerdi_euro_short})"  
         )
 
         # Filter for problematic investments and calculate the total sum of their 'Markedsværdi (DKK)'
@@ -238,9 +239,10 @@ with col2:
             prob_df.select(pl.sum("Markedsværdi (DKK)")).to_pandas().iloc[0, 0]
         ).astype(int)
 
-        prob_markedsvaerdi_million = format_number_european(prob_markedsvaerdi)
+        prob_markedsvaerdi_euro = format_number_european(prob_markedsvaerdi)
+        prob_markedsvaerdi_euro_short = round_to_million_or_billion(prob_markedsvaerdi)
         st.write(
-            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_million}"  # {prob_markedsvaerdi:,.2f}
+            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_euro} ({prob_markedsvaerdi_euro_short})" 
         )
 
 

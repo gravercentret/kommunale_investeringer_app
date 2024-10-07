@@ -101,12 +101,22 @@ def format_number_european(value, digits=0):
     value = round(value, digits)
     return babel.numbers.format_decimal(value, locale="da_DK")
 
-
-def round_to_million(value, digits=2):
-    # Returns a string with the value in misslions
-    in_millions = round(value / 1000000, digits)
-    in_millions = format_number_european(in_millions, digits)
-    return f"{in_millions} mio."
+def round_to_million_or_billion(value, digits=2):
+    # Check the length of the number
+    value_length = len(str(abs(value)))  # Using abs() to ignore negative signs in length check
+    
+    if value_length >= 10:
+        # If the number has 10 or more characters, round to "milliard"
+        in_billions = round(value / 1000000000, digits)
+        in_billions = format_number_european(in_billions, digits)
+        return f"{in_billions} mia."
+    elif value_length >= 7:
+        # If the number has 7 or more characters, round to "million"
+        in_millions = round(value / 1000000, digits)
+        in_millions = format_number_european(in_millions, digits)
+        return f"{in_millions} mio."
+    else:
+        return ""
 
 
 def get_unique_kommuner(df_pl):
