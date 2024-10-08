@@ -49,7 +49,7 @@ if "df_pl" not in st.session_state:
 
         encryption_key = base64.b64decode(encoded_key)
 
-        col_list = ["Kommune", "ISIN kode", "Værdipapirets navn"]
+        col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
         st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 
@@ -62,7 +62,7 @@ if "df_pl" not in st.session_state:
             raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
 
         encryption_key = base64.b64decode(encoded_key)
-        col_list = ["Kommune", "ISIN kode", "Værdipapirets navn"]
+        col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
         st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 with st.sidebar:
@@ -97,7 +97,7 @@ with col3:
         help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
         placeholder="Vælg problemkategori.",
     )
-with st.expander("Om søgeværktøjet", expanded=True):
+with st.expander("Om søgeværktøjet (klik for at folde ud eller ind)", expanded=True):
     st.markdown(
         """
     #### Sådan bruger du søgeværktøjet:
@@ -138,7 +138,7 @@ filtered_df = fix_column_types_and_sort(filtered_df)
 # Function to get either top 10 municipalities or the full list based on market value or count
 def get_municipalities(filtered_df, sort_by_col, top_n=None):
     kommune_summary = (
-        filtered_df.group_by("Kommune")
+        filtered_df.group_by("Område")
         .agg(
             [
                 pl.len().alias("Antal investeringer"),
@@ -189,7 +189,7 @@ with col_sum:
 
     st.dataframe(
         top_municipalities_sum[
-            ["Placering", "Kommune", "Total Markedsværdi (DKK)", "Antal investeringer"]
+            ["Placering", "Område", "Total Markedsværdi (DKK)", "Antal investeringer"]
         ]
     )
 
@@ -217,11 +217,12 @@ st.dataframe(
         [
             # "Index",
             "OBS",
-            "Kommune",
+            "Område",
             "Værdipapirets navn",
             "Markedsværdi (DKK)",
             # "Problematisk ifølge:",
             "Eksklusion (Af hvem og hvorfor)",
+            "Sortlistet",
             "Problemkategori",
             "Type",
             "ISIN kode",
@@ -248,7 +249,7 @@ st.download_button(
 
 # Display search results
 st.markdown(
-    f"***Antallet af kommuner/regioner:*** \n **{filtered_df.select(pl.col('Kommune').n_unique()).to_numpy()[0][0]}**"
+    f"***Antallet af kommuner/regioner:*** \n **{filtered_df.select(pl.col('Område').n_unique()).to_numpy()[0][0]}**"
 )
 
 # Calculate the sum of all investments in the "Markedsværdi (DKK)" column

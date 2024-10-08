@@ -34,7 +34,7 @@ header {
 
 /* Custom sidebar styling */
 [data-testid=stSidebar] {  
-    background-color: rgb(212, 227, 240);
+    background-color: rgb(212, 227, 240); /*rgb(212, 227, 240);  173,214,234*/
     color: rgb(0, 0, 0);
 }
  
