@@ -332,3 +332,6 @@ def write_markdown_sidebar(how_we_did=False):
         if how_we_did
         else "Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)"
     )
+    st.image("webapp/images/vaerdipapirer_01_1200x630.jpg")
+
+    st.markdown("Støder du på fejl i data eller vil du have hjælp? Så skriv til data@gravercentret.dk")

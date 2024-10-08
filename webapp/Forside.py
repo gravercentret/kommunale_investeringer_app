@@ -64,7 +64,7 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 st.title("Kommunernes og regionernes investeringer")
 st.markdown(
     """ 
-    **Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, skal Gravercentret og Danwatch nævnes som kilde.** 
+    **Hvis der anvendes data fra dette site i et journalistisk produkt eller i en anden sammenhæng, skal Gravercentret og Danwatch nævnes som kilde.** 
     **F.eks.: ”Det viser data, som er indsamlet og bearbejdet af Gravercentret, Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."**
             """
 )

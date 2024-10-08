@@ -40,6 +40,9 @@ KL er kommet med følgende skriftlige kommentar: "KL yder ikke finansiel rådgiv
 Og Danske Regioner svarer følgende: "Det er ikke noget Danske Regioner rådgiver om."
 """
 )
+st.markdown("""
+*Der vil komme flere citater til fri afbenyttelse. Hold øje med siden her, der opdateres løbende inden d. 21. oktober*
+            """)
 
 st.header("Mulige kilder")
 
