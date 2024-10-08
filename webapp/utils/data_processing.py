@@ -20,10 +20,11 @@ def get_data():
     )  # Ret efter udgivelse
 
     query = """
-        SELECT [Kommune], [ISIN kode], [Værdipapirets navn], 
+        SELECT [Kommune] AS [Område], [ISIN kode], [Værdipapirets navn], 
         [Udsteder], [Markedsværdi (DKK)], [Type], 
         [Problematisk ifølge:], 
-        [Årsag til eksklusion], 
+        [Årsag til eksklusion] AS [Eksklusion (Af hvem og hvorfor)], 
+        [Sortlistet],
         [Problemkategori],
         [Priority],
         CASE 
@@ -101,19 +102,30 @@ def format_number_european(value, digits=0):
     value = round(value, digits)
     return babel.numbers.format_decimal(value, locale="da_DK")
 
+def round_to_million_or_billion(value, digits=2):
+    value = int(value)
 
-def round_to_million(value, digits=2):
-    # Returns a string with the value in misslions
-    in_millions = round(value / 1000000, digits)
-    in_millions = format_number_european(in_millions, digits)
-    return f"{in_millions} mio."
+    # Check the length of the number
+    value_length = len(str(abs(value)))  # Using abs() to ignore negative signs in length check
+    if value_length >= 10:
+        # If the number has 10 or more characters, round to "milliard"
+        in_billions = round(value / 1000000000, digits)
+        in_billions = format_number_european(in_billions, digits)
+        return f"({in_billions} mia.)"
+    elif value_length >= 7:
+        # If the number has 7 or more characters, round to "million"
+        in_millions = round(value / 1000000, digits)
+        in_millions = format_number_european(in_millions, digits)
+        return f"({in_millions} mio.)"
+    else:
+        return ""
 
 
 def get_unique_kommuner(df_pl):
     """
     Extract unique 'Kommune' values from the dataframe and sort them alphabetically.
     """
-    unique_kommuner = sorted(df_pl["Kommune"].unique().to_list())
+    unique_kommuner = sorted(df_pl["Område"].unique().to_list())
     # Define custom categories
     all_values = "Hele landet"
     municipalities = "Alle kommuner"
@@ -156,11 +168,11 @@ def filter_dataframe_by_choice(
     if choice == all_values:
         return df_pl
     elif choice == municipalities:
-        return df_pl.filter(~df_pl["Kommune"].str.starts_with("Region"))
+        return df_pl.filter(~df_pl["Område"].str.starts_with("Region"))
     elif choice == regions:
-        return df_pl.filter(df_pl["Kommune"].str.starts_with("Region"))
+        return df_pl.filter(df_pl["Område"].str.starts_with("Region"))
     else:
-        return df_pl.filter(df_pl["Kommune"] == choice)
+        return df_pl.filter(df_pl["Område"] == choice)
 
 
 def filter_dataframe_by_category(df, selected_categories):
@@ -229,17 +241,20 @@ def fix_column_types_and_sort(df):
     # Cast 'Markedsværdi (DKK)' back to float
     df = df.with_columns([pl.col("Markedsværdi (DKK)").cast(pl.Float64)])
 
+    # Cast 'Sortlistet' to integer
+    df = df.with_columns([pl.col("Sortlistet").cast(pl.Int32)])
+
     # Apply the function - to_float_safe -to the column
     df = df.with_columns(pl.col("Priority").map_elements(to_float_safe, return_dtype=pl.Float64))
 
-    # Sort first by 'Priority' (so that True comes first), then by 'Kommune' and 'ISIN kode' alphabetically
+    # Sort first by 'Sortlistet', then by 'Priority', followed by 'Kommune' and 'ISIN kode'
     filtered_df = df.sort(
-        ["Priority", "Kommune", "ISIN kode"], nulls_last=True, descending=[True, False, False]
+        ["Sortlistet", "Priority", "Område", "ISIN kode"], nulls_last=True, descending=[True, True, False, False]
     )
 
     filtered_df = filtered_df.with_row_index("Index", offset=1)
 
-    filtered_df = filtered_df.rename({"Årsag til eksklusion": "Eksklusion (Af hvem og hvorfor)"})
+    # filtered_df = filtered_df.rename({"Årsag til eksklusion": "Eksklusion (Af hvem og hvorfor)"})
 
     return filtered_df
 
@@ -257,7 +272,7 @@ def generate_organization_links(df, column_name):
         "Jyske Bank": "https://www.jyskebank.dk/wps/wcm/connect/jfo/ca08eb49-3a38-4e18-9ec1-d0c6dcef1371/2023-11-29+-+Eksklusionsliste_DK.pdf?MOD=AJPERES&CVID=oMBbB8q",
         "LD Fonde": "https://www.ld.dk/media/bj4bqxwz/ld-fondes-eksklusionsliste-juni-2024.pdf",
         "Lægernes Pension": "https://www.lpb.dk/Om-os/baeredygtighed/Negativliste",
-        "Lærernes Pension": "https://lppension.dk/globalassets/vores-investeringer/sadan-investerer-vi/beholdningslister/exclusion-list-may-2024-incl-countries---for-publication.pdf",
+        "Lærernes Pension": "https://lppension.dk/globalassets/50---om-larernes-pension/50-20---sadan-investerer-vi/arbejdet-medansvarlige-investeringer/eksklusionslisten.pdf",
         "Nordea": "https://www.nordea.com/en/doc/the-nordea-exclusion-list-2024-0.pdf",
         "Nykredit": "https://www.nykredit.com/samfundsansvar/investeringer/ekskluderede-selskaber/",
         "PenSam": "https://www.pensam.dk/-/media/pdf-filer/om-pensam/investering/2---eksklusionsliste-selskaber-juli-2024.pdf",
@@ -284,7 +299,7 @@ def generate_organization_links(df, column_name):
     links = "; ".join([f"[{org}]({org_links[org]})" for org in unique_orgs if org in org_links])
 
     # Display the bold title and links
-    st.markdown(f"**Links til relevante eksklusionslister:** {links}")
+    st.markdown(f"**Links til seneste relevante eksklusionslister:** {links}")
 
 
 # Function to convert dataframe to Excel and create a downloadable file
@@ -306,7 +321,7 @@ def write_markdown_sidebar(how_we_did=False):
     st.header("Ved publicering:")
     st.markdown(
         """
-        Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, 
+        Hvis der anvendes data fra dette site i et journalistisk produkt eller i en anden sammenhæng, 
         skal [Gravercentret](https://www.gravercentret.dk) og [Danwatch](https://danwatch.dk/) nævnes som kilde. 
         F.eks.: ”Det viser data, som er indsamlet og bearbejdet af Gravercentret, 
         Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."\n
@@ -317,3 +332,6 @@ def write_markdown_sidebar(how_we_did=False):
         if how_we_did
         else "Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)"
     )
+    st.image("webapp/images/vaerdipapirer_01_1200x630.jpg")
+
+    st.markdown("Støder du på fejl i data eller vil du have hjælp? Så skriv til data@gravercentret.dk")

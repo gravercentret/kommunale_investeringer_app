@@ -17,7 +17,7 @@ from utils.data_processing import (
     filter_df_by_search,
     fix_column_types_and_sort,
     format_number_european,
-    round_to_million,
+    round_to_million_or_billion,
     get_ai_text,
     to_excel_function,
     load_css,
@@ -47,16 +47,16 @@ print(f"[{timestamp}] New user session: {user_id} (Forside)")
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
         df_retrieved = get_data()
-        st.session_state.df_pl = df_retrieved
-        # encoded_key = os.getenv("ENCRYPTION_KEY")
 
-        # if encoded_key is None:
-        #     raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
+        encoded_key = os.getenv("ENCRYPTION_KEY")
 
-        # encryption_key = base64.b64decode(encoded_key)
+        if encoded_key is None:
+            raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
 
-        # col_list = ["Kommune", "ISIN kode", "Værdipapirets navn"]
-        # st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
+        encryption_key = base64.b64decode(encoded_key)
+
+        col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
+        st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
@@ -64,7 +64,7 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 st.title("Kommunernes og regionernes investeringer")
 st.markdown(
     """ 
-    **Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, skal Gravercentret og Danwatch nævnes som kilde.** 
+    **Hvis der anvendes data fra dette site i et journalistisk produkt eller i en anden sammenhæng, skal Gravercentret og Danwatch nævnes som kilde.** 
     **F.eks.: ”Det viser data, som er indsamlet og bearbejdet af Gravercentret, Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."**
             """
 )
@@ -123,7 +123,9 @@ with st.sidebar:
         placeholder="Vælg problemkategori.",
     )
 
-    search_query = st.text_input("Fritekst søgning i tabellen:", "")
+    search_query = st.text_input("Fritekst søgning i tabellen:", "", help="Søg f.eks. efter et selskabs navn eller et ISIN-nummer.")
+
+    st.markdown("For mere avanceret søgning, brug ['Søg videre'](/Søg_videre).")
 
     # Filter dataframe based on user's selection
     filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)
@@ -137,11 +139,11 @@ with st.sidebar:
     if user_choice in [all_values, municipalities, regions] and search_query or selected_categories:
         if search_query:
             st.markdown(
-                f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
+                f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Område").n_unique()).to_numpy()[0][0]}**"
             )
         else:
             st.markdown(
-                f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col("Kommune").n_unique()).to_numpy()[0][0]}**"
+                f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col("Område").n_unique()).to_numpy()[0][0]}**"
             )
 
     write_markdown_sidebar()
@@ -227,9 +229,10 @@ with col2:
             filtered_df.select(pl.sum("Markedsværdi (DKK)")).to_pandas().iloc[0, 0]
         ).astype(int)
 
-        markedsvaerdi_million = format_number_european(total_markedsvaerdi)
+        markedsvaerdi_euro = format_number_european(total_markedsvaerdi)
+        markedsvaerdi_euro_short = round_to_million_or_billion(total_markedsvaerdi, 1)
         st.write(
-            f"**Total markedsværdi (DKK):** {markedsvaerdi_million}"  # {total_markedsvaerdi:,.2f}
+            f"**Total markedsværdi (DKK):** {markedsvaerdi_euro} {markedsvaerdi_euro_short}"
         )
 
         # Filter for problematic investments and calculate the total sum of their 'Markedsværdi (DKK)'
@@ -238,55 +241,56 @@ with col2:
             prob_df.select(pl.sum("Markedsværdi (DKK)")).to_pandas().iloc[0, 0]
         ).astype(int)
 
-        prob_markedsvaerdi_million = format_number_european(prob_markedsvaerdi)
+        prob_markedsvaerdi_euro = format_number_european(prob_markedsvaerdi)
+        prob_markedsvaerdi_euro_short = round_to_million_or_billion(prob_markedsvaerdi, 1)
         st.write(
-            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_million}"  # {prob_markedsvaerdi:,.2f}
+            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_euro} {prob_markedsvaerdi_euro_short}" 
         )
 
+with st.spinner("Henter data.."):
 
-# Display the dataframe below the three columns
-display_df = filtered_df.with_columns(
-    pl.col("Markedsværdi (DKK)")
-    .map_elements(format_number_european, return_dtype=pl.Utf8)
-    .alias("Markedsværdi (DKK)"),
-)
+    # Display the dataframe below the three columns
+    display_df = filtered_df.with_columns(
+        pl.col("Markedsværdi (DKK)")
+        .map_elements(format_number_european, return_dtype=pl.Utf8)
+        .alias("Markedsværdi (DKK)"),
+    )
 
-
-def enlarge_emoji(val):
-    return f'<span style="font-size:24px;">{val}</span>'
-
-
-st.dataframe(
-    display_df[
-        [
-            # "Index",
-            "OBS",
-            "Kommune",
-            "Værdipapirets navn",
-            "Markedsværdi (DKK)",
-            # "Problematisk ifølge:",
-            "Eksklusion (Af hvem og hvorfor)",
-            "Problemkategori",
-            "Type",
-            "ISIN kode",
-            "Udsteder",
-        ]
-    ],
-    column_config={
-        "OBS": st.column_config.TextColumn(),
-        "Kommune": "Kommune",
-        "Udsteder": st.column_config.TextColumn(width="small"),
-        "Markedsværdi (DKK)": "Markedsværdi (DKK)*",  # st.column_config.NumberColumn(format="%.2f"),
-        "Type": "Type",
-        "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
-        "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
-            width="large",
-            help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn.",
-        ),  # 1200
-        "Udsteder": st.column_config.TextColumn(width="large"),
-    },
-    hide_index=True,
-)
+    st.dataframe(
+        display_df[
+            [
+                # "Index",
+                "OBS",
+                "Område",
+                "Værdipapirets navn",
+                "Markedsværdi (DKK)",
+                "Eksklusion (Af hvem og hvorfor)",
+                "Sortlistet",
+                "Problemkategori",
+                "Type",
+                "ISIN kode",
+                "Udsteder",
+            ]
+        ],
+        column_config={
+            "OBS": st.column_config.TextColumn(),
+            "Område": "Område",
+            "Udsteder": st.column_config.TextColumn(width="small"),
+            "Markedsværdi (DKK)": "Markedsværdi (DKK)*",  # st.column_config.NumberColumn(format="%.2f"),
+            "Type": "Type",
+            "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
+            "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
+                width="large",
+                help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn.",
+            ),  # 1200
+            "Sortlistet": st.column_config.TextColumn(
+                width="small",
+                help="Så mange eksklusionslister står værdipapiret på.",
+            ), 
+            "Udsteder": st.column_config.TextColumn(width="large"),
+        },
+        hide_index=True,
+    )       
 
 # Call the function to display relevant links based on the 'Problematisk ifølge:' column
 st.markdown(
@@ -294,6 +298,7 @@ st.markdown(
 )
 
 generate_organization_links(filtered_df, "Problematisk ifølge:")
+st.markdown("**Mere om værdipapirer udpeget af Gravercentret:** [Mulige historier](/Mulige_historier)")
 
 filtered_df = filtered_df.to_pandas()
 filtered_df.drop("Priority", axis=1, inplace=True)
@@ -317,6 +322,7 @@ if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
         Nedenstående liste er muligvis ikke udtømmende.""",
         icon="ℹ️",
     )
+    st.markdown("OBS: Teksterne er ved at blive rettet til. ")
     ai_text = get_ai_text(user_choice)
 
     st.markdown(ai_text)
