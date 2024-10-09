@@ -336,3 +336,47 @@ def write_markdown_sidebar(how_we_did=False):
     st.image("webapp/images/vaerdipapirer_01_1200x630.jpg")
 
     st.markdown("Støder du på fejl i data eller vil du have hjælp? Så skriv til data@gravercentret.dk")
+
+        
+def format_and_display_data(dataframe):
+    return dataframe.with_columns(
+        pl.col("Markedsværdi (DKK)")
+        .map_elements(format_number_european, return_dtype=pl.Utf8)
+        .alias("Markedsværdi (DKK)")
+    )
+
+def display_dataframe(df):
+    st.dataframe(
+        df[
+            [
+                "OBS",
+                "Område",
+                "Værdipapirets navn",
+                "Markedsværdi (DKK)",
+                "Eksklusion (Af hvem og hvorfor)",
+                "Sortlistet",
+                "Problemkategori",
+                "Type",
+                "ISIN kode",
+                "Udsteder",
+            ]
+        ],
+        column_config={
+            "OBS": st.column_config.TextColumn(),
+            "Område": "Område",
+            "Udsteder": st.column_config.TextColumn(width="small"),
+            "Markedsværdi (DKK)": "Markedsværdi (DKK)*",
+            "Type": "Type",
+            "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
+            "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
+                width="large",
+                help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn.",
+            ),
+            "Sortlistet": st.column_config.TextColumn(
+                width="small",
+                help="Så mange eksklusionslister står værdipapiret på.",
+            ),
+            "Udsteder": st.column_config.TextColumn(width="large"),
+        },
+        hide_index=True,
+    )

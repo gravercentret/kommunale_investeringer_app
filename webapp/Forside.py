@@ -22,6 +22,8 @@ from utils.data_processing import (
     to_excel_function,
     load_css,
     write_markdown_sidebar,
+    format_and_display_data,
+    display_dataframe
 )
 from utils.plots import create_pie_chart
 from config import set_pandas_options, set_streamlit_options
@@ -248,50 +250,19 @@ with col2:
         )
 
 with st.spinner("Henter data.."):
+    if user_choice == 'Hele landet':
+        if "hele_landet_data" not in st.session_state:
+            st.session_state.hele_landet_data = format_and_display_data(filtered_df)
+        display_dataframe(st.session_state.hele_landet_data)
+    elif user_choice == 'Alle kommuner': 
+        if "alle_kommuner_data" not in st.session_state:
+            st.session_state.alle_kommuner_data = format_and_display_data(filtered_df)
+        display_dataframe(st.session_state.alle_kommuner_data)
+    else:
+        display_df = format_and_display_data(filtered_df)
+        display_dataframe(display_df)
 
-    # Display the dataframe below the three columns
-    display_df = filtered_df.with_columns(
-        pl.col("Markedsværdi (DKK)")
-        .map_elements(format_number_european, return_dtype=pl.Utf8)
-        .alias("Markedsværdi (DKK)"),
-    )
-
-    st.dataframe(
-        display_df[
-            [
-                # "Index",
-                "OBS",
-                "Område",
-                "Værdipapirets navn",
-                "Markedsværdi (DKK)",
-                "Eksklusion (Af hvem og hvorfor)",
-                "Sortlistet",
-                "Problemkategori",
-                "Type",
-                "ISIN kode",
-                "Udsteder",
-            ]
-        ],
-        column_config={
-            "OBS": st.column_config.TextColumn(),
-            "Område": "Område",
-            "Udsteder": st.column_config.TextColumn(width="small"),
-            "Markedsværdi (DKK)": "Markedsværdi (DKK)*",  # st.column_config.NumberColumn(format="%.2f"),
-            "Type": "Type",
-            "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
-            "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
-                width="large",
-                help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn.",
-            ),  # 1200
-            "Sortlistet": st.column_config.TextColumn(
-                width="small",
-                help="Så mange eksklusionslister står værdipapiret på.",
-            ), 
-            "Udsteder": st.column_config.TextColumn(width="large"),
-        },
-        hide_index=True,
-    )       
-
+    
 # Call the function to display relevant links based on the 'Problematisk ifølge:' column
 st.markdown(
     "\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplyst af kommunerne og regionerne selv ud fra deres senest opgjorte opgørelser.*"
