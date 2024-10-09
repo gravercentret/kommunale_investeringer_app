@@ -1,10 +1,10 @@
-import numpy as np
 import babel.numbers
 from sqlalchemy import create_engine
 import polars as pl
 import pandas as pd
 import streamlit as st
 import re
+import os
 from datetime import timedelta
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
@@ -86,11 +86,12 @@ def decrypt_dataframe(df, key, col_list):
 
 
 def get_ai_text(area):
+    table_name = os.getenv("TABLE_NAME_AI")
     engine = create_engine(
         "sqlite:///data/investerings_database_encrypted_new.db"
     )  # Ret efter udgivelse
     with engine.connect() as conn:
-        query = f"SELECT [Resumé] FROM kommunale_regioner_ai_tekster WHERE `Kommune` = '{area}';"  # Example query
+        query = f"SELECT [Resumé] FROM {table_name} WHERE `Kommune` = '{area}';"  # Example query
 
         # Execute the query and load the result into a Polars DataFrame
         result_df = pd.read_sql(query, conn)
