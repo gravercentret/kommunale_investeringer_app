@@ -1,8 +1,6 @@
 import streamlit as st
-import uuid
-from datetime import datetime
 from config import set_pandas_options, set_streamlit_options
-from utils.data_processing import load_css, write_markdown_sidebar
+from utils.data_processing import load_css, write_markdown_sidebar, create_user_session_log
 
 # Apply the settings
 set_pandas_options()
@@ -10,16 +8,7 @@ set_streamlit_options()
 
 load_css("webapp/style.css")
 
-# Generate or retrieve session ID
-if "user_id" not in st.session_state:
-    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
-
-# Get the current timestamp
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-# Log the user session with a print statement
-user_id = st.session_state["user_id"]
-print(f"[{timestamp}] New user session: {user_id} (Mulige historier)")
+create_user_session_log("Mulige historier")
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
@@ -56,7 +45,7 @@ with st.expander("**Kommuner og regioner har investeringer for 68,5 milliarder**
 with st.expander("**Kommuner og regioner har penge i 5.129 problematiske værdipapirer**"):
     st.write(
         """
-        Landets kommuner og regioner har investeret i mere end 5.000 værdipapirer, der er udpeget som problematiske af enten danske banker, pensionsselskaber eller FN. Helt præcist er der tale om 6.162 værdipapirer. Dertil kommer 1.419 værdipapirer som Gravercentret vurderer potentielt kan være kontroversielle, selv om de ikke er decideret sortlistet.\n
+        Landets kommuner og regioner har investeret i mere end 5.000 værdipapirer, der er udpeget som problematiske af enten danske banker, pensionsselskaber eller FN. Helt præcist er der tale om 5.129 værdipapirer. Dertil kommer 1.419 værdipapirer som Gravercentret vurderer potentielt kan være kontroversielle, selv om de ikke er decideret sortlistet.\n
         I alt har 79 kommuner og regioner investeret 456 millioner kroner i problematiske aktier.\n
         Kalundborg Kommune er topscoreren med hele 574 værdipapirer, der er udpeget som problematiske, mens Rødovre Kommune har 322 problematiske værdipapirer og Vejen Kommune har 313.\n
         Beløbsmæssigt er det ikke overraskende de tre store kommuner, der har flest midler placeret i problematiske aktier. København har 114,2 millioner i problematiske aktier, Region Sjælland har 22,3 millioner og Århus har 21,7 millioner.

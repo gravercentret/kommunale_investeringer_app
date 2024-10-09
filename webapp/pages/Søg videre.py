@@ -9,25 +9,18 @@ from utils.data_processing import (
     fix_column_types_and_sort,
     format_number_european,
     get_unique_categories,
+    get_unique_kommuner,
     filter_dataframe_by_category,
+    filter_dataframe_by_multiple_choices,
     to_excel_function,
     load_css,
     write_markdown_sidebar,
+    create_user_session_log,
 )
 from config import set_pandas_options, set_streamlit_options
-import uuid
 from datetime import datetime
 
-# Generate or retrieve session ID
-if "user_id" not in st.session_state:
-    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
-
-# Get the current timestamp
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-# Log the user session with a print statement
-user_id = st.session_state["user_id"]
-print(f"[{timestamp}] New user session: {user_id} (Søg videre)")
+create_user_session_log("Sådan har vi gjort")
 
 # Apply the settings
 set_pandas_options()
@@ -74,10 +67,15 @@ st.header("Søg videre i databasen")
 default_priorities = [2, 3]
 unique_categories_list = get_unique_categories(st.session_state.df_pl)
 
-col1, col2, col3 = st.columns(3)
+dropdown_areas = get_unique_kommuner(st.session_state.df_pl)
+
+to_be_removed = {'Alle kommuner', 'Alle regioner', 'Hele landet'}
+dropdown_areas = [item for item in dropdown_areas if item not in to_be_removed]
+
+col1, col2 = st.columns(2)
 with col1:
     search_query = st.text_input("Fritekst søgning i data:", "")
-with col2:
+
     selected_priorities = st.multiselect(
         "Vælg type(r):",
         placeholder="Klik for at vælge én eller flere.",
@@ -90,13 +88,21 @@ with col2:
             3: "Problematiske selskaber",
         }.get(x, str(x)),
     )
-with col3:
+
+with col2:
+    selected_areas = st.multiselect(
+        "Vælg område(r):",
+        dropdown_areas,
+        placeholder="Vælg flere kommuner eller regioner.",
+    )
     selected_categories = st.multiselect(
         "Vælg problemkategori(er):",
         unique_categories_list,  # Options
         help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
         placeholder="Vælg problemkategori.",
     )
+
+
 with st.expander("Om søgeværktøjet (klik for at folde ud eller ind)", expanded=True):
     st.markdown(
         """
@@ -130,6 +136,7 @@ filtered_df = (
     )
 )
 
+filtered_df = filter_dataframe_by_multiple_choices(filtered_df, selected_areas)
 filtered_df = filter_df_by_search(filtered_df, search_query)
 filtered_df = filter_dataframe_by_category(filtered_df, selected_categories)
 filtered_df = fix_column_types_and_sort(filtered_df)
@@ -237,6 +244,8 @@ display_df.drop("Priority", axis=1, inplace=True)
 
 # Convert dataframe to Excel
 excel_data = to_excel_function(display_df)
+
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # Create a download button
 st.download_button(

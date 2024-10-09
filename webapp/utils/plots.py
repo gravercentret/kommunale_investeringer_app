@@ -42,10 +42,12 @@ def create_pie_chart(filtered_df):
     )
 
     # Apply rounding to 'Total Markedsværdi' for display in hover text
-    type_distribution["Markedsværdi_display_mio_mia"] = type_distribution["Total Markedsværdi"].apply(
+    type_distribution["Markedsværdi_display_mio_mia"] = type_distribution[
+        "Total Markedsværdi"
+    ].apply(
         lambda x: round_to_million_or_billion(x, 1)  # Format with European conventions
     )
-    
+
     total_value = type_distribution["Total Markedsværdi"].sum()
     type_distribution["Percent"] = type_distribution["Total Markedsværdi"].apply(
         lambda x: f"{format_number_european((x / total_value) * 100, 2)} %"
@@ -53,7 +55,8 @@ def create_pie_chart(filtered_df):
 
     # Combine Markedsværdi_display and Percent into one hover text string
     type_distribution["Hover_text"] = type_distribution.apply(
-        lambda row: f"{row['Markedsværdi_display']} {row['Markedsværdi_display_mio_mia']} ({row['Percent']})", axis=1
+        lambda row: f"{row['Markedsværdi_display']} {row['Markedsværdi_display_mio_mia']} ({row['Percent']})",
+        axis=1,
     )
 
     # Create a pie chart using Plotly
