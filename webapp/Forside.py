@@ -120,7 +120,7 @@ with st.sidebar:
         help="Søg f.eks. efter et selskabs navn eller et ISIN-nummer.",
     )
 
-    st.markdown("For mere avanceret søgning, brug ['Søg videre'](/Søg_videre).")
+    st.markdown("Klik her for mere [avanceret søgning](/Avanceret_søgning).")
 
     # Filter dataframe based on user's selection
     filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)
