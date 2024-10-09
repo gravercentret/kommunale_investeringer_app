@@ -1,7 +1,9 @@
 [project]
 name = "gravercentret_open" 
 version = "0.1.0"
-description = "Open Source GitHub-repo tilhørende Gravercentret - Center for Undersøgende Journalistik."
+
+description = "Open Source GitHub-repo tilhørende Gravercentret - Danmarks Center for Undersøgende Journalistik."
+
 authors = [
     { name="Anja Ruder Buch", email="anja@gravercentret.dk" }
 ]
