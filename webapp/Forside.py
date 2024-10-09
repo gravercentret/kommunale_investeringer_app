@@ -1,11 +1,8 @@
 import streamlit as st
-import pandas as pd
 import polars as pl
 import base64
 import os
 import sys
-import uuid
-from datetime import datetime
 from utils.data_processing import (
     get_data,
     decrypt_dataframe,
@@ -23,7 +20,8 @@ from utils.data_processing import (
     load_css,
     write_markdown_sidebar,
     format_and_display_data,
-    display_dataframe
+    display_dataframe,
+    create_user_session_log,
 )
 from utils.plots import create_pie_chart
 from config import set_pandas_options, set_streamlit_options
@@ -35,16 +33,7 @@ load_css("webapp/style.css")
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# Generate or retrieve session ID
-if "user_id" not in st.session_state:
-    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
-
-# Get the current timestamp
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-# Log the user session with a print statement
-user_id = st.session_state["user_id"]
-print(f"[{timestamp}] New user session: {user_id} (Forside)")
+create_user_session_log("Forside")
 
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
@@ -125,7 +114,11 @@ with st.sidebar:
         placeholder="Vælg problemkategori.",
     )
 
-    search_query = st.text_input("Fritekst søgning i tabellen:", "", help="Søg f.eks. efter et selskabs navn eller et ISIN-nummer.")
+    search_query = st.text_input(
+        "Fritekst søgning i tabellen:",
+        "",
+        help="Søg f.eks. efter et selskabs navn eller et ISIN-nummer.",
+    )
 
     st.markdown("For mere avanceret søgning, brug ['Søg videre'](/Søg_videre).")
 
@@ -233,9 +226,7 @@ with col2:
 
         markedsvaerdi_euro = format_number_european(total_markedsvaerdi)
         markedsvaerdi_euro_short = round_to_million_or_billion(total_markedsvaerdi, 1)
-        st.write(
-            f"**Total markedsværdi (DKK):** {markedsvaerdi_euro} {markedsvaerdi_euro_short}"
-        )
+        st.write(f"**Total markedsværdi (DKK):** {markedsvaerdi_euro} {markedsvaerdi_euro_short}")
 
         # Filter for problematic investments and calculate the total sum of their 'Markedsværdi (DKK)'
         prob_df = filtered_df.filter(filtered_df["Priority"].is_in([2, 3]))
@@ -246,15 +237,15 @@ with col2:
         prob_markedsvaerdi_euro = format_number_european(prob_markedsvaerdi)
         prob_markedsvaerdi_euro_short = round_to_million_or_billion(prob_markedsvaerdi, 1)
         st.write(
-            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_euro} {prob_markedsvaerdi_euro_short}" 
+            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_euro} {prob_markedsvaerdi_euro_short}"
         )
 
 with st.spinner("Henter data.."):
-    if user_choice == 'Hele landet' and selected_categories is None and search_query is None:
+    if user_choice == "Hele landet" and selected_categories is None and search_query is None:
         if "hele_landet_data" not in st.session_state:
             st.session_state.hele_landet_data = format_and_display_data(filtered_df)
         display_dataframe(st.session_state.hele_landet_data)
-    elif user_choice == 'Alle kommuner' and selected_categories is None and search_query is None:
+    elif user_choice == "Alle kommuner" and selected_categories is None and search_query is None:
         if "alle_kommuner_data" not in st.session_state:
             st.session_state.alle_kommuner_data = format_and_display_data(filtered_df)
         display_dataframe(st.session_state.alle_kommuner_data)
@@ -262,14 +253,16 @@ with st.spinner("Henter data.."):
         display_df = format_and_display_data(filtered_df)
         display_dataframe(display_df)
 
-    
+
 # Call the function to display relevant links based on the 'Problematisk ifølge:' column
 st.markdown(
     "\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplyst af kommunerne og regionerne selv ud fra deres senest opgjorte opgørelser.*"
 )
 
 generate_organization_links(filtered_df, "Problematisk ifølge:")
-st.markdown("**Mere om værdipapirer udpeget af Gravercentret:** [Mulige historier](/Mulige_historier)")
+st.markdown(
+    "**Mere om værdipapirer udpeget af Gravercentret:** [Mulige historier](/Mulige_historier)"
+)
 
 filtered_df = filtered_df.to_pandas()
 filtered_df.drop("Priority", axis=1, inplace=True)
