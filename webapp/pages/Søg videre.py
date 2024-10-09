@@ -8,6 +8,7 @@ from utils.data_processing import (
     filter_df_by_search,
     fix_column_types_and_sort,
     format_number_european,
+    round_to_million_or_billion,
     get_unique_categories,
     get_unique_kommuner,
     filter_dataframe_by_category,
@@ -266,9 +267,9 @@ investment_sum = filtered_df.select(pl.col("Markedsværdi (DKK)").sum()).to_nump
 
 # Create the conditional text for the sum
 if search_query or selected_categories:
-    sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** (Baseret på filtrering)"
+    sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** **{round_to_million_or_billion(investment_sum, 1)}** (Baseret på filtrering) "
 else:
-    sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK**"
+    sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** **{round_to_million_or_billion(investment_sum, 1)}**"
 
 # Display the sum with markdown
 st.markdown(f"{sum_text}")
