@@ -77,7 +77,7 @@ with st.expander(
 with st.expander("**Kommuner med sundhedspolitik investerer i sodavand og fastfood**"):
     st.write(
         """
-        Alle kommuner har vedtaget udførlige sundhedspolitikker, hvis mål det er, at få borgerne til at leve så sundt som muligt. Men samtidig med, at børnene ikke må have pålægschokolademadder med i madpakkerne og visionen i praktisk talt alle kommuner og regioner er, at borgerne skal være mere sunde, så investeres der på livet løs i usunde fødevarer, der kan være usunde.\n
+        Alle kommuner har vedtaget udførlige sundhedspolitikker, hvis mål det er, at få borgerne til at leve så sundt som muligt. Men samtidig med, at børnene ikke må have pålægschokolademadder med i madpakkerne og visionen i praktisk talt alle kommuner og regioner er, at borgerne skal være mere sunde, så investeres der på livet løs i fødevarer, der kan være usunde.\n
         Det kan også undre, at regionerne, der skal behandle syge danskere, vælger at investere i disse potentielt usunde fødevarer. \n
         Investeringer i Coca-cola forekommer i 75 kommuner og regioner for i alt 36,9 millioner kroner. Odense Kommune har sat flest penge i selskabet med 3,8 millioner kroner, mens Københavns Kommune har investeret 2,6 millioner i Coca-cola.\n
         Konkurrenten Pepsi har 71 kommuner og regioner investeret samlet 25,9 millioner kroner i. Igen har Odense sat flest penge i selskabet med 2,8 millioner kroner, mens Region Sjælland har investeret 2,1 millioner.\n

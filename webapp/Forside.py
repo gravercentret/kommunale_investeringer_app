@@ -74,7 +74,7 @@ st.markdown(
             Vi har kortlagt, hvilke værdipapirer der ligger nede i de investeringsfonde og investeringsforeninger, som kommunerne og regionerne har sat deres penge i.\n
             Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. \n
             Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.\n
-            I den lyseblå kollonne til venstre kan du søge i data.
+            I den lyseblå kolonne til venstre kan du søge i data.
             """
 )
 with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", icon="❔"):
