@@ -21,7 +21,7 @@ from utils.data_processing import (
 from config import set_pandas_options, set_streamlit_options
 from datetime import datetime
 
-create_user_session_log("Sådan har vi gjort")
+create_user_session_log("Avanceret søgning")
 
 # Apply the settings
 set_pandas_options()

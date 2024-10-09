@@ -120,7 +120,7 @@ with st.sidebar:
         help="Søg f.eks. efter et selskabs navn eller et ISIN-nummer.",
     )
 
-    st.markdown("For mere avanceret søgning, brug ['Søg videre'](/Søg_videre).")
+    st.markdown("Klik her for mere [avanceret søgning](/Avanceret_søgning).")
 
     # Filter dataframe based on user's selection
     filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)
@@ -267,26 +267,28 @@ st.markdown(
 filtered_df = filtered_df.to_pandas()
 filtered_df.drop("Priority", axis=1, inplace=True)
 
-# Convert dataframe to Excel
-excel_data = to_excel_function(filtered_df)
+with st.spinner("Klargør download til Excel.."):
+    # Convert dataframe to Excel
+    excel_data = to_excel_function(filtered_df)
 
-# Create a download button
-st.download_button(
-    label="Download til Excel",
-    data=excel_data,
-    file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-)
-
-if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
-    st.subheader(f"Eksklusionsårsager for investeringer foretaget af {user_choice}: ")
-
-    st.info(
-        """Listen nedenfor er genereret med kunstig intelligens, og der tages derfor forbehold for fejl.
-        Nedenstående liste er muligvis ikke udtømmende.""",
-        icon="ℹ️",
+    # Create a download button
+    st.download_button(
+        label="Download til Excel",
+        data=excel_data,
+        file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
 
-    ai_text = get_ai_text(user_choice)
+with st.spinner("Henter AI-tekster.."):
+    if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
+        st.subheader(f"Eksklusionsårsager for investeringer foretaget af {user_choice}: ")
 
-    st.markdown(ai_text)
+        st.info(
+            """Listen nedenfor er genereret med kunstig intelligens, og der tages derfor forbehold for fejl.
+            Nedenstående liste er muligvis ikke udtømmende.""",
+            icon="ℹ️",
+        )
+
+        ai_text = get_ai_text(user_choice)
+
+        st.markdown(ai_text)
