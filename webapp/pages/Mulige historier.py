@@ -79,8 +79,8 @@ with st.expander("**Kommuner med sundhedspolitik investerer i sodavand og fastfo
 with st.expander("**Kommuner har sat penge i sortlistede lande**"):
     st.write(
         """
-        22 kommuner og regioner har investeringer i statsobligationer fra såkaldt kontroversielle stater. Det er lande, som eksempelvis Saudi Arabien, Kina, Pakistan, Venezuela og Qatar, som er sat på eksklusionslis og i kolonnen  "Eksklusion (Af hvem og hvorfor)" kan du se, hvorfor de enkelte banker og pensionsselskaber har udelukket investeringer i de pågældende lande. I alt har kommuner og regioner 837 værdipapirer af denne type til en samlet værdi af 25,6 millioner kroner.\n
-        Region Nordjylland har investeret 6,9 millioner i disse sortlistede statsobligationer, mens Ringkøbing-Skjern har investeret 6,3 millioner.ten af danske banker eller pensionsselskaber. I tabellen på forsiden er disse investeringer markeret med orange 
+        22 kommuner og regioner har investeringer i statsobligationer fra såkaldt kontroversielle stater. Det er lande, som eksempelvis Saudi Arabien, Kina, Pakistan, Venezuela og Qatar, som er sat på eksklusionslisten af danske banker eller pensionsselskaber og i kolonnen "Eksklusion (Af hvem og hvorfor)" kan du se, hvorfor de enkelte banker og pensionsselskaber har udelukket investeringer i de pågældende lande. I alt har kommuner og regioner 837 værdipapirer af denne type til en samlet værdi af 25,6 millioner kroner.\n
+        Region Nordjylland har investeret 6,9 millioner i disse sortlistede statsobligationer, mens Ringkøbing-Skjern har investeret 6,3 millioner. I tabellen på forsiden er disse investeringer markeret med orange. 
         """
     )
 
