@@ -250,11 +250,11 @@ with col2:
         )
 
 with st.spinner("Henter data.."):
-    if user_choice == 'Hele landet':
+    if user_choice == 'Hele landet' and selected_categories is None and search_query is None:
         if "hele_landet_data" not in st.session_state:
             st.session_state.hele_landet_data = format_and_display_data(filtered_df)
         display_dataframe(st.session_state.hele_landet_data)
-    elif user_choice == 'Alle kommuner': 
+    elif user_choice == 'Alle kommuner' and selected_categories is None and search_query is None:
         if "alle_kommuner_data" not in st.session_state:
             st.session_state.alle_kommuner_data = format_and_display_data(filtered_df)
         display_dataframe(st.session_state.alle_kommuner_data)
