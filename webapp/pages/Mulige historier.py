@@ -95,8 +95,8 @@ with st.expander("**Kommuner og regioner investerer millioner i krydstogtsselska
 with st.expander("**Kommuner har penge i Blackstone**"):
     st.write(
         """
-        31 kommuner og regioner er små "medejere" af kapitalfonden og boligspekulanten Blackstone, der er blevet kritiseret skarpt for at opkøbe ejendomme og lejligheder i større danske byer, istandsætte dem og sætte lejen kraftigt op. De er samlet i gruppen ”Ejendomsopkøb”.\n
-        Samlet er der investeret for 1,5 millioner kroner. Paradoksalt nok er Aarhus Kommune topscoreren her med en samlet investering på 333.000 kroner, mens Esbjerg har investeret 170.000 kroner.
+        31 kommuner og regioner er små "medejere" af kapitalfonden og boligspekulanten Blackstone, der er blevet kritiseret skarpt for at opkøbe ejendomme og lejligheder i større danske byer, istandsætte dem og sætte lejen kraftigt op, hvilket medførte et politisk indgreb i 2020 for at standse boligspekulantens adfærd. De er samlet i gruppen ”Ejendomsopkøb”. \n
+        Samlet er der investeret for 1,5 millioner kroner. En af de byer, hvor Blackstone opkøbte boliger, var Aarhus, og Aarhus Kommune er topscoreren med en samlet investering på 333.000 kroner. Esbjerg Kommune er nummer to med 170.000 kroner investeret i selskabet.
         """
     )
 
