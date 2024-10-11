@@ -17,6 +17,7 @@ from utils.data_processing import (
     load_css,
     write_markdown_sidebar,
     create_user_session_log,
+    generate_organization_links,
 )
 from config import set_pandas_options, set_streamlit_options
 from datetime import datetime
@@ -212,7 +213,26 @@ with col_count:
     st.dataframe(top_municipalities_count)
 
 # Display the filtered dataframe
-st.write("**Data baseret på søgning/filtre:**")
+st.write("##### Data baseret på søgning/filtre:")
+
+with st.container(border=True):
+    # Display search results
+    st.markdown(
+        f"***Antallet af kommuner/regioner:*** \n **{filtered_df.select(pl.col('Område').n_unique()).to_numpy()[0][0]}**"
+    )
+
+    # Calculate the sum of all investments in the "Markedsværdi (DKK)" column
+    investment_sum = filtered_df.select(pl.col("Markedsværdi (DKK)").sum()).to_numpy()[0][0]
+
+    # Create the conditional text for the sum
+    if search_query or selected_categories:
+        sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** **{round_to_million_or_billion(investment_sum, 1)}** (Baseret på filtrering) "
+    else:
+        sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** **{round_to_million_or_billion(investment_sum, 1)}**"
+
+    # Display the sum with markdown
+    st.markdown(f"{sum_text}")
+
 
 display_df = filtered_df.with_columns(
     pl.col("Markedsværdi (DKK)")
@@ -240,6 +260,11 @@ st.dataframe(
     hide_index=True,
 )
 
+generate_organization_links(filtered_df, "Problematisk ifølge:")
+st.markdown(
+    "**Mere om værdipapirer udpeget af Gravercentret:** [Mulige historier](/Mulige_historier)"
+)
+
 display_df = display_df.to_pandas()
 display_df.drop("Priority", axis=1, inplace=True)
 
@@ -248,28 +273,11 @@ excel_data = to_excel_function(display_df)
 
 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-# Create a download button
-st.download_button(
-    label="Download til Excel",
-    data=excel_data,
-    file_name=f"Investeringer-{timestamp}.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-)
-
-
-# Display search results
-st.markdown(
-    f"***Antallet af kommuner/regioner:*** \n **{filtered_df.select(pl.col('Område').n_unique()).to_numpy()[0][0]}**"
-)
-
-# Calculate the sum of all investments in the "Markedsværdi (DKK)" column
-investment_sum = filtered_df.select(pl.col("Markedsværdi (DKK)").sum()).to_numpy()[0][0]
-
-# Create the conditional text for the sum
-if search_query or selected_categories:
-    sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** **{round_to_million_or_billion(investment_sum, 1)}** (Baseret på filtrering) "
-else:
-    sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** **{round_to_million_or_billion(investment_sum, 1)}**"
-
-# Display the sum with markdown
-st.markdown(f"{sum_text}")
+with st.spinner("Klargør download til Excel.."):
+    # Create a download button
+    st.download_button(
+        label="Download til Excel",
+        data=excel_data,
+        file_name=f"Investeringer-{timestamp}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
