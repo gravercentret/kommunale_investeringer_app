@@ -253,8 +253,6 @@ with st.spinner("Henter data.."):
         display_df = format_and_display_data(filtered_df)
         display_dataframe(display_df)
 
-
-# Call the function to display relevant links based on the 'Problematisk ifølge:' column
 st.markdown(
     "\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplyst af kommunerne og regionerne selv ud fra deres senest opgjorte opgørelser.*"
 )

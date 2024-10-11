@@ -18,6 +18,7 @@ from utils.data_processing import (
     write_markdown_sidebar,
     create_user_session_log,
     generate_organization_links,
+    display_dataframe,
 )
 from config import set_pandas_options, set_streamlit_options
 from datetime import datetime
@@ -240,24 +241,17 @@ display_df = filtered_df.with_columns(
     .alias("Markedsværdi (DKK)"),
 )
 
-st.dataframe(
-    display_df[
-        [
-            # "Index",
-            "OBS",
-            "Område",
-            "Værdipapirets navn",
-            "Markedsværdi (DKK)",
-            # "Problematisk ifølge:",
-            "Eksklusion (Af hvem og hvorfor)",
-            "Sortlistet",
-            "Problemkategori",
-            "Type",
-            "ISIN kode",
-            "Udsteder",
-        ]
-    ],
-    hide_index=True,
+display_df = display_df.with_columns(
+    pl.col("Markedsværdi (DKK)")
+    .str.replace_all(r"[^\d]", "")  # Remove non-digit characters like commas and periods
+    .cast(pl.Int64)  # Cast back to integer
+    .alias("Markedsværdi (DKK)")
+)
+
+display_dataframe(display_df)
+
+st.markdown(
+    "\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplyst af kommunerne og regionerne selv ud fra deres senest opgjorte opgørelser.*"
 )
 
 generate_organization_links(filtered_df, "Problematisk ifølge:")
