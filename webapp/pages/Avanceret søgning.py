@@ -8,26 +8,22 @@ from utils.data_processing import (
     filter_df_by_search,
     fix_column_types_and_sort,
     format_number_european,
+    round_to_million_or_billion,
     get_unique_categories,
+    get_unique_kommuner,
     filter_dataframe_by_category,
+    filter_dataframe_by_multiple_choices,
     to_excel_function,
     load_css,
     write_markdown_sidebar,
+    create_user_session_log,
+    generate_organization_links,
+    display_dataframe,
 )
 from config import set_pandas_options, set_streamlit_options
-import uuid
 from datetime import datetime
 
-# Generate or retrieve session ID
-if "user_id" not in st.session_state:
-    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
-
-# Get the current timestamp
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-# Log the user session with a print statement
-user_id = st.session_state["user_id"]
-print(f"[{timestamp}] New user session: {user_id} (Søg videre)")
+create_user_session_log("Avanceret søgning")
 
 # Apply the settings
 set_pandas_options()
@@ -74,10 +70,15 @@ st.header("Søg videre i databasen")
 default_priorities = [2, 3]
 unique_categories_list = get_unique_categories(st.session_state.df_pl)
 
-col1, col2, col3 = st.columns(3)
+dropdown_areas = get_unique_kommuner(st.session_state.df_pl)
+
+to_be_removed = {'Alle kommuner', 'Alle regioner', 'Hele landet'}
+dropdown_areas = [item for item in dropdown_areas if item not in to_be_removed]
+
+col1, col2 = st.columns(2)
 with col1:
     search_query = st.text_input("Fritekst søgning i data:", "")
-with col2:
+
     selected_priorities = st.multiselect(
         "Vælg type(r):",
         placeholder="Klik for at vælge én eller flere.",
@@ -90,13 +91,21 @@ with col2:
             3: "Problematiske selskaber",
         }.get(x, str(x)),
     )
-with col3:
+
+with col2:
+    selected_areas = st.multiselect(
+        "Vælg område(r):",
+        dropdown_areas,
+        placeholder="Vælg flere kommuner eller regioner.",
+    )
     selected_categories = st.multiselect(
         "Vælg problemkategori(er):",
         unique_categories_list,  # Options
         help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
         placeholder="Vælg problemkategori.",
     )
+
+
 with st.expander("Om søgeværktøjet (klik for at folde ud eller ind)", expanded=True):
     st.markdown(
         """
@@ -130,6 +139,7 @@ filtered_df = (
     )
 )
 
+filtered_df = filter_dataframe_by_multiple_choices(filtered_df, selected_areas)
 filtered_df = filter_df_by_search(filtered_df, search_query)
 filtered_df = filter_dataframe_by_category(filtered_df, selected_categories)
 filtered_df = fix_column_types_and_sort(filtered_df)
@@ -204,7 +214,26 @@ with col_count:
     st.dataframe(top_municipalities_count)
 
 # Display the filtered dataframe
-st.write("**Data baseret på søgning/filtre:**")
+st.write("##### Data baseret på søgning/filtre:")
+
+with st.container(border=True):
+    # Display search results
+    st.markdown(
+        f"***Antallet af kommuner/regioner:*** \n **{filtered_df.select(pl.col('Område').n_unique()).to_numpy()[0][0]}**"
+    )
+
+    # Calculate the sum of all investments in the "Markedsværdi (DKK)" column
+    investment_sum = filtered_df.select(pl.col("Markedsværdi (DKK)").sum()).to_numpy()[0][0]
+
+    # Create the conditional text for the sum
+    if search_query or selected_categories:
+        sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** **{round_to_million_or_billion(investment_sum, 1)}** (Baseret på filtrering) "
+    else:
+        sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** **{round_to_million_or_billion(investment_sum, 1)}**"
+
+    # Display the sum with markdown
+    st.markdown(f"{sum_text}")
+
 
 display_df = filtered_df.with_columns(
     pl.col("Markedsværdi (DKK)")
@@ -212,24 +241,22 @@ display_df = filtered_df.with_columns(
     .alias("Markedsværdi (DKK)"),
 )
 
-st.dataframe(
-    display_df[
-        [
-            # "Index",
-            "OBS",
-            "Område",
-            "Værdipapirets navn",
-            "Markedsværdi (DKK)",
-            # "Problematisk ifølge:",
-            "Eksklusion (Af hvem og hvorfor)",
-            "Sortlistet",
-            "Problemkategori",
-            "Type",
-            "ISIN kode",
-            "Udsteder",
-        ]
-    ],
-    hide_index=True,
+display_df = display_df.with_columns(
+    pl.col("Markedsværdi (DKK)")
+    .str.replace_all(r"[^\d]", "")  # Remove non-digit characters like commas and periods
+    .cast(pl.Int64)  # Cast back to integer
+    .alias("Markedsværdi (DKK)")
+)
+
+display_dataframe(display_df)
+
+st.markdown(
+    "\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplyst af kommunerne og regionerne selv ud fra deres senest opgjorte opgørelser.*"
+)
+
+generate_organization_links(filtered_df, "Problematisk ifølge:")
+st.markdown(
+    "**Mere om værdipapirer udpeget af Gravercentret:** [Mulige historier](/Mulige_historier)"
 )
 
 display_df = display_df.to_pandas()
@@ -238,28 +265,13 @@ display_df.drop("Priority", axis=1, inplace=True)
 # Convert dataframe to Excel
 excel_data = to_excel_function(display_df)
 
-# Create a download button
-st.download_button(
-    label="Download til Excel",
-    data=excel_data,
-    file_name=f"Investeringer-{timestamp}.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-)
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-
-# Display search results
-st.markdown(
-    f"***Antallet af kommuner/regioner:*** \n **{filtered_df.select(pl.col('Område').n_unique()).to_numpy()[0][0]}**"
-)
-
-# Calculate the sum of all investments in the "Markedsværdi (DKK)" column
-investment_sum = filtered_df.select(pl.col("Markedsværdi (DKK)").sum()).to_numpy()[0][0]
-
-# Create the conditional text for the sum
-if search_query or selected_categories:
-    sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK** (Baseret på filtrering)"
-else:
-    sum_text = f"***Summen af investeringerne:*** **{format_number_european(investment_sum)} DKK**"
-
-# Display the sum with markdown
-st.markdown(f"{sum_text}")
+with st.spinner("Klargør download til Excel.."):
+    # Create a download button
+    st.download_button(
+        label="Download til Excel",
+        data=excel_data,
+        file_name=f"Investeringer-{timestamp}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )

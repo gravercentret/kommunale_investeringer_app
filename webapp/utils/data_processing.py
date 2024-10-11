@@ -11,6 +11,8 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import padding
 import base64
 from io import BytesIO
+import uuid
+from datetime import datetime
 
 
 @st.cache_data(show_spinner="Indlæser data")  # , ttl=timedelta(hours=10)
@@ -103,6 +105,7 @@ def format_number_european(value, digits=0):
     value = round(value, digits)
     return babel.numbers.format_decimal(value, locale="da_DK")
 
+
 def round_to_million_or_billion(value, digits=2):
     value = int(value)
 
@@ -189,6 +192,31 @@ def filter_dataframe_by_category(df, selected_categories):
     return df_filtered
 
 
+def filter_dataframe_by_multiple_choices(
+    df_pl, choices, all_values="Hele landet", municipalities="Alle kommuner", regions="Alle regioner"
+):
+    """
+    Filter the dataframe based on multiple user selections (all_values, municipalities, regions, or specific kommuner).
+    """
+    # Initialize the filters list for storing conditions
+    filters = []
+
+    # Handle specific municipality selections
+    specific_kommuner = [choice for choice in choices if choice not in [all_values, municipalities, regions]]
+    if specific_kommuner:
+        filters.append(pl.col("Område").is_in(specific_kommuner))
+
+    # Combine all the filters (with logical OR between them)
+    if filters:
+        combined_filter = filters[0]
+        for filter_expr in filters[1:]:
+            combined_filter = combined_filter | filter_expr
+
+        return df_pl.filter(combined_filter)
+    else:
+        return df_pl
+
+
 def normalize_text(text):
     # Replace special characters with a single space, collapse multiple spaces, and normalize to lowercase
     text = re.sub(r"[^\w\s]", " ", text).lower()  # Replace non-alphanumeric characters with space
@@ -250,7 +278,9 @@ def fix_column_types_and_sort(df):
 
     # Sort first by 'Sortlistet', then by 'Priority', followed by 'Kommune' and 'ISIN kode'
     filtered_df = df.sort(
-        ["Sortlistet", "Priority", "Område", "ISIN kode"], nulls_last=True, descending=[True, True, False, False]
+        ["Sortlistet", "Priority", "Område", "ISIN kode"],
+        nulls_last=True,
+        descending=[True, True, False, False],
     )
 
     filtered_df = filtered_df.with_row_index("Index", offset=1)
@@ -335,4 +365,65 @@ def write_markdown_sidebar(how_we_did=False):
     )
     st.image("webapp/images/vaerdipapirer_01_1200x630.jpg")
 
-    st.markdown("Støder du på fejl i data eller vil du have hjælp? Så skriv til data@gravercentret.dk")
+    st.markdown(
+        "Støder du på fejl i data eller vil du have hjælp? Så skriv til data@gravercentret.dk"
+    )
+
+
+def format_and_display_data(dataframe):
+    return dataframe.with_columns(
+        pl.col("Markedsværdi (DKK)")
+        .map_elements(format_number_european, return_dtype=pl.Utf8)
+        .alias("Markedsværdi (DKK)")
+    )
+
+
+def display_dataframe(df):
+    st.dataframe(
+        df[
+            [
+                "OBS",
+                "Område",
+                "Værdipapirets navn",
+                "Markedsværdi (DKK)",
+                "Eksklusion (Af hvem og hvorfor)",
+                "Sortlistet",
+                "Problemkategori",
+                "Type",
+                "ISIN kode",
+                "Udsteder",
+            ]
+        ],
+        column_config={
+            "OBS": st.column_config.TextColumn(),
+            "Område": "Område",
+            "Udsteder": st.column_config.TextColumn(width="small"),
+            "Markedsværdi (DKK)": "Markedsværdi (DKK)*",
+            "Type": "Type",
+            "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
+            "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
+                width="large",
+                help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn.",
+            ),
+            "Sortlistet": st.column_config.TextColumn(
+                width="small",
+                help="Så mange eksklusionslister står værdipapiret på.",
+            ),
+            "Udsteder": st.column_config.TextColumn(width="large"),
+        },
+        hide_index=True,
+    )
+
+
+def create_user_session_log(page_name):
+    # Get the current timestamp
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Generate or retrieve session ID
+    if "user_id" not in st.session_state:
+        st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
+        print(f"[{timestamp}] New user session: {st.session_state["user_id"]} (Forside)")
+
+    # Log the user session with a print statement
+    user_id = st.session_state["user_id"]
+    print(f"[{timestamp}] User session: {user_id} ({page_name})")

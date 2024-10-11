@@ -1,11 +1,8 @@
 import streamlit as st
-import pandas as pd
 import polars as pl
 import base64
 import os
 import sys
-import uuid
-from datetime import datetime
 from utils.data_processing import (
     get_data,
     decrypt_dataframe,
@@ -22,6 +19,9 @@ from utils.data_processing import (
     to_excel_function,
     load_css,
     write_markdown_sidebar,
+    format_and_display_data,
+    display_dataframe,
+    create_user_session_log,
 )
 from utils.plots import create_pie_chart
 from config import set_pandas_options, set_streamlit_options
@@ -33,16 +33,7 @@ load_css("webapp/style.css")
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# Generate or retrieve session ID
-if "user_id" not in st.session_state:
-    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
-
-# Get the current timestamp
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-# Log the user session with a print statement
-user_id = st.session_state["user_id"]
-print(f"[{timestamp}] New user session: {user_id} (Forside)")
+create_user_session_log("Forside")
 
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
@@ -71,10 +62,10 @@ st.markdown(
 st.markdown(
     """
             Gravercentret, Danmarks Center for Undersøgende Journalistik, har sammen med Danwatch undersøgt, hvilke værdipapirer de danske kommuner og regioner har valgt at investere i. \n
-            Vi har kortlagt, hvilke værdipapirer der ligger nede i de investeringsfonde og investeringsforeninger, som kommunerne og regionerne har sat deres penge i.\n
+            Vi har kortlagt, hvilke værdipapirer der ligger nede i de investeringsfonde og investeringsforeninger, som kommunerne og regionerne har sat deres penge i.
             Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. \n
-            Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.\n
-            I den lyseblå kollonne til venstre kan du søge i data.
+            Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.
+            I den lyseblå kolonne til venstre kan du søge i data.
             """
 )
 with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", icon="❔"):
@@ -123,9 +114,13 @@ with st.sidebar:
         placeholder="Vælg problemkategori.",
     )
 
-    search_query = st.text_input("Fritekst søgning i tabellen:", "", help="Søg f.eks. efter et selskabs navn eller et ISIN-nummer.")
+    search_query = st.text_input(
+        "Fritekst søgning i tabellen:",
+        "",
+        help="Søg f.eks. efter et selskabs navn eller et ISIN-nummer.",
+    )
 
-    st.markdown("For mere avanceret søgning, brug ['Søg videre'](/Søg_videre).")
+    st.markdown("Klik her for mere [avanceret søgning](/Avanceret_søgning).")
 
     # Filter dataframe based on user's selection
     filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)
@@ -231,9 +226,7 @@ with col2:
 
         markedsvaerdi_euro = format_number_european(total_markedsvaerdi)
         markedsvaerdi_euro_short = round_to_million_or_billion(total_markedsvaerdi, 1)
-        st.write(
-            f"**Total markedsværdi (DKK):** {markedsvaerdi_euro} {markedsvaerdi_euro_short}"
-        )
+        st.write(f"**Total markedsværdi (DKK):** {markedsvaerdi_euro} {markedsvaerdi_euro_short}")
 
         # Filter for problematic investments and calculate the total sum of their 'Markedsværdi (DKK)'
         prob_df = filtered_df.filter(filtered_df["Priority"].is_in([2, 3]))
@@ -244,85 +237,56 @@ with col2:
         prob_markedsvaerdi_euro = format_number_european(prob_markedsvaerdi)
         prob_markedsvaerdi_euro_short = round_to_million_or_billion(prob_markedsvaerdi, 1)
         st.write(
-            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_euro} {prob_markedsvaerdi_euro_short}" 
+            f"**Markedsværdi af problematiske investeringer (DKK):** {prob_markedsvaerdi_euro} {prob_markedsvaerdi_euro_short}"
         )
 
 with st.spinner("Henter data.."):
+    if user_choice == "Hele landet" and selected_categories is None and search_query is None:
+        if "hele_landet_data" not in st.session_state:
+            st.session_state.hele_landet_data = format_and_display_data(filtered_df)
+        display_dataframe(st.session_state.hele_landet_data)
+    elif user_choice == "Alle kommuner" and selected_categories is None and search_query is None:
+        if "alle_kommuner_data" not in st.session_state:
+            st.session_state.alle_kommuner_data = format_and_display_data(filtered_df)
+        display_dataframe(st.session_state.alle_kommuner_data)
+    else:
+        display_df = format_and_display_data(filtered_df)
+        display_dataframe(display_df)
 
-    # Display the dataframe below the three columns
-    display_df = filtered_df.with_columns(
-        pl.col("Markedsværdi (DKK)")
-        .map_elements(format_number_european, return_dtype=pl.Utf8)
-        .alias("Markedsværdi (DKK)"),
-    )
-
-    st.dataframe(
-        display_df[
-            [
-                # "Index",
-                "OBS",
-                "Område",
-                "Værdipapirets navn",
-                "Markedsværdi (DKK)",
-                "Eksklusion (Af hvem og hvorfor)",
-                "Sortlistet",
-                "Problemkategori",
-                "Type",
-                "ISIN kode",
-                "Udsteder",
-            ]
-        ],
-        column_config={
-            "OBS": st.column_config.TextColumn(),
-            "Område": "Område",
-            "Udsteder": st.column_config.TextColumn(width="small"),
-            "Markedsværdi (DKK)": "Markedsværdi (DKK)*",  # st.column_config.NumberColumn(format="%.2f"),
-            "Type": "Type",
-            "Problematisk ifølge:": st.column_config.TextColumn(width="medium"),
-            "Eksklusion (Af hvem og hvorfor)": st.column_config.TextColumn(
-                width="large",
-                help="Nogle banker og pensionsselskaber har oplyst deres eksklusionsårsager på engelsk, hvilket vi har beholdt af præcisionshensyn.",
-            ),  # 1200
-            "Sortlistet": st.column_config.TextColumn(
-                width="small",
-                help="Så mange eksklusionslister står værdipapiret på.",
-            ), 
-            "Udsteder": st.column_config.TextColumn(width="large"),
-        },
-        hide_index=True,
-    )       
-
-# Call the function to display relevant links based on the 'Problematisk ifølge:' column
 st.markdown(
     "\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplyst af kommunerne og regionerne selv ud fra deres senest opgjorte opgørelser.*"
 )
 
 generate_organization_links(filtered_df, "Problematisk ifølge:")
-st.markdown("**Mere om værdipapirer udpeget af Gravercentret:** [Mulige historier](/Mulige_historier)")
+st.markdown(
+    "**Mere om værdipapirer udpeget af Gravercentret:** [Mulige historier](/Mulige_historier)"
+)
 
 filtered_df = filtered_df.to_pandas()
 filtered_df.drop("Priority", axis=1, inplace=True)
 
-# Convert dataframe to Excel
-excel_data = to_excel_function(filtered_df)
+with st.spinner("Klargør download til Excel.."):
+    # Convert dataframe to Excel
+    excel_data = to_excel_function(filtered_df)
 
-# Create a download button
-st.download_button(
-    label="Download til Excel",
-    data=excel_data,
-    file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-)
-
-if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
-    st.subheader(f"Eksklusionsårsager for investeringer foretaget af {user_choice}: ")
-
-    st.info(
-        """Listen nedenfor er genereret med kunstig intelligens, og der tages derfor forbehold for fejl.
-        Nedenstående liste er muligvis ikke udtømmende.""",
-        icon="ℹ️",
+    # Create a download button
+    st.download_button(
+        label="Download til Excel",
+        data=excel_data,
+        file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
 
-    ai_text = get_ai_text(user_choice)
+with st.spinner("Henter AI-tekster.."):
+    if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
+        st.subheader(f"Eksklusionsårsager for investeringer foretaget af {user_choice}: ")
 
-    st.markdown(ai_text)
+        st.info(
+            """Listen nedenfor er genereret med kunstig intelligens, og der tages derfor forbehold for fejl.
+            Nedenstående liste er muligvis ikke udtømmende.""",
+            icon="ℹ️",
+        )
+
+        ai_text = get_ai_text(user_choice)
+
+        st.markdown(ai_text)

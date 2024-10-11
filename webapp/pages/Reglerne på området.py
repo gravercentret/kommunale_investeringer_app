@@ -1,19 +1,8 @@
 import streamlit as st
 from config import set_pandas_options, set_streamlit_options
-import uuid
-from datetime import datetime
-from utils.data_processing import load_css, write_markdown_sidebar
+from utils.data_processing import load_css, write_markdown_sidebar, create_user_session_log
 
-# Generate or retrieve session ID
-if "user_id" not in st.session_state:
-    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
-
-# Get the current timestamp
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-# Log the user session with a print statement
-user_id = st.session_state["user_id"]
-print(f"[{timestamp}] New user session: {user_id} (Søg videre)")
+create_user_session_log("Reglerne på området")
 
 # Apply the settings
 set_pandas_options()

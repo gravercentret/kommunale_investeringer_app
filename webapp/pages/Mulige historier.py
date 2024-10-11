@@ -1,8 +1,6 @@
 import streamlit as st
-import uuid
-from datetime import datetime
 from config import set_pandas_options, set_streamlit_options
-from utils.data_processing import load_css, write_markdown_sidebar
+from utils.data_processing import load_css, write_markdown_sidebar, create_user_session_log
 
 # Apply the settings
 set_pandas_options()
@@ -10,16 +8,7 @@ set_streamlit_options()
 
 load_css("webapp/style.css")
 
-# Generate or retrieve session ID
-if "user_id" not in st.session_state:
-    st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
-
-# Get the current timestamp
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-# Log the user session with a print statement
-user_id = st.session_state["user_id"]
-print(f"[{timestamp}] New user session: {user_id} (Mulige historier)")
+create_user_session_log("Mulige historier")
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
@@ -56,7 +45,7 @@ with st.expander("**Kommuner og regioner har investeringer for 68,5 milliarder**
 with st.expander("**Kommuner og regioner har penge i 5.129 problematiske værdipapirer**"):
     st.write(
         """
-        Landets kommuner og regioner har investeret i mere end 5.000 værdipapirer, der er udpeget som problematiske af enten danske banker, pensionsselskaber eller FN. Helt præcist er der tale om 6.162 værdipapirer. Dertil kommer 1.419 værdipapirer som Gravercentret vurderer potentielt kan være kontroversielle, selv om de ikke er decideret sortlistet.\n
+        Landets kommuner og regioner har investeret i mere end 5.000 værdipapirer, der er udpeget som problematiske af enten danske banker, pensionsselskaber eller FN. Helt præcist er der tale om 5.129 værdipapirer. Dertil kommer 1.419 værdipapirer som Gravercentret vurderer potentielt kan være kontroversielle, selv om de ikke er decideret sortlistet.\n
         I alt har 79 kommuner og regioner investeret 456 millioner kroner i problematiske aktier.\n
         Kalundborg Kommune er topscoreren med hele 574 værdipapirer, der er udpeget som problematiske, mens Rødovre Kommune har 322 problematiske værdipapirer og Vejen Kommune har 313.\n
         Beløbsmæssigt er det ikke overraskende de tre store kommuner, der har flest midler placeret i problematiske aktier. København har 114,2 millioner i problematiske aktier, Region Sjælland har 22,3 millioner og Århus har 21,7 millioner.
@@ -77,7 +66,7 @@ with st.expander(
 with st.expander("**Kommuner med sundhedspolitik investerer i sodavand og fastfood**"):
     st.write(
         """
-        Alle kommuner har vedtaget udførlige sundhedspolitikker, hvis mål det er, at få borgerne til at leve så sundt som muligt. Men samtidig med, at børnene ikke må have pålægschokolademadder med i madpakkerne og visionen i praktisk talt alle kommuner og regioner er, at borgerne skal være mere sunde, så investeres der på livet løs i usunde fødevarer, der kan være usunde.\n
+        Alle kommuner har vedtaget udførlige sundhedspolitikker, hvis mål det er, at få borgerne til at leve så sundt som muligt. Men samtidig med, at børnene ikke må have pålægschokolademadder med i madpakkerne og visionen i praktisk talt alle kommuner og regioner er, at borgerne skal være mere sunde, så investeres der på livet løs i fødevarer, der kan være usunde.\n
         Det kan også undre, at regionerne, der skal behandle syge danskere, vælger at investere i disse potentielt usunde fødevarer. \n
         Investeringer i Coca-cola forekommer i 75 kommuner og regioner for i alt 36,9 millioner kroner. Odense Kommune har sat flest penge i selskabet med 3,8 millioner kroner, mens Københavns Kommune har investeret 2,6 millioner i Coca-cola.\n
         Konkurrenten Pepsi har 71 kommuner og regioner investeret samlet 25,9 millioner kroner i. Igen har Odense sat flest penge i selskabet med 2,8 millioner kroner, mens Region Sjælland har investeret 2,1 millioner.\n
@@ -90,8 +79,8 @@ with st.expander("**Kommuner med sundhedspolitik investerer i sodavand og fastfo
 with st.expander("**Kommuner har sat penge i sortlistede lande**"):
     st.write(
         """
-        22 kommuner og regioner har investeringer i statsobligationer fra såkaldt kontroversielle stater. Det er lande, som eksempelvis Saudi Arabien, Kina, Pakistan, Venezuela og Qatar, som er sat på eksklusionslis og i kolonnen  "Eksklusion (Af hvem og hvorfor)" kan du se, hvorfor de enkelte banker og pensionsselskaber har udelukket investeringer i de pågældende lande. I alt har kommuner og regioner 837 værdipapirer af denne type til en samlet værdi af 25,6 millioner kroner.\n
-        Region Nordjylland har investeret 6,9 millioner i disse sortlistede statsobligationer, mens Ringkøbing-Skjern har investeret 6,3 millioner.ten af danske banker eller pensionsselskaber. I tabellen på forsiden er disse investeringer markeret med orange 
+        22 kommuner og regioner har investeringer i statsobligationer fra såkaldt kontroversielle stater. Det er lande, som eksempelvis Saudi Arabien, Kina, Pakistan, Venezuela og Qatar, som er sat på eksklusionslisten af danske banker eller pensionsselskaber og i kolonnen "Eksklusion (Af hvem og hvorfor)" kan du se, hvorfor de enkelte banker og pensionsselskaber har udelukket investeringer i de pågældende lande. I alt har kommuner og regioner 837 værdipapirer af denne type til en samlet værdi af 25,6 millioner kroner.\n
+        Region Nordjylland har investeret 6,9 millioner i disse sortlistede statsobligationer, mens Ringkøbing-Skjern har investeret 6,3 millioner. I tabellen på forsiden er disse investeringer markeret med orange. 
         """
     )
 
@@ -106,8 +95,8 @@ with st.expander("**Kommuner og regioner investerer millioner i krydstogtsselska
 with st.expander("**Kommuner har penge i Blackstone**"):
     st.write(
         """
-        31 kommuner og regioner er små "medejere" af kapitalfonden og boligspekulanten Blackstone, der er blevet kritiseret skarpt for at opkøbe ejendomme og lejligheder i større danske byer, istandsætte dem og sætte lejen kraftigt op. De er samlet i gruppen ”Ejendomsopkøb”.\n
-        Samlet er der investeret for 1,5 millioner kroner. Paradoksalt nok er Aarhus Kommune topscoreren her med en samlet investering på 333.000 kroner, mens Esbjerg har investeret 170.000 kroner.
+        31 kommuner og regioner er små "medejere" af kapitalfonden og boligspekulanten Blackstone, der er blevet kritiseret skarpt for at opkøbe ejendomme og lejligheder i større danske byer, istandsætte dem og sætte lejen kraftigt op, hvilket medførte et politisk indgreb i 2020 for at standse boligspekulantens adfærd. De er samlet i gruppen ”Ejendomsopkøb”. \n
+        Samlet er der investeret for 1,5 millioner kroner. En af de byer, hvor Blackstone opkøbte boliger, var Aarhus, og Aarhus Kommune er topscoreren med en samlet investering på 333.000 kroner. Esbjerg Kommune er nummer to med 170.000 kroner investeret i selskabet.
         """
     )
 
