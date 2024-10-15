@@ -29,6 +29,8 @@ Altså om en dansk bank, pensionsselskab eller FN har udpeget værdipapiret som 
 Gravercentret har også udpeget en række værdipapirer som kan være potentielt kontroversielle.\n
 
 I det følgende finder du en liste over mulige historier, der kunne laves på baggrund af data:\n
+
+*OBS: Tallene for Københavns Kommune er opdateret pr. 15/10 og derfor opdateres tallene på denne side d. 16/10.*
 """
 )
 
