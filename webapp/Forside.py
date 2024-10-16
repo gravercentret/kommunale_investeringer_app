@@ -5,7 +5,6 @@ import os
 import sys
 from utils.data_processing import (
     get_data,
-    decrypt_dataframe,
     get_unique_kommuner,
     get_unique_categories,
     filter_dataframe_by_choice,
@@ -37,17 +36,7 @@ create_user_session_log("Forside")
 
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
-        df_retrieved = get_data()
-
-        encoded_key = os.getenv("ENCRYPTION_KEY")
-
-        if encoded_key is None:
-            raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
-
-        encryption_key = base64.b64decode(encoded_key)
-
-        col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
-        st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
+        st.session_state.df_pl = get_data()
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 

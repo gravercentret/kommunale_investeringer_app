@@ -4,7 +4,6 @@ import base64
 import os
 from utils.data_processing import (
     get_data,
-    decrypt_dataframe,
     filter_df_by_search,
     fix_column_types_and_sort,
     format_number_european,
@@ -36,30 +35,7 @@ load_css("webapp/style.css")
 
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
-        df_retrieved = get_data()
-
-        encoded_key = os.getenv("ENCRYPTION_KEY")
-
-        if encoded_key is None:
-            raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
-
-        encryption_key = base64.b64decode(encoded_key)
-
-        col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
-        st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
-
-
-if "df_pl" not in st.session_state:
-    with st.spinner("Henter data..."):
-        df_retrieved = get_data()
-        encoded_key = os.getenv("ENCRYPTION_KEY")
-
-        if not encoded_key:
-            raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
-
-        encryption_key = base64.b64decode(encoded_key)
-        col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
-        st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
+        st.session_state.df_pl = get_data()
 
 with st.sidebar:
     write_markdown_sidebar()
@@ -72,7 +48,7 @@ unique_categories_list = get_unique_categories(st.session_state.df_pl)
 
 dropdown_areas = get_unique_kommuner(st.session_state.df_pl)
 
-to_be_removed = {'Alle kommuner', 'Alle regioner', 'Hele landet'}
+to_be_removed = {"Alle kommuner", "Alle regioner", "Hele landet"}
 dropdown_areas = [item for item in dropdown_areas if item not in to_be_removed]
 
 col1, col2 = st.columns(2)

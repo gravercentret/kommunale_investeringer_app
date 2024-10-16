@@ -15,11 +15,9 @@ import uuid
 from datetime import datetime
 
 
-@st.cache_data(show_spinner="Indlæser data")  # , ttl=timedelta(hours=10)
+@st.cache_data(show_spinner="Indlæser data")
 def get_data():
-    engine = create_engine(
-        "sqlite:///data/investerings_database_encrypted_new.db"
-    )  # Ret efter udgivelse
+    engine = create_engine("sqlite:///data/investerings_database.db")
 
     query = """
         SELECT [Kommune] AS [Område], [ISIN kode], [Værdipapirets navn], 
@@ -42,49 +40,7 @@ def get_data():
     with engine.connect() as conn:
         df_polars = pl.read_database(query, conn)
 
-    df_pandas = df_polars.to_pandas()
-
-    return df_pandas
-
-
-# Decrypt data using AES-CBC mode
-def aes_decrypt(encrypted_data, key):
-    if encrypted_data is None:
-        return None  # Handle None values gracefully
-
-    # Proceed with decryption if the data is not None
-    encrypted_data = base64.b64decode(encrypted_data.encode())  # Decode Base64 to bytes
-    iv = encrypted_data[:16]  # Extract the first 16 bytes as the IV
-    ciphertext = encrypted_data[16:]
-
-    cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
-    decryptor = cipher.decryptor()
-
-    decrypted_padded_data = decryptor.update(ciphertext) + decryptor.finalize()
-
-    # Remove padding
-    unpadder = padding.PKCS7(128).unpadder()
-    decrypted_data = unpadder.update(decrypted_padded_data) + unpadder.finalize()
-
-    return decrypted_data.decode()
-
-
-# Function to decrypt specified columns of the DataFrame using AES-CBC
-@st.cache_data(show_spinner="Dekrypterer data", ttl=timedelta(hours=10))
-def decrypt_dataframe(df, key, col_list):
-    df_decrypted = df.copy()  # Create a copy of the DataFrame
-
-    for col in col_list:
-        if pd.api.types.is_string_dtype(df_decrypted[col]):
-            # Decrypt string columns
-            df_decrypted[col] = df_decrypted[col].apply(lambda x: aes_decrypt(x, key))
-        else:
-            # Convert to the original data type after decryption
-            df_decrypted[col] = df_decrypted[col].apply(lambda x: aes_decrypt(str(x), key))
-
-    df_decrypted = pl.from_pandas(df_decrypted)
-
-    return df_decrypted
+    return df_polars
 
 
 def get_ai_text(area):
@@ -193,7 +149,11 @@ def filter_dataframe_by_category(df, selected_categories):
 
 
 def filter_dataframe_by_multiple_choices(
-    df_pl, choices, all_values="Hele landet", municipalities="Alle kommuner", regions="Alle regioner"
+    df_pl,
+    choices,
+    all_values="Hele landet",
+    municipalities="Alle kommuner",
+    regions="Alle regioner",
 ):
     """
     Filter the dataframe based on multiple user selections (all_values, municipalities, regions, or specific kommuner).
@@ -202,7 +162,9 @@ def filter_dataframe_by_multiple_choices(
     filters = []
 
     # Handle specific municipality selections
-    specific_kommuner = [choice for choice in choices if choice not in [all_values, municipalities, regions]]
+    specific_kommuner = [
+        choice for choice in choices if choice not in [all_values, municipalities, regions]
+    ]
     if specific_kommuner:
         filters.append(pl.col("Område").is_in(specific_kommuner))
 
