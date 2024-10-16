@@ -33,7 +33,6 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
 load_css("webapp/style.css")
 
-
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
         df_retrieved = get_data()
@@ -49,18 +48,6 @@ if "df_pl" not in st.session_state:
         st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 
-if "df_pl" not in st.session_state:
-    with st.spinner("Henter data..."):
-        df_retrieved = get_data()
-        encoded_key = os.getenv("ENCRYPTION_KEY")
-
-        if not encoded_key:
-            raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
-
-        encryption_key = base64.b64decode(encoded_key)
-        col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
-        st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
-
 with st.sidebar:
     write_markdown_sidebar()
 
@@ -72,7 +59,7 @@ unique_categories_list = get_unique_categories(st.session_state.df_pl)
 
 dropdown_areas = get_unique_kommuner(st.session_state.df_pl)
 
-to_be_removed = {'Alle kommuner', 'Alle regioner', 'Hele landet'}
+to_be_removed = {"Alle kommuner", "Alle regioner", "Hele landet"}
 dropdown_areas = [item for item in dropdown_areas if item not in to_be_removed]
 
 col1, col2 = st.columns(2)
@@ -122,6 +109,18 @@ with st.expander("Om søgeværktøjet (klik for at folde ud eller ind)", expande
     - **Download data:** Ønsker du at downloade top 10? Brug download-ikonet, som findes øverst i tabellen. I bunden er der en download-knap for det fulde data baseret på de valg, der er taget.
             """
     )
+
+with st.expander("Disse områder har ingen problematiske investeringer:"):
+    st.write(
+    """
+    23 kommuner og en region har ingen problematiske investeringer, som optræder på eksklusionslister fra banker, pensionsselskaber eller FN.\n
+
+    Der er tale om følgende kommuner: Glostrup, Odsherred, Frederikssund, Hjørring, Stevns, Gladsaxe, Vordingborg, Halsnæs, Frederikshavn, Tårnby, Odder, Dragør, Albertslund, Ishøj, Langeland, Herlev, Gentofte, Sønderborg, Allerød, Ærø, Ringsted samt Læsø og Samsø, der slet ikke har investeringer.\n
+    Region Syddanmark har heller ingen problematiske investeringer.\n
+
+    """
+    )
+
 
 # Filter the dataframe by selected priorities and search query
 filtered_df = (
@@ -239,13 +238,6 @@ display_df = filtered_df.with_columns(
     pl.col("Markedsværdi (DKK)")
     .map_elements(format_number_european, return_dtype=pl.Utf8)
     .alias("Markedsværdi (DKK)"),
-)
-
-display_df = display_df.with_columns(
-    pl.col("Markedsværdi (DKK)")
-    .str.replace_all(r"[^\d]", "")  # Remove non-digit characters like commas and periods
-    .cast(pl.Int64)  # Cast back to integer
-    .alias("Markedsværdi (DKK)")
 )
 
 display_dataframe(display_df)

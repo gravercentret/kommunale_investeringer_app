@@ -23,7 +23,7 @@ st.markdown(
 [Gravercentret](https://www.gravercentret.dk), Danmarks Center for Undersøgende Journalistik, har i samarbejde med [Danwatch](https://danwatch.dk/) indhentet oplysninger om værdipapirbeholdningen hos alle 98 kommuner og fem regioner.\n
 Formålet er en landsdækkende journalistisk kortlægning af de kommunale investeringer på de finansielle markeder.\n
 Vi har via en aktindsigtsanmodning bedt om en komplet liste over, hvilke værdipapirer (aktier, obligationer, m.v.) kommunen eller regionen 
-            ejer og hvilken værdi, papirerne udgør. Vi har undersøgt både direkte investeringer og indirekte investeringer, som forvaltes af investeringsforvaltere og fonde. \n
+            ejer og hvilken værdi, papirerne udgør. Vi har også i enkelte tilfælde hentet informationerne fra de kommunale hjemmesider. Vi har undersøgt både direkte investeringer og indirekte investeringer, som forvaltes af investeringsforvaltere og fonde. \n
 Landets kommuner og regioner må ikke investere direkte i aktier, men de må godt selv investere i obligationer 
             såsom statsobligationer og realkreditobligationer.\n
 Kommuner og regioner har derfor typisk investeret deres midler gennem investeringsforeninger og fonde, 
@@ -32,6 +32,7 @@ Kommuner og regioner har derfor typisk investeret deres midler gennem investerin
 ##### Hvad har vi bedt om?
 Vi har anmodet om de senest opgjorte beholdningslister og markedsværdier, og der kan derfor 
             i sagens natur være variation i, hvornår tallene er opgjort. Hovedparten af kommunerne har dog valgt at trække nye opgørelser til brug for besvarelsen af vores anmodning, der blev fremsat ultimo juni 2024.\n
+Tallene fra flere af de største kommuner er opgjort noget tidligere. Esbjerg Kommunes investeringer er opgjort 01.09.2023, Århus Kommune 31.03.2024, Odense Kommune 31.03.2024 og Aalborg Kommune 30.04.2024.\n
 For hvert værdipapir har vi søgt at indhente:
 - ISIN-kode
 - Værdipapirets navn
