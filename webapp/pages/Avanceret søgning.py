@@ -33,7 +33,6 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
 load_css("webapp/style.css")
 
-
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
         df_retrieved = get_data()
@@ -49,18 +48,6 @@ if "df_pl" not in st.session_state:
         st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 
-if "df_pl" not in st.session_state:
-    with st.spinner("Henter data..."):
-        df_retrieved = get_data()
-        encoded_key = os.getenv("ENCRYPTION_KEY")
-
-        if not encoded_key:
-            raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
-
-        encryption_key = base64.b64decode(encoded_key)
-        col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
-        st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
-
 with st.sidebar:
     write_markdown_sidebar()
 
@@ -72,7 +59,7 @@ unique_categories_list = get_unique_categories(st.session_state.df_pl)
 
 dropdown_areas = get_unique_kommuner(st.session_state.df_pl)
 
-to_be_removed = {'Alle kommuner', 'Alle regioner', 'Hele landet'}
+to_be_removed = {"Alle kommuner", "Alle regioner", "Hele landet"}
 dropdown_areas = [item for item in dropdown_areas if item not in to_be_removed]
 
 col1, col2 = st.columns(2)
@@ -241,12 +228,12 @@ display_df = filtered_df.with_columns(
     .alias("Markedsværdi (DKK)"),
 )
 
-display_df = display_df.with_columns(
-    pl.col("Markedsværdi (DKK)")
-    .str.replace_all(r"[^\d]", "")  # Remove non-digit characters like commas and periods
-    .cast(pl.Int64)  # Cast back to integer
-    .alias("Markedsværdi (DKK)")
-)
+# display_df = display_df.with_columns(
+#     pl.col("Markedsværdi (DKK)")
+#     .str.replace_all(r"[^\d]", "")  # Remove non-digit characters like commas and periods
+#     .cast(pl.Int64)  # Cast back to integer
+#     .alias("Markedsværdi (DKK)")
+# )
 
 display_dataframe(display_df)
 

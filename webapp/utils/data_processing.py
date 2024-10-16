@@ -193,7 +193,11 @@ def filter_dataframe_by_category(df, selected_categories):
 
 
 def filter_dataframe_by_multiple_choices(
-    df_pl, choices, all_values="Hele landet", municipalities="Alle kommuner", regions="Alle regioner"
+    df_pl,
+    choices,
+    all_values="Hele landet",
+    municipalities="Alle kommuner",
+    regions="Alle regioner",
 ):
     """
     Filter the dataframe based on multiple user selections (all_values, municipalities, regions, or specific kommuner).
@@ -202,7 +206,9 @@ def filter_dataframe_by_multiple_choices(
     filters = []
 
     # Handle specific municipality selections
-    specific_kommuner = [choice for choice in choices if choice not in [all_values, municipalities, regions]]
+    specific_kommuner = [
+        choice for choice in choices if choice not in [all_values, municipalities, regions]
+    ]
     if specific_kommuner:
         filters.append(pl.col("Område").is_in(specific_kommuner))
 
