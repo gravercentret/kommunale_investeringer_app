@@ -69,7 +69,8 @@ st.markdown(
             *OBS: Data for Københavns Kommune er d. 15/10 blevet opdateret på sitet. Derfor har deres data ændret sig, samt total tallene.*
             """
 )
-with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", icon="❔"):
+
+with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?"):
     st.markdown(
         """
                 I tabellen nedenfor finder du informationer om samtlige værdipapirer danske kommuner og regioner havde investeret i i sommeren 2024. \n
@@ -86,6 +87,22 @@ with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", ico
                 Læs mere om vores metode i [her](/Sådan_har_vi_gjort).
                 """
     )
+
+with st.expander("Sådan kommer du i gang.", icon="❔"):
+    st.markdown(
+        """
+    Hvis du vil se oplysninger om investeringerne i en bestemt kommune eller region, så kan du vælge den i menuen ude til venstre på forsiden.\n
+    Data bliver så automatisk sorteret, så du kun ser oplysninger fra den ønskede kommune på siden.\n
+    Nedenunder hovedtallene er der et skema med detaljerede oplysninger om alle værdipapirerne i den valgte kommune. Farven indikerer, om et bestemt værdipapir er fra et problematisk selskab (rød), en problematisk statsobligation (orange) eller potentielt kontroversielt (gul).\n
+    Kolonnen ”Eksklusion (af hvem og hvorfor)” viser, hvem, der har udpeget det som problematisk og hvilken grund, der er oplyst. Ved at scrolle til højre i skemaet kan man se en anden kolonne, der hedder ”sortlistet”. Her kan man se, hvor mange sorte lister fra danske banker, pensionsselskaber og FN det pågældende værdipapir er på. Står der eksempelvis 5, så er værdipapiret altså sortlistet af fem forskellige parter.\n
+    Som tommelfingerregel kan man sige, at jo flere sorte lister et bestemt værdipapir er på, jo mere problematisk er det.\n
+    Fokuserer man på en håndfuld bestemte værdipapirer er det god ide at få bekræftet af kommunen eller regionen, at de fortsat ejer det gennem deres investeringsforening eller fond – men selv hvis de ikke længere skulle eje det, så har de selv oplyst, at de i 2024 havde investeret i det.\n
+    Vil man vide mere om, hvorfor et papir er problematisk, kan man scrolle længere ud til højre og finde ISIN nummeret – det er et unikt nummer ligesom et CPR-nummer, der gør det muligt at finde flere oplysninger om værdipapiret.\n
+    Man kan også vælge at kontakte de forskellige banker og pensionsselskaber og bede dem uddybe, hvorfor de ikke vil investere i værdipapiret.\n
+
+    """
+    )
+
 # Get unique municipalities and sort alphabetically
 dropdown_options = get_unique_kommuner(st.session_state.df_pl)
 
