@@ -168,7 +168,7 @@ with st.expander("**Kommuner sætter penge i firmaer, der sælger alkohol**"):
 with st.expander("**Kommuner investerer i kasinoer og gambling**"):
     st.write(
         """
-        Man skulle ikke tro det, men 46 kommuner og regioner har investeret 3,9 millioner samlet i selskaber, der beskæftiger sig med gambling, kasinoer og pengespil selv om ludomani er et samfundsproblem. Københavns Kommune har investeret 1 million kroner i pengespil og Aarhus Kommune har investeret 318.000 kroner.\n
+        Man skulle ikke tro det, men 46 kommuner og regioner har investeret 3,9 millioner samlet i selskaber, der beskæftiger sig med gambling, kasinoer og pengespil selv om ludomani er et samfundsproblem og selv om flere kommuner faktisk selv forbyder reklamer for pengespil på deres busser. Københavns Kommune har investeret 1 million kroner i pengespil og Aarhus Kommune har investeret 318.000 kroner.\n
         Kalundborg har satset på flest heste – de har investeret småbeløb i 21 forskellige gamblingfirmaer.\n
         Undersøg, hvordan det står til i de kommuner, du dækker, på [forsiden](/Forside) ved at vælge "gambling" som problemkategori i venstre side. 
         """
