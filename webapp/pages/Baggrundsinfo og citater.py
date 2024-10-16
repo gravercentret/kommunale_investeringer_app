@@ -26,11 +26,13 @@ with tab1:
     st.header("Citater til fri afbenyttelse")
 
     st.markdown(
-        " ###### Følgende citater er til fri afbenyttelse i forbindelse med omtale af informationer fra dette datasæt:"
+        """
+        ###### Citaterne på denne side er til fri afbenyttelse i forbindelse med omtale af informationer fra dette datasæt. De kan anvendes uden, at du behøver angive, at de er fra dette site.\n
+    """
     )
 
     with st.expander(
-        "**Per Nikolaj Bukh, professor i økonomistyring fra Aalborg Universitet**", expanded=True
+        "**Per Nikolaj Bukh, professor i økonomistyring fra Aalborg Universitet:**", expanded=True
     ):
         st.markdown(
             """
@@ -41,14 +43,14 @@ with tab1:
         )
 
     with st.expander(
-        "**Søren Larsen, uafhængig ESG-rådgiver og tidligere chef for bæredygtige investeringer i Nykredit.**",
+        "**Søren Larsen, uafhængig ESG-rådgiver og tidligere chef for bæredygtige investeringer i Nykredit:**",
         expanded=True,
     ):
         st.markdown(
             """
-    "Generelt så indikerer investering i få kontroversielle selskaber, at investor har en systematisk tilgang til at undgå disse blandt de mange tusinde aktieselskaber, der handles på verdens børser”, vurderer Søren Larsen, uafhængig ESG-rådgiver og tidligere chef for bæredygtige investeringer i Nykredit.\n
+    "Generelt så indikerer investering i få kontroversielle selskaber, at investor har en systematisk tilgang til at undgå disse blandt de mange tusinde aktieselskaber, der handles på verdens børser”, vurderer Søren Larsen, der rådgiver virksomheder i bæredygtig virksomhedsdrift, finansiering samt ansvarlig investering og tidligere var chef for bæredygtige investeringer i Nykredit.\n
 
-    "Det er ret vigtigt at formulere en ansvarlig investeringspolitik og sikre, at man har en aftale med en forvalter, som kan gennemføre politikken. Derefter skal kommunerne som alle andre investorer sikre sig, at politikken faktisk bliver ført ud i livet, siger Søren Larsen, der har rådgivet både store private og offentlige investorer. \n
+    "Det er ret vigtigt at formulere en ansvarlig investeringspolitik og sikre, at man har en aftale med en forvalter, som kan gennemføre politikken. Derefter skal kommunerne som alle andre investorer sikre sig, at politikken faktisk bliver ført ud i livet", siger Søren Larsen, der har rådgivet både store private og offentlige investorer. \n
 
     """
         )
@@ -63,14 +65,14 @@ with tab1:
 
         "Kommunens midler er grundlæggende øremærket til specifikke formål på skoler, plejehjem, infrastruktur, m.v., men indtil de skal anvendes, investeres de bedst muligt med forholdsvis lav risiko." \n
 
-        ""Det er et politisk ønske, at midlerne bliver investeret på en ansvarlig måde. Det indebærer, at midlerne i stigende grad placeres i grønne, bæredygtige investeringer. Det indebærer også, at kommunen ikke ønsker at investere i selskaber, der ikke tager ansvar for miljø, menneskerettigheder og arbejdstagerrettigheder m.v. på niveau med anerkendte, internationale regler og normer." \n
+        "Det er et politisk ønske, at midlerne bliver investeret på en ansvarlig måde. Det indebærer, at midlerne i stigende grad placeres i grønne, bæredygtige investeringer. Det indebærer også, at kommunen ikke ønsker at investere i selskaber, der ikke tager ansvar for miljø, menneskerettigheder og arbejdstagerrettigheder m.v. på niveau med anerkendte, internationale regler og normer." \n
 
-        "Kommunen ønsker derfor ikke at investere i selskaber indenfor eks. fossil energi, tobak og atomvåben eller selskaber på FNs liste over selskaber med tråde til israelske bosættelser."\n
+        "Kommunen ønsker derfor ikke at investere i selskaber inden for eks. fossil energi, tobak og atomvåben eller selskaber på FN´s liste over selskaber med tråde til israelske bosættelser."\n
 
         ***Spørgsmål: Københavns Kommune har sine egne investeringsforeninger.  Hvorfor har man valgt den løsning?***\n
 
         "Dels kan der være en administrativ lettelse ved at investere via en investeringsforening, da der så ikke skal foretages løbende køb, salg og værdi-korrektioner via kommunens eget regnskab, men i investeringsforeningen. Dels kan det - i kraft af kommunens størrelse og deraf størrelsen på de midler, der bliver investeret - give mening omkostningsmæssigt at have egen investeringsforening."\n
-        "Derudover betyder det også, at kommunen har større indflydelse, særligt i hvad der ikke investeres i og kan derfor også i højere grad implementere sine egne mål bl.a. i forhold til andelen af grønne, bæredygtige investeringer."\n
+        "Derudover betyder det også, at kommunen har større indflydelse, særligt på hvad der ikke investeres i og kan derfor også i højere grad implementere sine egne mål bl.a. i forhold til andelen af grønne, bæredygtige investeringer."\n
         "At Københavns Kommune har egen investeringsforening, betyder nemlig, at kommunens forvaltere handler ud fra kriterier fastsat af Københavns Kommune. Det er bl.a. kommunens krav til ansvarlige investeringer, der årligt bliver forelagt kommunens økonomiudvalg."\n
         "Dermed kan der også fravælges selskaber, kommunen ikke ønsker at investere i, uafhængigt af hvilke løsninger der findes ift. de eksisterende investeringsforeninger. Københavns Kommune etablerede investeringsforeningen i 2007, og den administreres af Danske Invest."
 
