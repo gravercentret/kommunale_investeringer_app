@@ -73,7 +73,7 @@ st.markdown(
 with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?"):
     st.markdown(
         """
-                I tabellen nedenfor finder du informationer om samtlige værdipapirer danske kommuner og regioner havde investeret i i sommeren 2024. \n
+                I tabellen nedenfor finder du informationer om samtlige værdipapirer danske kommuner og regioner har oplyst at de havde investeret i i sommeren 2024. \n
                 For hvert værdipapir er det angivet, hvilken kommune eller region, der er ejeren, hvad værdipapirets navn er, og hvor meget værdipapiret er værd.\n
                 Værdipapirer, der er udpeget som problematiske, har vi markeret med enten en rød, en orange eller en gul firkant.\n
                 Altså viser farverne om værdipapiret optræder på en eksklusionsliste over papirer danske banker, pensionsselskaber eller FN **ikke** vil investere i af forskellige etiske årsager.\n
@@ -82,6 +82,8 @@ with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?"):
                 - 🟧(2) - **Orange**: Disse værdipapirer er udstedet af problematiske lande.
                 - 🟨(3) - **Gul**: Disse værdipapirer er potentielt kontroversielle.\n
                 For hvert værdipapir, der er markeret som problematisk, er der i tabellens kollonne "Eksklusion (Af hvem og hvorfor)" en forklaring på, hvem der har udpeget det som problematisk, og hvad årsagen er.\n
+                Ved at scrolle til højre i skemaet kan man se en anden kolonne, der hedder ”sortlistet”. Her kan man se, hvor mange sorte lister fra danske banker, pensionsselskaber og FN det pågældende værdipapir er på. Står der eksempelvis 5, så er værdipapiret altså sortlistet af fem forskellige parter.\n
+                Som tommelfingerregel kan man sige, at jo flere sorte lister et bestemt værdipapir er på, jo mere problematisk er det.\n
                 I tabellen kan du også se, hvilken type værdipapiret er (f.eks. aktie eller obligation), værdipapirets ISIN-nummer (et unikt nummer ligesom et CPR-nummer), samt hvem der har udstedt papiret.\n
                 Data kan downloades til Excel neden under tabellen.\n
                 Læs mere om vores metode i [her](/Sådan_har_vi_gjort).
@@ -91,14 +93,13 @@ with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?"):
 with st.expander("Sådan kommer du i gang.", icon="❔"):
     st.markdown(
         """
-    Hvis du vil se oplysninger om investeringerne i en bestemt kommune eller region, så kan du vælge den i menuen ude til venstre på forsiden.\n
-    Data bliver så automatisk sorteret, så du kun ser oplysninger fra den ønskede kommune på siden.\n
-    Nedenunder hovedtallene er der et skema med detaljerede oplysninger om alle værdipapirerne i den valgte kommune. Farven indikerer, om et bestemt værdipapir er fra et problematisk selskab (rød), en problematisk statsobligation (orange) eller potentielt kontroversielt (gul).\n
-    Kolonnen ”Eksklusion (af hvem og hvorfor)” viser, hvem, der har udpeget det som problematisk og hvilken grund, der er oplyst. Ved at scrolle til højre i skemaet kan man se en anden kolonne, der hedder ”sortlistet”. Her kan man se, hvor mange sorte lister fra danske banker, pensionsselskaber og FN det pågældende værdipapir er på. Står der eksempelvis 5, så er værdipapiret altså sortlistet af fem forskellige parter.\n
-    Som tommelfingerregel kan man sige, at jo flere sorte lister et bestemt værdipapir er på, jo mere problematisk er det.\n
-    Fokuserer man på en håndfuld bestemte værdipapirer er det god ide at få bekræftet af kommunen eller regionen, at de fortsat ejer det gennem deres investeringsforening eller fond – men selv hvis de ikke længere skulle eje det, så har de selv oplyst, at de i 2024 havde investeret i det.\n
-    Vil man vide mere om, hvorfor et papir er problematisk, kan man scrolle længere ud til højre og finde ISIN nummeret – det er et unikt nummer ligesom et CPR-nummer, der gør det muligt at finde flere oplysninger om værdipapiret.\n
-    Man kan også vælge at kontakte de forskellige banker og pensionsselskaber og bede dem uddybe, hvorfor de ikke vil investere i værdipapiret.\n
+    Hvis du vil se oplysninger om en bestemt kommune eller regions investeringer, så kan du vælge et område i menuen ude til venstre her på forsiden.\n
+    Data bliver så automatisk sorteret, så du kun ser oplysninger fra den ønskede kommune her på siden.\n
+    Læs hvordan du kan forstå data i afsnittet "Hvordan skal tallene forstås?" ovenfor. \n
+    Fokuserer du på bestemte værdipapirer, er det god ide at få bekræftet af kommunen eller regionen, at de fortsat ejer værdipapiret (gennem deres investeringsforening eller fond). Gravercentrets site giver nemlig kun et øjebliksbillede af, hvilke værdipapirer kommunerne oplyste at de ejede i sommeren 2024. \n
+    Selv hvis kommunen ikke længere skulle eje et bestemt problematisk værdipapir, så kan der fortsat være en historie i, at de faktisk har ejet det. \n 
+    Vil du vide mere om, hvorfor et værdipapir er problematisk, kan du i tabellen nedenfor se, hvilken bank eller pensionsselskab, der har beskrevet det som problematisk samt hvorfor. \n
+    Herefter kan du kontakte de konkrete banker eller pensionsselskaber og bede dem uddybe, hvorfor de har sortlistet værdipapiret.\n
 
     """
     )
