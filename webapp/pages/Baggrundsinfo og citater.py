@@ -26,9 +26,9 @@ with tab1:
     st.header("Citater til fri afbenyttelse")
 
     st.markdown(
-        " ###### Følgende citater er til fri afbenyttelse i forbindelse med omtale af informationer fra dette datasæt:"
-        Citaterne kan anvendes uden, at du behøver angive, at de er fra dette site. \n
-
+        """
+        ###### Citaterne på denne side er til fri afbenyttelse i forbindelse med omtale af informationer fra dette datasæt. De kan anvendes uden, at du behøver angive, at de er fra dette site.\n
+    """
     )
 
     with st.expander(
