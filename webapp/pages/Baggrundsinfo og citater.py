@@ -11,15 +11,14 @@ set_pandas_options()
 set_streamlit_options()
 load_css("webapp/style.css")
 
+
 with st.sidebar:
     write_markdown_sidebar()
 
-tab1, tab2, tab3, tab4 = st.tabs(
+tab1, tab2 = st.tabs(
     [
         "Citater og mulige kilder",
-        "Sådan kommer du i gang",
         "Baggrundsviden om FN's liste",
-        "Kommuner og regioner uden problematiske værdipapirer",
     ]
 )
 
@@ -50,6 +49,31 @@ with tab1:
     "Generelt så indikerer investering i få kontroversielle selskaber, at investor har en systematisk tilgang til at undgå disse blandt de mange tusinde aktieselskaber, der handles på verdens børser”, vurderer Søren Larsen, uafhængig ESG-rådgiver og tidligere chef for bæredygtige investeringer i Nykredit.\n
 
     "Det er ret vigtigt at formulere en ansvarlig investeringspolitik og sikre, at man har en aftale med en forvalter, som kan gennemføre politikken. Derefter skal kommunerne som alle andre investorer sikre sig, at politikken faktisk bliver ført ud i livet, siger Søren Larsen, der har rådgivet både store private og offentlige investorer. \n
+
+    """
+        )
+    
+    with st.expander(
+        "**Oplysninger fra Københavns Kommunes Økonomiforvaltning:**",
+        expanded=True,
+    ):
+        st.markdown(
+            """
+        ***Spørgsmål: Hvorfor er det vigtigt for Københavns Kommune at tage ESG-hensyn i investeringer?***\n
+
+        "Kommunens midler er grundlæggende øremærket til specifikke formål på skoler, plejehjem, infrastruktur, m.v., men indtil de skal anvendes, investeres de bedst muligt med forholdsvis lav risiko." \n
+
+        ""Det er et politisk ønske, at midlerne bliver investeret på en ansvarlig måde. Det indebærer, at midlerne i stigende grad placeres i grønne, bæredygtige investeringer. Det indebærer også, at kommunen ikke ønsker at investere i selskaber, der ikke tager ansvar for miljø, menneskerettigheder og arbejdstagerrettigheder m.v. på niveau med anerkendte, internationale regler og normer." \n
+
+        "Kommunen ønsker derfor ikke at investere i selskaber indenfor eks. fossil energi, tobak og atomvåben eller selskaber på FNs liste over selskaber med tråde til israelske bosættelser."\n
+
+        ***Spørgsmål: Københavns Kommune har sine egne investeringsforeninger.  Hvorfor har man valgt den løsning?***\n
+
+        "Dels kan der være en administrativ lettelse ved at investere via en investeringsforening, da der så ikke skal foretages løbende køb, salg og værdi-korrektioner via kommunens eget regnskab, men i investeringsforeningen. Dels kan det - i kraft af kommunens størrelse og deraf størrelsen på de midler, der bliver investeret - give mening omkostningsmæssigt at have egen investeringsforening."\n
+        "Derudover betyder det også, at kommunen har større indflydelse, særligt i hvad der ikke investeres i og kan derfor også i højere grad implementere sine egne mål bl.a. i forhold til andelen af grønne, bæredygtige investeringer."\n
+        "At Københavns Kommune har egen investeringsforening, betyder nemlig, at kommunens forvaltere handler ud fra kriterier fastsat af Københavns Kommune. Det er bl.a. kommunens krav til ansvarlige investeringer, der årligt bliver forelagt kommunens økonomiudvalg."\n
+        "Dermed kan der også fravælges selskaber, kommunen ikke ønsker at investere i, uafhængigt af hvilke løsninger der findes ift. de eksisterende investeringsforeninger. Københavns Kommune etablerede investeringsforeningen i 2007, og den administreres af Danske Invest."
+
 
     """
         )
@@ -87,23 +111,6 @@ with tab1:
     )
 
 with tab2:
-    st.subheader("Sådan kommer du i gang:")
-
-    st.markdown(
-        """
-    Hvis du vil se oplysninger om investeringerne i en bestemt kommune eller region, så kan du vælge den i menuen ude til venstre på forsiden.\n
-    Data bliver så automatisk sorteret, så du kun ser oplysninger fra den ønskede kommune på siden.\n
-    Nedenunder hovedtallene er der et skema med detaljerede oplysninger om alle værdipapirerne i den valgte kommune. Farven indikerer, om et bestemt værdipapir er fra et problematisk selskab (rød), en problematisk statsobligation (orange) eller potentielt kontroversielt (gul).\n
-    Kolonnen ”Eksklusion (af hvem og hvorfor)” viser, hvem, der har udpeget det som problematisk og hvilken grund, der er oplyst. Ved at scrolle til højre i skemaet kan man se en anden kolonne, der hedder ”sortlistet”. Her kan man se, hvor mange sorte lister fra danske banker, pensionsselskaber og FN det pågældende værdipapir er på. Står der eksempelvis 5, så er værdipapiret altså sortlistet af fem forskellige parter.\n
-    Som tommelfingerregel kan man sige, at jo flere sorte lister et bestemt værdipapir er på, jo mere problematisk er det.\n
-    Fokuserer man på en håndfuld bestemte værdipapirer er det god ide at få bekræftet af kommunen eller regionen, at de fortsat ejer det gennem deres investeringsforening eller fond – men selv hvis de ikke længere skulle eje det, så har de selv oplyst, at de i 2024 havde investeret i det.\n
-    Vil man vide mere om, hvorfor et papir er problematisk, kan man scrolle længere ud til højre og finde ISIN nummeret – det er et unikt nummer ligesom et CPR-nummer, der gør det muligt at finde flere oplysninger om værdipapiret.\n
-    Man kan også vælge at kontakte de forskellige banker og pensionsselskaber og bede dem uddybe, hvorfor de ikke vil investere i værdipapiret.\n
-
-    """
-    )
-
-with tab3:
     st.subheader("Baggrundsviden om FN's liste")
 
     st.markdown(
@@ -116,20 +123,6 @@ with tab3:
 
     """
     )
-
-with tab4:
-    st.subheader("Kommuner og regioner uden problematiske værdipapierer")
-
-    st.markdown(
-        """
-    23 kommuner og en region har ingen problematiske investeringer, som optræder på eksklusionslister fra banker, pensionsselskaber eller FN.\n
-
-    Der er tale om følgende kommuner: Glostrup, Odsherred, Frederikssund, Hjørring, Stevns, Gladsaxe, Vordingborg, Halsnæs, Frederikshavn, Tårnby, Odder, Dragør, Albertslund, Ishøj, Langeland, Herlev, Gentofte, Sønderborg, Allerød, Ærø, Ringsted samt Læsø og Samsø, der slet ikke har investeringer.\n
-    Region Syddanmark har heller ingen problematiske investeringer.\n
-
-    """
-    )
-
     st.markdown(
         """
         **Den Internationale Domstols (ICJ) vurdering**\n
@@ -141,3 +134,4 @@ with tab4:
 
     """
     )
+
