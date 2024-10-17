@@ -1,7 +1,5 @@
 import streamlit as st
 import polars as pl
-import base64
-import os
 from utils.data_processing import (
     get_data,
     filter_df_by_search,
@@ -31,7 +29,6 @@ set_streamlit_options()
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
 load_css("webapp/style.css")
-
 
 if "df_pl" not in st.session_state:
     with st.spinner("Klargør side..."):
@@ -98,6 +95,18 @@ with st.expander("Om søgeværktøjet (klik for at folde ud eller ind)", expande
     - **Download data:** Ønsker du at downloade top 10? Brug download-ikonet, som findes øverst i tabellen. I bunden er der en download-knap for det fulde data baseret på de valg, der er taget.
             """
     )
+
+with st.expander("Disse områder har ingen problematiske investeringer:"):
+    st.write(
+        """
+    23 kommuner og en region har ingen problematiske investeringer, som optræder på eksklusionslister fra banker, pensionsselskaber eller FN.\n
+
+    Der er tale om følgende kommuner: Glostrup, Odsherred, Frederikssund, Hjørring, Stevns, Gladsaxe, Vordingborg, Halsnæs, Frederikshavn, Tårnby, Odder, Dragør, Albertslund, Ishøj, Langeland, Herlev, Gentofte, Sønderborg, Allerød, Ærø, Ringsted samt Læsø og Samsø, der slet ikke har investeringer.\n
+    Region Syddanmark har heller ingen problematiske investeringer.\n
+
+    """
+    )
+
 
 # Filter the dataframe by selected priorities and search query
 filtered_df = (
@@ -215,13 +224,6 @@ display_df = filtered_df.with_columns(
     pl.col("Markedsværdi (DKK)")
     .map_elements(format_number_european, return_dtype=pl.Utf8)
     .alias("Markedsværdi (DKK)"),
-)
-
-display_df = display_df.with_columns(
-    pl.col("Markedsværdi (DKK)")
-    .str.replace_all(r"[^\d]", "")  # Remove non-digit characters like commas and periods
-    .cast(pl.Int64)  # Cast back to integer
-    .alias("Markedsværdi (DKK)")
 )
 
 display_dataframe(display_df)

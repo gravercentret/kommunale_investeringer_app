@@ -22,7 +22,7 @@ st.header("Mulige historier")
 st.markdown(
     """
             Her kan du få inspiration til, hvilke vinkler og historier, du kan lave med baggrund i det data, du finder her på siden. \n
-Databasen kortlægger alle de investeringer i værdipapirer, som kommuner og regioner havde i sommeren 2024. \n
+Databasen kortlægger alle kommuner og regioners investeringer i værdipapirer. Data er indhentet i sommeren 2024 og er de senest opgjorte oplysninger. \n
 På forsiden kan du eksempelvis søge på en kommune og se, hvilke værdipapirer kommunen har investeret i samt om der skulle være nogle problematiske værdipapirer imellem. \n
 Altså om en dansk bank, pensionsselskab eller FN har udpeget værdipapiret som problematisk og sat det på en såkaldt eksklusionsliste. \n
 
@@ -30,27 +30,25 @@ Gravercentret har også udpeget en række værdipapirer som kan være potentielt
 
 I det følgende finder du en liste over mulige historier, der kunne laves på baggrund af data:\n
 
-*OBS: Tallene for Københavns Kommune er opdateret pr. 15/10 og derfor opdateres tallene på denne side d. 16/10.*
+*OBS: Tallene for Københavns Kommune er opdateret pr. 15/10 og derfor er tallene på denne side ligeledes blevet opdateret.*
 """
 )
 
-with st.expander("**Kommuner og regioner har investeringer for 68,5 milliarder**"):
+with st.expander("**Kommuner og regioner har investeringer for 66,7 milliarder**"):
     st.write(
         """
-        Kommunerne og regioner har oplyst til Gravercentret og Danwatch, at de samlet set har 140.954 værdipapirer til en samlet værdi af 68,5 mia. kroner. Der er kun to kommuner – Læsø og Samsø, der ikke har investeret i værdipapirer.\n
-        Midlerne er typisk sat i obligationer (51,2 mia.), men en stor andel er også sat i aktier (10,7 mia.). 
-        Derudover er 924 mio. investeret i virksomhedsobligationer, der er udstedt af firmaer.
-        Endelig er der investeringer for 5,6 mia., hvor investeringskategorien typisk ikke er blevet oplyst.\n
+        Kommunerne og regioner har oplyst til Gravercentret og Danwatch, at de samlet set har 141.260 værdipapirer til en samlet værdi af 66,7 mia. kroner. Der er kun to kommuner – Læsø og Samsø, der ikke har investeret i værdipapirer. \n
+        Midlerne er typisk sat i obligationer (53 mia.), men en stor andel er også sat i aktier (6,8 mia.). Derudover er 916 mio. investeret i virksomhedsobligationer, der er udstedt af firmaer. Endelig er der investeringer for 5,9 mia., hvor investeringskategorien typisk ikke er blevet oplyst.
         """
     )
 
-with st.expander("**Kommuner og regioner har penge i 5.129 problematiske værdipapirer**"):
+with st.expander("**Kommuner og regioner har penge i 5.133 problematiske værdipapirer**"):
     st.write(
         """
-        Landets kommuner og regioner har investeret i mere end 5.000 værdipapirer, der er udpeget som problematiske af enten danske banker, pensionsselskaber eller FN. Helt præcist er der tale om 5.129 værdipapirer. Dertil kommer 1.419 værdipapirer som Gravercentret vurderer potentielt kan være kontroversielle, selv om de ikke er decideret sortlistet.\n
-        I alt har 79 kommuner og regioner investeret 456 millioner kroner i problematiske aktier.\n
-        Kalundborg Kommune er topscoreren med hele 574 værdipapirer, der er udpeget som problematiske, mens Rødovre Kommune har 322 problematiske værdipapirer og Vejen Kommune har 313.\n
-        Beløbsmæssigt er det ikke overraskende de tre store kommuner, der har flest midler placeret i problematiske aktier. København har 114,2 millioner i problematiske aktier, Region Sjælland har 22,3 millioner og Århus har 21,7 millioner.
+        Landets kommuner og regioner har investeret i mere end 5.000 værdipapirer, der er udpeget som problematiske af enten danske banker, pensionsselskaber eller FN. Helt præcist er der tale om 5.133 værdipapirer. Dertil kommer 1.420 værdipapirer som Gravercentret vurderer potentielt kan være kontroversielle, selv om de ikke er decideret sortlistet.\n
+        I alt har 79 kommuner og regioner investeret 413 millioner kroner i problematiske aktier.\n
+        Kalundborg Kommune er topscoreren med hele 574 værdipapirer, der er udpeget som problematiske, mens Rødovre Kommune har 322 problematiske værdipapirer og Vejen Kommune har 213.\n
+        Beløbsmæssigt er det ikke overraskende de tre store kommuner, der har flest midler placeret i problematiske aktier. København har 70,9 millioner i problematiske aktier, Region Sjælland har 22,3 millioner og Århus har 21,7 millioner.
         """
     )
 
@@ -70,7 +68,7 @@ with st.expander("**Kommuner med sundhedspolitik investerer i sodavand og fastfo
         """
         Alle kommuner har vedtaget udførlige sundhedspolitikker, hvis mål det er, at få borgerne til at leve så sundt som muligt. Men samtidig med, at børnene ikke må have pålægschokolademadder med i madpakkerne og visionen i praktisk talt alle kommuner og regioner er, at borgerne skal være mere sunde, så investeres der på livet løs i fødevarer, der kan være usunde.\n
         Det kan også undre, at regionerne, der skal behandle syge danskere, vælger at investere i disse potentielt usunde fødevarer. \n
-        Investeringer i Coca-cola forekommer i 75 kommuner og regioner for i alt 36,9 millioner kroner. Odense Kommune har sat flest penge i selskabet med 3,8 millioner kroner, mens Københavns Kommune har investeret 2,6 millioner i Coca-cola.\n
+        Investeringer i Coca-Cola forekommer i 75 kommuner og regioner for i alt 40,3 millioner kroner. Københavns Kommune har sat flest penge i selskabet med 6 millioner kroner, mens Odense Kommune har investeret 3,8 millioner i Coca-Cola.\n
         Konkurrenten Pepsi har 71 kommuner og regioner investeret samlet 25,9 millioner kroner i. Igen har Odense sat flest penge i selskabet med 2,8 millioner kroner, mens Region Sjælland har investeret 2,1 millioner.\n
         McDonald’s har 44 kommuner og regioner købt sig ind i og her har Region Sjælland investeret mest – nemlig 2,6 millioner kroner, mens Køge Kommune er på andenpladsen med 1,7 millioner kroner. I alt er der investeret for 13,9 millioner kroner.\n
         Disse investeringer kan anses som problematiske idet kommunerne og især regionerne har et ansvar for befolkningens sundhed. Samtidig at tjene på salg af potentielt usunde fødevarer kan betragtes som dobbeltmoralsk.\n
@@ -107,7 +105,7 @@ with st.expander("**Kommuner investerer i selskaber med ringe rettigheder for me
         """
         Firmaer som amerikanske Walmart og Amazon er nogle af de selskaber, som har et dårligt omdømme med hensyn til deres medarbejderes rettigheder og derfor er sortlistet af nogle banker og pensionsselskaber.\n
         Det forhindrer dog ikke en lang række kommuner og regioner i at investere i dem.\n
-        75 kommuner og regioner har denne type investeringer. Beløbsmæssigt er det Frederiksberg Kommune med 14,1 millioner kroner i disse selskaber, der har flest, mens Aarhus Kommune har investeret 11,8 millioner.\n
+        75 kommuner og regioner har denne type investeringer. Beløbsmæssigt er det Københavns Kommune med 43 millioner kroner i disse selskaber, der har flest, mens Frederiksberg Kommune har investeret 14,1 millioner.\n
         I tabellen på [forsiden](/Forside) er denne type problematiske investeringer beskrevet som "arbejdstagerrettigheder" i søgefeltet "Vælg problemkategori" i venstre side.
         """
     )
@@ -117,8 +115,8 @@ with st.expander(
 ):
     st.write(
         """
-        62 kommuner og regioner har investeret samlet 19,4 millioner kroner i værdipapirer, der er udpeget til at være problematiske på grund af overtrædelser af menneskerettigheder.\n
-        Her har Aarhus Kommune investeret mest med 1,5 millioner kroner, mens Esbjerg Kommune har investeret 1 millioner.\n
+        63 kommuner og regioner har investeret samlet 23,1 millioner kroner i værdipapirer, der er udpeget til at være problematiske på grund af overtrædelser af menneskerettigheder.\n
+        Her har Københavns Kommune investeret mest med 3,7 millioner kroner, mens Aarhus Kommune har investeret 1,5 millioner.\n
         I tabellen på [forsiden](/Forside) er denne type problematiske investeringer beskrevet som "menneskerettigheder" i søgefeltet "Vælg problemkategori" i venstre side.
         """
     )
@@ -152,7 +150,7 @@ with st.expander("**Kommuner investerer millioner i fossile brændstoffer**"):
 with st.expander("**Kommuner investerer i atomvåben**"):
     st.write(
         """
-        76 kommuner og regioner har investeret i såkaldt kontroversielle våben - herunder atomvåben og klyngebomber. Samlet set er der investeret for 102,2 millioner kroner, men hovedparten står Københavns Kommune for. Her har man investeret 76,7 millioner i kontroversielle våben, mens Odense Kommune har investeret 4 millioner.\n
+        75 kommuner og regioner har investeret i såkaldt kontroversielle våben - herunder atomvåben og klyngebomber. Samlet set er der investeret for 25,6 millioner kroner. Odense Kommune har investeret 4 millioner og Region Hovedstaden 3,1 millioner kroner.\n
         Hvis du gerne vil kigge nærmere på, hvilke kommuner og regioner, der har investeret i våben, kan du på [forsiden](/Forside) vælge "kontroversielle våben" som problemkategori i venstre side. Du kan også vælge "våben og militær" i samme menu, for at se på, hvor meget kommuner og regioner har investeret i våben og militær, som ikke er på den kontroversielle liste over våben.\n
         """
     )
@@ -170,11 +168,23 @@ with st.expander("**Kommuner sætter penge i firmaer, der sælger alkohol**"):
 with st.expander("**Kommuner investerer i kasinoer og gambling**"):
     st.write(
         """
-        Man skulle ikke tro det, men 45 kommuner og regioner har investeret 2,8 millioner samlet i selskaber, der beskæftiger sig med gambling, kasinoer og pengespil selv om ludomani er et samfundsproblem. Aarhus Kommune har investeret 318.000 kroner i pengespil og Furesø Kommune har investeret 297.000 kroner.\n
+        Man skulle ikke tro det, men 46 kommuner og regioner har investeret 3,9 millioner samlet i selskaber, der beskæftiger sig med gambling, kasinoer og pengespil selv om ludomani er et samfundsproblem og selv om flere kommuner faktisk selv forbyder reklamer for pengespil på deres busser. Københavns Kommune har investeret 1 million kroner i pengespil og Aarhus Kommune har investeret 318.000 kroner.\n
         Kalundborg har satset på flest heste – de har investeret småbeløb i 21 forskellige gamblingfirmaer.\n
         Undersøg, hvordan det står til i de kommuner, du dækker, på [forsiden](/Forside) ved at vælge "gambling" som problemkategori i venstre side. 
         """
     )
+
+with st.expander("**Kommuner og regioner uden problematiske værdipapierer**"):
+    st.write(
+        """
+    23 kommuner og en region har ingen problematiske investeringer, som optræder på eksklusionslister fra banker, pensionsselskaber eller FN.\n
+
+    Der er tale om følgende kommuner: Glostrup, Odsherred, Frederikssund, Hjørring, Stevns, Gladsaxe, Vordingborg, Halsnæs, Frederikshavn, Tårnby, Odder, Dragør, Albertslund, Ishøj, Langeland, Herlev, Gentofte, Sønderborg, Allerød, Ærø, Ringsted samt Læsø og Samsø, der slet ikke har investeringer.\n
+    Region Syddanmark har heller ingen problematiske investeringer.\n
+
+    """
+    )
+
 
 # Footer
 st.markdown(

@@ -1,6 +1,5 @@
 import streamlit as st
 import polars as pl
-import base64
 import os
 import sys
 from utils.data_processing import (
@@ -58,10 +57,11 @@ st.markdown(
             *OBS: Data for Københavns Kommune er d. 15/10 blevet opdateret på sitet. Derfor har deres data ændret sig, samt total tallene.*
             """
 )
-with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", icon="❔"):
+
+with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?"):
     st.markdown(
         """
-                I tabellen nedenfor finder du informationer om samtlige værdipapirer danske kommuner og regioner havde investeret i i sommeren 2024. \n
+                I tabellen nedenfor finder du informationer om samtlige værdipapirer danske kommuner og regioner har oplyst at de havde investeret i i sommeren 2024. \n
                 For hvert værdipapir er det angivet, hvilken kommune eller region, der er ejeren, hvad værdipapirets navn er, og hvor meget værdipapiret er værd.\n
                 Værdipapirer, der er udpeget som problematiske, har vi markeret med enten en rød, en orange eller en gul firkant.\n
                 Altså viser farverne om værdipapiret optræder på en eksklusionsliste over papirer danske banker, pensionsselskaber eller FN **ikke** vil investere i af forskellige etiske årsager.\n
@@ -70,11 +70,28 @@ with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?", ico
                 - 🟧(2) - **Orange**: Disse værdipapirer er udstedet af problematiske lande.
                 - 🟨(3) - **Gul**: Disse værdipapirer er potentielt kontroversielle.\n
                 For hvert værdipapir, der er markeret som problematisk, er der i tabellens kollonne "Eksklusion (Af hvem og hvorfor)" en forklaring på, hvem der har udpeget det som problematisk, og hvad årsagen er.\n
+                Ved at scrolle til højre i skemaet kan man se en anden kolonne, der hedder ”sortlistet”. Her kan man se, hvor mange sorte lister fra danske banker, pensionsselskaber og FN det pågældende værdipapir er på. Står der eksempelvis 5, så er værdipapiret altså sortlistet af fem forskellige parter.\n
+                Som tommelfingerregel kan man sige, at jo flere sorte lister et bestemt værdipapir er på, jo mere problematisk er det.\n
                 I tabellen kan du også se, hvilken type værdipapiret er (f.eks. aktie eller obligation), værdipapirets ISIN-nummer (et unikt nummer ligesom et CPR-nummer), samt hvem der har udstedt papiret.\n
                 Data kan downloades til Excel neden under tabellen.\n
                 Læs mere om vores metode i [her](/Sådan_har_vi_gjort).
                 """
     )
+
+with st.expander("Sådan kommer du i gang.", icon="❔"):
+    st.markdown(
+        """
+    Hvis du vil se oplysninger om en bestemt kommune eller regions investeringer, så kan du vælge et område i menuen ude til venstre her på forsiden.\n
+    Data bliver så automatisk sorteret, så du kun ser oplysninger fra den ønskede kommune her på siden.\n
+    Læs hvordan du kan forstå data i afsnittet "Hvordan skal tallene forstås?" ovenfor. \n
+    Fokuserer du på bestemte værdipapirer, er det god ide at få bekræftet af kommunen eller regionen, at de fortsat ejer værdipapiret (gennem deres investeringsforening eller fond). Gravercentrets site giver nemlig kun et øjebliksbillede af, hvilke værdipapirer kommunerne oplyste at de ejede i sommeren 2024. \n
+    Selv hvis kommunen ikke længere skulle eje et bestemt problematisk værdipapir, så kan der fortsat være en historie i, at de faktisk har ejet det. \n 
+    Vil du vide mere om, hvorfor et værdipapir er problematisk, kan du i tabellen nedenfor se, hvilken bank eller pensionsselskab, der har beskrevet det som problematisk samt hvorfor. \n
+    Herefter kan du kontakte de konkrete banker eller pensionsselskaber og bede dem uddybe, hvorfor de har sortlistet værdipapiret.\n
+
+    """
+    )
+
 # Get unique municipalities and sort alphabetically
 dropdown_options = get_unique_kommuner(st.session_state.df_pl)
 
@@ -231,11 +248,11 @@ with col2:
         )
 
 with st.spinner("Henter data.."):
-    if user_choice == "Hele landet" and selected_categories is None and search_query is None:
+    if user_choice == "Hele landet" and selected_categories == [] and search_query == "":
         if "hele_landet_data" not in st.session_state:
             st.session_state.hele_landet_data = format_and_display_data(filtered_df)
         display_dataframe(st.session_state.hele_landet_data)
-    elif user_choice == "Alle kommuner" and selected_categories is None and search_query is None:
+    elif user_choice == "Alle kommuner" and selected_categories == [] and search_query == "":
         if "alle_kommuner_data" not in st.session_state:
             st.session_state.alle_kommuner_data = format_and_display_data(filtered_df)
         display_dataframe(st.session_state.alle_kommuner_data)
@@ -257,15 +274,26 @@ filtered_df.drop("Priority", axis=1, inplace=True)
 
 with st.spinner("Klargør download til Excel.."):
     # Convert dataframe to Excel
-    excel_data = to_excel_function(filtered_df)
+    if user_choice == "Hele landet" and selected_categories == [] and search_query == "":
+        if "hele_landet_excel" not in st.session_state:
+            st.session_state.hele_landet_excel = to_excel_function(filtered_df)
+        # Create a download button
+        st.download_button(
+            label="Download til Excel",
+            data=st.session_state.hele_landet_excel,
+            file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
+    else:
+        excel_data = to_excel_function(filtered_df)
 
-    # Create a download button
-    st.download_button(
-        label="Download til Excel",
-        data=excel_data,
-        file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    )
+        # Create a download button
+        st.download_button(
+            label="Download til Excel",
+            data=excel_data,
+            file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
 
 with st.spinner("Henter AI-tekster.."):
     if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
