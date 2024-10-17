@@ -66,12 +66,10 @@ with st.expander(
 with st.expander("**Kommuner med sundhedspolitik investerer i sodavand og fastfood**"):
     st.write(
         """
-        Alle kommuner har vedtaget udførlige sundhedspolitikker, hvis mål det er, at få borgerne til at leve så sundt som muligt. Men samtidig med, at børnene ikke må have pålægschokolademadder med i madpakkerne og visionen i praktisk talt alle kommuner og regioner er, at borgerne skal være mere sunde, så investeres der på livet løs i fødevarer, der kan være usunde.\n
-        Det kan også undre, at regionerne, der skal behandle syge danskere, vælger at investere i disse potentielt usunde fødevarer. \n
         Investeringer i Coca-Cola forekommer i 75 kommuner og regioner for i alt 40,3 millioner kroner. Københavns Kommune har sat flest penge i selskabet med 6 millioner kroner, mens Odense Kommune har investeret 3,8 millioner i Coca-Cola.\n
         Konkurrenten Pepsi har 71 kommuner og regioner investeret samlet 25,9 millioner kroner i. Igen har Odense sat flest penge i selskabet med 2,8 millioner kroner, mens Region Sjælland har investeret 2,1 millioner.\n
         McDonald’s har 44 kommuner og regioner købt sig ind i og her har Region Sjælland investeret mest – nemlig 2,6 millioner kroner, mens Køge Kommune er på andenpladsen med 1,7 millioner kroner. I alt er der investeret for 13,9 millioner kroner.\n
-        Disse investeringer kan anses som problematiske idet kommunerne og især regionerne har et ansvar for befolkningens sundhed. Samtidig at tjene på salg af potentielt usunde fødevarer kan betragtes som dobbeltmoralsk.\n
+        Disse investeringer kan anses som problematiske idet kommunerne og især regionerne har et ansvar for befolkningens sundhed.\n
         Der er mange flere producenter af potentielt usunde fødevarer i data end dem, vi har markeret. Vi har kun udpeget en håndfuld af de mest kendte selskaber.
         """
     )
@@ -127,7 +125,7 @@ with st.expander(
 with st.expander("**Regioner og kommuner har aktier i flyselskaber**"):
     st.write(
         """
-        Kommunerne og regioner er tilsyneladende ikke ramt af flyskam. Flyselskaber som American Airlines, Emirates, Southwest Airlines, China Southern Airlines, China Airlines, Ryanair m.fl. kan betragtes som en uhensigtsmæssig og klima-uvenlig investering, men 65 kommuner og regioner har penge netop i flyselskaber.\n
+        Kommunerne og regioner er tilsyneladende ikke ramt af flyskam. Flyselskaber som American Airlines, Emirates, Southwest Airlines, China Southern Airlines, China Airlines, Ryanair m.fl. kan betragtes som en klima-uvenlig investering, men 65 kommuner og regioner har penge netop i flyselskaber.\n
         I alt er der investeret 6,4 millioner kroner. Region Hovedstaden har investeret 1 million kroner i flyselskaber og Region Nordjylland har investeret 606.000 kroner.
         """
     )
@@ -143,7 +141,7 @@ with st.expander("**Regioner investerer i medicinalfirmaer**"):
 with st.expander("**Kommuner investerer millioner i fossile brændstoffer**"):
     st.write(
         """
-        <p>Man skulle tro, at kommuner og regioner med deres grønne profiler ikke ville røre selskaber, der beskæftigede sig med fossile brændstoffer – hvilket de har fået kritik for før - men 65 kommuner og regioner har fortsat investeringer i branchen for samlet 37 millioner kroner.</p>
+        <p>Kommuner og regioner har før fået kritik for at beskæftige sig med selskaber, der beskæftiger sig med fossile brændstoffer - men 65 kommuner og regioner har fortsat investeringer i branchen for samlet 37 millioner kroner.</p>
         <p>Odense Kommune har investeringer for 3,7 millioner kroner i denne kategori og Region Sjælland har for 2,5 millioner kroner.</p>
         <p>Det er også værd at bemærke, at Kalundborg Kommune har intet mindre end 208 forskellige værdipapirer for samlet 1,1 millioner kroner i selskaber, der beskæftiger sig med fossile brændstoffer.</p>
         <p>Undersøg, hvordan det står til i de kommuner, du dækker, på <a href="/Forside" target="_self">forsiden</a> ved at vælge "fossile brændstoffer" som problemkategori i venstre side.</p>
@@ -175,7 +173,7 @@ with st.expander("**Kommuner sætter penge i firmaer, der sælger alkohol**"):
 with st.expander("**Kommuner investerer i kasinoer og gambling**"):
     st.write(
         """
-        <p>Man skulle ikke tro det, men 46 kommuner og regioner har investeret 3,9 millioner samlet i selskaber, der beskæftiger sig med gambling, kasinoer og pengespil selv om ludomani er et samfundsproblem og selv om flere kommuner faktisk selv forbyder reklamer for pengespil på deres busser. Københavns Kommune har investeret 1 million kroner i pengespil og Aarhus Kommune har investeret 318.000 kroner.</p>
+        <p>46 kommuner og regioner har investeret 3,9 millioner samlet i selskaber, der beskæftiger sig med gambling, kasinoer og pengespil selv om ludomani er et samfundsproblem og selv om flere kommuner faktisk selv forbyder reklamer for pengespil på deres busser. Københavns Kommune har investeret 1 million kroner i pengespil og Aarhus Kommune har investeret 318.000 kroner.</p>
         <p>Kalundborg har satset på flest heste – de har investeret småbeløb i 21 forskellige gamblingfirmaer.</p>
         <p>Undersøg, hvordan det står til i de kommuner, du dækker, på <a href="/Forside" target="_self">forsiden</a> ved at vælge "gambling" som problemkategori i venstre side.</p>
         """,
