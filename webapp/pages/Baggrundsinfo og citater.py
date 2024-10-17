@@ -54,7 +54,7 @@ with tab1:
 
     """
         )
-    
+
     with st.expander(
         "**Oplysninger fra Københavns Kommunes Økonomiforvaltning:**",
         expanded=True,
@@ -136,4 +136,3 @@ with tab2:
 
     """
     )
-

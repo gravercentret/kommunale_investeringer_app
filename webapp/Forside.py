@@ -260,11 +260,11 @@ with col2:
         )
 
 with st.spinner("Henter data.."):
-    if user_choice == "Hele landet" and selected_categories is None and search_query is None:
+    if user_choice == "Hele landet" and selected_categories == [] and search_query == "":
         if "hele_landet_data" not in st.session_state:
             st.session_state.hele_landet_data = format_and_display_data(filtered_df)
         display_dataframe(st.session_state.hele_landet_data)
-    elif user_choice == "Alle kommuner" and selected_categories is None and search_query is None:
+    elif user_choice == "Alle kommuner" and selected_categories == [] and search_query == "":
         if "alle_kommuner_data" not in st.session_state:
             st.session_state.alle_kommuner_data = format_and_display_data(filtered_df)
         display_dataframe(st.session_state.alle_kommuner_data)
@@ -286,15 +286,26 @@ filtered_df.drop("Priority", axis=1, inplace=True)
 
 with st.spinner("Klargør download til Excel.."):
     # Convert dataframe to Excel
-    excel_data = to_excel_function(filtered_df)
+    if user_choice == "Hele landet" and selected_categories == [] and search_query == "":
+        if "hele_landet_excel" not in st.session_state:
+            st.session_state.hele_landet_excel = to_excel_function(filtered_df)
+        # Create a download button
+        st.download_button(
+            label="Download til Excel",
+            data=st.session_state.hele_landet_excel,
+            file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
+    else:
+        excel_data = to_excel_function(filtered_df)
 
-    # Create a download button
-    st.download_button(
-        label="Download til Excel",
-        data=excel_data,
-        file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    )
+        # Create a download button
+        st.download_button(
+            label="Download til Excel",
+            data=excel_data,
+            file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
 
 with st.spinner("Henter AI-tekster.."):
     if user_choice not in [all_values, municipalities, regions, samsø, læsø]:
