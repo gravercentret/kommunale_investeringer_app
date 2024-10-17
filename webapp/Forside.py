@@ -85,10 +85,14 @@ with st.expander("🟥🟧🟨 - Læs mere: Hvordan skal tallene forstås?"):
                 Ved at scrolle til højre i skemaet kan man se en anden kolonne, der hedder ”sortlistet”. Her kan man se, hvor mange sorte lister fra danske banker, pensionsselskaber og FN det pågældende værdipapir er på. Står der eksempelvis 5, så er værdipapiret altså sortlistet af fem forskellige parter.\n
                 Som tommelfingerregel kan man sige, at jo flere sorte lister et bestemt værdipapir er på, jo mere problematisk er det.\n
                 I tabellen kan du også se, hvilken type værdipapiret er (f.eks. aktie eller obligation), værdipapirets ISIN-nummer (et unikt nummer ligesom et CPR-nummer), samt hvem der har udstedt papiret.\n
-                Data kan downloades til Excel neden under tabellen.\n
-                Læs mere om vores metode i [her](/Sådan_har_vi_gjort).
+                Data kan downloades til Excel neden under tabellen.
                 """
     )
+    st.markdown(
+        'Læs mere om vores metode i <a href="/Sådan_har_vi_gjort" target="_self">her</a>.',
+        unsafe_allow_html=True,
+    )
+
 
 with st.expander("Sådan kommer du i gang.", icon="❔"):
     st.markdown(
@@ -139,7 +143,10 @@ with st.sidebar:
         help="Søg f.eks. efter et selskabs navn eller et ISIN-nummer.",
     )
 
-    st.markdown("Klik her for mere [avanceret søgning](/Avanceret_søgning).")
+    st.markdown(
+        'Klik her for mere <a href="/Avanceret_søgning" target="_self">avanceret søgning</a>.',
+        unsafe_allow_html=True,
+    )
 
     # Filter dataframe based on user's selection
     filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)
@@ -264,10 +271,10 @@ with st.spinner("Henter data.."):
         if "hele_landet_data" not in st.session_state:
             st.session_state.hele_landet_data = format_and_display_data(filtered_df)
         display_dataframe(st.session_state.hele_landet_data)
-    elif user_choice == "Alle kommuner" and selected_categories == [] and search_query == "":
-        if "alle_kommuner_data" not in st.session_state:
-            st.session_state.alle_kommuner_data = format_and_display_data(filtered_df)
-        display_dataframe(st.session_state.alle_kommuner_data)
+    # elif user_choice == "Alle kommuner" and selected_categories == [] and search_query == "":
+    #     if "alle_kommuner_data" not in st.session_state:
+    #         st.session_state.alle_kommuner_data = format_and_display_data(filtered_df)
+    #     display_dataframe(st.session_state.alle_kommuner_data)
     else:
         display_df = format_and_display_data(filtered_df)
         display_dataframe(display_df)
@@ -278,34 +285,35 @@ st.markdown(
 
 generate_organization_links(filtered_df, "Problematisk ifølge:")
 st.markdown(
-    "**Mere om værdipapirer udpeget af Gravercentret:** [Mulige historier](/Mulige_historier)"
+    '**Mere om værdipapirer udpeget af Gravercentret:** <a href="/Mulige_historier" target="_self">Mulige historier</a>',
+    unsafe_allow_html=True,
 )
 
 filtered_df = filtered_df.to_pandas()
 filtered_df.drop("Priority", axis=1, inplace=True)
 
 with st.spinner("Klargør download til Excel.."):
-    # Convert dataframe to Excel
-    if user_choice == "Hele landet" and selected_categories == [] and search_query == "":
-        if "hele_landet_excel" not in st.session_state:
-            st.session_state.hele_landet_excel = to_excel_function(filtered_df)
-        # Create a download button
-        st.download_button(
-            label="Download til Excel",
-            data=st.session_state.hele_landet_excel,
-            file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        )
-    else:
-        excel_data = to_excel_function(filtered_df)
+    # # Convert dataframe to Excel
+    # if user_choice == "Hele landet" and selected_categories == [] and search_query == "":
+    #     if "hele_landet_excel" not in st.session_state:
+    #         st.session_state.hele_landet_excel = to_excel_function(filtered_df)
+    #     # Create a download button
+    #     st.download_button(
+    #         label="Download til Excel",
+    #         data=st.session_state.hele_landet_excel,
+    #         file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
+    #         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    #     )
+    # else:
+    excel_data = to_excel_function(filtered_df)
 
-        # Create a download button
-        st.download_button(
-            label="Download til Excel",
-            data=excel_data,
-            file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        )
+    # Create a download button
+    st.download_button(
+        label="Download til Excel",
+        data=excel_data,
+        file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
 
 with st.spinner("Henter AI-tekster.."):
     if user_choice not in [all_values, municipalities, regions, samsø, læsø]:

@@ -365,9 +365,12 @@ def write_markdown_sidebar(how_we_did=False):
         """
     )
     st.markdown(
-        f"Klik for at komme til [forsiden.](/Forside)"
-        if how_we_did
-        else "Læs mere om, [hvordan vi har gjort.](/Sådan_har_vi_gjort)"
+        (
+            f'Klik for at komme til <a href="/Forside" target="_self">forsiden</a>.'
+            if how_we_did
+            else 'Læs mere om, <a href="/Sådan_har_vi_gjort" target="_self">hvordan vi har gjort</a>.'
+        ),
+        unsafe_allow_html=True,
     )
     st.image("webapp/images/vaerdipapirer_01_1200x630.jpg")
 
