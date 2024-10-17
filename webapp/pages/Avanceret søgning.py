@@ -234,7 +234,8 @@ st.markdown(
 
 generate_organization_links(filtered_df, "Problematisk ifølge:")
 st.markdown(
-    "**Mere om værdipapirer udpeget af Gravercentret:** [Mulige historier](/Mulige_historier)"
+    '**Mere om værdipapirer udpeget af Gravercentret:** <a href="/Mulige_historier" target="_self">Mulige historier</a>',
+    unsafe_allow_html=True,
 )
 
 display_df = display_df.to_pandas()
