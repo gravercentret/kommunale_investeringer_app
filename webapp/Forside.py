@@ -22,6 +22,8 @@ from utils.data_processing import (
     format_and_display_data,
     display_dataframe,
     create_user_session_log,
+    cache_data_for_hele_landet,
+    cache_excel_for_hele_landet,
 )
 from utils.plots import create_pie_chart
 from config import set_pandas_options, set_streamlit_options
@@ -268,16 +270,14 @@ with col2:
 
 with st.spinner("Henter data.."):
     if user_choice == "Hele landet" and selected_categories == [] and search_query == "":
-        if "hele_landet_data" not in st.session_state:
-            st.session_state.hele_landet_data = format_and_display_data(filtered_df)
-        display_dataframe(st.session_state.hele_landet_data)
-    # elif user_choice == "Alle kommuner" and selected_categories == [] and search_query == "":
-    #     if "alle_kommuner_data" not in st.session_state:
-    #         st.session_state.alle_kommuner_data = format_and_display_data(filtered_df)
-    #     display_dataframe(st.session_state.alle_kommuner_data)
+        # Cache the data for "Hele landet"
+        hele_landet_data = cache_data_for_hele_landet(filtered_df)
+        display_dataframe(hele_landet_data)
     else:
+        # No caching for other cases
         display_df = format_and_display_data(filtered_df)
         display_dataframe(display_df)
+
 
 st.markdown(
     "\\* *Markedsværdien (DKK) er et øjebliksbillede. Tallene er oplyst af kommunerne og regionerne selv ud fra deres senest opgjorte opgørelser.*"
@@ -292,28 +292,29 @@ st.markdown(
 filtered_df = filtered_df.to_pandas()
 filtered_df.drop("Priority", axis=1, inplace=True)
 
-with st.spinner("Klargør download til Excel.."):
-    # # Convert dataframe to Excel
-    # if user_choice == "Hele landet" and selected_categories == [] and search_query == "":
-    #     if "hele_landet_excel" not in st.session_state:
-    #         st.session_state.hele_landet_excel = to_excel_function(filtered_df)
-    #     # Create a download button
-    #     st.download_button(
-    #         label="Download til Excel",
-    #         data=st.session_state.hele_landet_excel,
-    #         file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
-    #         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    #     )
-    # else:
-    excel_data = to_excel_function(filtered_df)
 
-    # Create a download button
-    st.download_button(
-        label="Download til Excel",
-        data=excel_data,
-        file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    )
+with st.spinner("Klargør download til Excel.."):
+    if user_choice == "Hele landet" and selected_categories == [] and search_query == "":
+        # Cache and create the Excel file for "Hele landet"
+        hele_landet_excel = cache_excel_for_hele_landet(filtered_df)
+        
+        # Create a download button for the Excel file
+        st.download_button(
+            label="Download til Excel",
+            data=hele_landet_excel,
+            file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
+    else:
+        excel_data = to_excel_function(filtered_df)
+
+        # Create a download button
+        st.download_button(
+            label="Download til Excel",
+            data=excel_data,
+            file_name=f"Investeringer for {user_choice}{search_query}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
 
 with st.spinner("Henter AI-tekster.."):
     if user_choice not in [all_values, municipalities, regions, samsø, læsø]:

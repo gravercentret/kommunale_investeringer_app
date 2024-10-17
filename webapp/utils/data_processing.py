@@ -86,6 +86,15 @@ def decrypt_dataframe(df, key, col_list):
 
     return df_decrypted
 
+# Cache the data formatting and display function with _ to skip hashing the dataframe
+@st.cache_data
+def cache_data_for_hele_landet(_filtered_df):
+    return format_and_display_data(_filtered_df)
+
+# Cache the Excel generation function with _ to skip hashing the dataframe
+@st.cache_data
+def cache_excel_for_hele_landet(_filtered_df):
+    return to_excel_function(_filtered_df)
 
 def get_ai_text(area):
     table_name = os.getenv("TABLE_NAME_AI")
