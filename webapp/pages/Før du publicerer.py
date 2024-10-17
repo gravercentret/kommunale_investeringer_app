@@ -2,7 +2,7 @@ import streamlit as st
 from config import set_pandas_options, set_streamlit_options
 from utils.data_processing import load_css, write_markdown_sidebar, create_user_session_log
 
-create_user_session_log("Klausulering og kildeangivelse")
+create_user_session_log("Før du publicerer")
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
@@ -14,11 +14,10 @@ load_css("webapp/style.css")
 with st.sidebar:
     write_markdown_sidebar()
 
-st.header("Klausulering og kildeangivelse")
+st.header("Før du publicerer")
 
 st.markdown(
     """
-Al information på dette site er klausuleret til den 21. oktober kl. 6.00 \n
 Hvis der anvendes data fra denne database i et journalistisk produkt eller i en anden sammenhæng, skal Gravercentret og Danwatch nævnes som kilde. \n
 For eksempel kan du skrive: "Det viser data, som er indsamlet og bearbejdet af Gravercentret - Danmarks Center for Undersøgende Journalistik, i samarbejde med Danwatch."\n
 """

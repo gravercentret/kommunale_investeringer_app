@@ -54,7 +54,6 @@ st.markdown(
             Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. \n
             Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.
             I den lyseblå kolonne til venstre kan du søge i data.\n
-            *OBS: Data for Københavns Kommune er d. 15/10 blevet opdateret på sitet. Derfor har deres data ændret sig, samt total tallene.*
             """
 )
 
@@ -127,7 +126,8 @@ with st.sidebar:
         help="Søg f.eks. efter et selskabs navn eller et ISIN-nummer.",
     )
 
-    st.markdown("Klik her for mere [avanceret søgning](/Avanceret_søgning).")
+    #st.markdown("Klik her for mere [avanceret søgning](/Avanceret_søgning).")
+    st.markdown('Klik her for mere <a href="/Avanceret_søgning" target="_self">avanceret søgning</a>.', unsafe_allow_html=True)
 
     # Filter dataframe based on user's selection
     filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)

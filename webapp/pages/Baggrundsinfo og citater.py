@@ -91,12 +91,6 @@ with tab1:
         """
         )
 
-    # st.markdown(
-    #     """
-    # *Der vil komme flere citater til fri afbenyttelse. Hold øje med siden her, der opdateres løbende inden d. 21. oktober*
-    #             """
-    # )
-
     st.header("Mulige kilder")
 
     st.markdown(
