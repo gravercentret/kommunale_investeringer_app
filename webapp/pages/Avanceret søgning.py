@@ -112,7 +112,7 @@ with st.expander("Om søgeværktøjet (klik for at folde ud eller ind)", expande
 
 with st.expander("Disse områder har ingen problematiske investeringer:"):
     st.write(
-    """
+        """
     23 kommuner og en region har ingen problematiske investeringer, som optræder på eksklusionslister fra banker, pensionsselskaber eller FN.\n
 
     Der er tale om følgende kommuner: Glostrup, Odsherred, Frederikssund, Hjørring, Stevns, Gladsaxe, Vordingborg, Halsnæs, Frederikshavn, Tårnby, Odder, Dragør, Albertslund, Ishøj, Langeland, Herlev, Gentofte, Sønderborg, Allerød, Ærø, Ringsted samt Læsø og Samsø, der slet ikke har investeringer.\n
