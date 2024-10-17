@@ -48,12 +48,11 @@ def cache_excel_for_hele_landet(_filtered_df):
     return to_excel_function(_filtered_df)
 
 def get_ai_text(area):
-    table_name = os.getenv("TABLE_NAME_AI")
     engine = create_engine(
-        "sqlite:///data/investerings_database_encrypted_new.db"
+        "sqlite:///data/investerings_database.db"
     )  # Ret efter udgivelse
     with engine.connect() as conn:
-        query = f"SELECT [Resumé] FROM {table_name} WHERE `Kommune` = '{area}';"  # Example query
+        query = f"SELECT [Resumé] FROM kommunale_regioner_ai_tekster WHERE `Kommune` = '{area}';"  # Example query
 
         # Execute the query and load the result into a Polars DataFrame
         result_df = pd.read_sql(query, conn)
