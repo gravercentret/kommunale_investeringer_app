@@ -2,7 +2,7 @@ import streamlit as st
 from config import set_pandas_options, set_streamlit_options
 from utils.data_processing import load_css, write_markdown_sidebar, create_user_session_log
 
-create_user_session_log("Mulige kilder og citater")
+create_user_session_log("Baggrundsinfo og citater")
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
