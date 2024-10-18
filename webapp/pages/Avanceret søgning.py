@@ -33,19 +33,18 @@ st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
 load_css("webapp/style.css")
 
-if "df_pl" not in st.session_state:
-    with st.spinner("Klargør side..."):
-        df_retrieved = get_data()
+with st.spinner("Klargør side..."):
+    df_retrieved = get_data()
 
-        encoded_key = os.getenv("ENCRYPTION_KEY")
+    encoded_key = os.getenv("ENCRYPTION_KEY")
 
-        if encoded_key is None:
-            raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
+    if encoded_key is None:
+        raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
 
-        encryption_key = base64.b64decode(encoded_key)
+    encryption_key = base64.b64decode(encoded_key)
 
-        col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
-        st.session_state.df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
+    col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
+    df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 
 with st.sidebar:
@@ -55,9 +54,9 @@ with st.sidebar:
 st.header("Søg videre i databasen")
 
 default_priorities = [2, 3]
-unique_categories_list = get_unique_categories(st.session_state.df_pl)
+unique_categories_list = get_unique_categories(df_pl)
 
-dropdown_areas = get_unique_kommuner(st.session_state.df_pl)
+dropdown_areas = get_unique_kommuner(df_pl)
 
 to_be_removed = {"Alle kommuner", "Alle regioner", "Hele landet"}
 dropdown_areas = [item for item in dropdown_areas if item not in to_be_removed]
@@ -124,17 +123,17 @@ with st.expander("Disse områder har ingen problematiske investeringer:"):
 
 # Filter the dataframe by selected priorities and search query
 filtered_df = (
-    st.session_state.df_pl.filter(
+    df_pl.filter(
         (
-            st.session_state.df_pl["Priority"].is_in(
+            df_pl["Priority"].is_in(
                 [p for p in selected_priorities if p is not None]
             )
         )
-        | (st.session_state.df_pl["Priority"].is_null())
+        | (df_pl["Priority"].is_null())
     )
     if None in selected_priorities
-    else st.session_state.df_pl.filter(
-        st.session_state.df_pl["Priority"].is_in(selected_priorities)
+    else df_pl.filter(
+        df_pl["Priority"].is_in(selected_priorities)
     )
 )
 
