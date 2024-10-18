@@ -35,9 +35,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 create_user_session_log("Forside")
 
-if "df_pl" not in st.session_state:
-    with st.spinner("Klargør side..."):
-        st.session_state.df_pl = get_data()
+df_pl = get_data()
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
@@ -98,10 +96,10 @@ with st.expander("Sådan kommer du i gang.", icon="❔"):
     )
 
 # Get unique municipalities and sort alphabetically
-dropdown_options = get_unique_kommuner(st.session_state.df_pl)
+dropdown_options = get_unique_kommuner(df_pl)
 
 # Get list of categories/reasons
-unique_categories_list = get_unique_categories(st.session_state.df_pl)
+unique_categories_list = get_unique_categories(df_pl)
 
 # Costum choice for dropdown
 all_values = "Hele landet"
@@ -138,7 +136,7 @@ with st.sidebar:
     )
 
     # Filter dataframe based on user's selection
-    filtered_df = filter_dataframe_by_choice(st.session_state.df_pl, user_choice)
+    filtered_df = filter_dataframe_by_choice(df_pl, user_choice)
 
     filtered_df = filter_df_by_search(filtered_df, search_query)
 
