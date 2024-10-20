@@ -1,11 +1,9 @@
 import streamlit as st
 import polars as pl
-import base64
 import os
 import sys
 from utils.data_processing import (
     get_data,
-    decrypt_dataframe,
     get_unique_kommuner,
     get_unique_categories,
     filter_dataframe_by_choice,
@@ -37,18 +35,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 create_user_session_log("Forside")
 
-with st.spinner("Klargør side..."):
-    df_retrieved = get_data()
+df_pl = get_data()
 
-    encoded_key = os.getenv("ENCRYPTION_KEY")
-
-    if encoded_key is None:
-        raise ValueError("ENCRYPTION_KEY is not set in the environment variables.")
-
-    encryption_key = base64.b64decode(encoded_key)
-
-    col_list = ["Område", "ISIN kode", "Værdipapirets navn"]
-    df_pl = decrypt_dataframe(df_retrieved, encryption_key, col_list)
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
@@ -67,7 +55,6 @@ st.markdown(
             Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. \n
             Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.
             I den lyseblå kolonne til venstre kan du søge i data.\n
-            *OBS: Data for Københavns Kommune er d. 15/10 blevet opdateret på sitet. Derfor har deres data ændret sig, samt total tallene.*
             """
 )
 
