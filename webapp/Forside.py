@@ -122,7 +122,7 @@ with st.sidebar:
         "Vælg problemkategori:",
         unique_categories_list,  # Options
         help="Vi har grupperet de mange årsager til eksklusion i hovedkategorier. Vælg én eller flere.",
-        placeholder="Vælg problemkategori.",
+        placeholder="",
     )
 
     search_query = st.text_input(
@@ -189,7 +189,7 @@ with col2:
     with st.container(border=True):
         header_numbers = "Antal investeringer udpeget som problematiske:"
         st.markdown(
-            f'<h4 style="color:black; text-align:center;">{header_numbers}</h4>',
+            f'<h4 style="text-align:center;">{header_numbers}</h4>',
             unsafe_allow_html=True,
         )
 
@@ -197,7 +197,7 @@ with col2:
         problematic_count = filtered_df.filter(filtered_df["Priority"].is_in([2, 3])).shape[0]
         problematic_count = format_number_european(problematic_count)
         st.markdown(
-            f'<h2 style="color:black; text-align:center;">{problematic_count}</h2>',
+            f'<h2 style="text-align:center;">{problematic_count}</h2>',
             unsafe_allow_html=True,
         )
 
