@@ -195,12 +195,13 @@ st.markdown(
     """##### Videre research:
 Der kan være flere kontroversielle værdipapirer blandt de omkring 140.000 investeringer, som kommunerne og regioner har foretaget. \n
 Hvis man vil dykke længere ned i materialet kan man få hjælp fra disse NGO-lister over kontroversielle selskaber indenfor forskellige kategorier:\n
-- [Olie- og gassektoren](https://gogel.org/)
-- [Kulsektoren](https://www.coalexit.org/)
+- [Den animalske fødevaresektor - Dansk Vegetarisk Forening (DVF)](vegetarisk.dk)
+- [Olie- og gassektoren - Global Oil & Gas Exit List (GOGEL)](https://gogel.org/)
+- [Kulsektoren - Global Coal Exit List(GCEL)](https://www.coalexit.org/)
+- [Israel-Palæstina konflikten - Who Profits Research Center](https://www.whoprofits.org/)
+- [Våben - SIPRI Arms Industry Database](https://www.sipri.org/databases/armsindustry)
+- [Menneskerettigheder - Business & Human Rights Resource Centre](https://www.business-humanrights.org/en/companies/)
 - [Største banker, der finansierer den fossile sektor](https://www.bankingonclimatechaos.org/)
-- [Israel-Palæstina konflikten](https://www.whoprofits.org/)
-- [Våben](https://www.sipri.org/databases/armsindustry)
-- [Menneskerettigheder](https://www.business-humanrights.org/en/companies/)
 
 """
 )
