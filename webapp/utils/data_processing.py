@@ -36,20 +36,21 @@ def get_data():
 
     return df_polars
 
+
 # Cache the data formatting and display function with _ to skip hashing the dataframe
 @st.cache_data
 def cache_data_for_hele_landet(_filtered_df):
     return format_and_display_data(_filtered_df)
+
 
 # Cache the Excel generation function with _ to skip hashing the dataframe
 @st.cache_data
 def cache_excel_for_hele_landet(_filtered_df):
     return to_excel_function(_filtered_df)
 
+
 def get_ai_text(area):
-    engine = create_engine(
-        "sqlite:///data/investerings_database.db"
-    )  # Ret efter udgivelse
+    engine = create_engine("sqlite:///data/investerings_database.db")  # Ret efter udgivelse
     with engine.connect() as conn:
         query = f"SELECT [Resumé] FROM kommunale_regioner_ai_tekster WHERE `Kommune` = '{area}';"  # Example query
 

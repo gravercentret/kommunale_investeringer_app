@@ -109,17 +109,11 @@ with st.expander("Disse områder har ingen problematiske investeringer:"):
 # Filter the dataframe by selected priorities and search query
 filtered_df = (
     df_pl.filter(
-        (
-            df_pl["Priority"].is_in(
-                [p for p in selected_priorities if p is not None]
-            )
-        )
+        (df_pl["Priority"].is_in([p for p in selected_priorities if p is not None]))
         | (df_pl["Priority"].is_null())
     )
     if None in selected_priorities
-    else df_pl.filter(
-        df_pl["Priority"].is_in(selected_priorities)
-    )
+    else df_pl.filter(df_pl["Priority"].is_in(selected_priorities))
 )
 
 filtered_df = filter_dataframe_by_multiple_choices(filtered_df, selected_areas)

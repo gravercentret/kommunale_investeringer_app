@@ -283,7 +283,7 @@ with st.spinner("Klargør download til Excel.."):
     if user_choice == "Hele landet" and selected_categories == [] and search_query == "":
         # Cache and create the Excel file for "Hele landet"
         hele_landet_excel = cache_excel_for_hele_landet(filtered_df)
-        
+
         # Create a download button for the Excel file
         st.download_button(
             label="Download til Excel",
