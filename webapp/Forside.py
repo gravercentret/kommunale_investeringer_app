@@ -56,7 +56,7 @@ st.markdown(
     </style>
     <div class="yellow-box">
         <strong>HJÆLP TIL AT KOMME I GANG?</strong><br> 
-        <a href="https://forms.office.com/e/JCsXaWwQ3M" target="_self" style="color: blue; text-decoration: underline;">
+        <a href="https://forms.office.com/e/JCsXaWwQ3M" target="_blank" style="color: blue; text-decoration: underline;">
         Tilmeld dig webinaret:</a> "Investerer din kommune i atomvåben? Sådan finder du gode historier i Gravercentrets investeringssite". D. 29/10 kl. 13-14.
     </div>
     """,
