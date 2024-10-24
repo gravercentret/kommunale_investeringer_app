@@ -40,8 +40,32 @@ df_pl = get_data()
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
+
+st.markdown(
+    """
+    <style>
+    .yellow-box {
+        background-color: #fff670;
+        padding: 20px;
+        border-radius: 5px;
+        color: black;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+    }
+    </style>
+    <div class="yellow-box">
+        <strong>HJÆLP TIL AT KOMME I GANG?</strong><br> 
+        <a href="https://forms.office.com/e/JCsXaWwQ3M" target="_self" style="color: blue; text-decoration: underline;">
+        Tilmeld dig webinaret:</a> "Investerer din kommune i atomvåben? Sådan finder du gode historier i Gravercentrets investeringssite". D. 29/10 kl. 13-14.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 # Title of the app
 st.title("Kommunernes og regionernes investeringer")
+
 st.markdown(
     """ 
     **Hvis der anvendes data fra dette site i et journalistisk produkt eller i en anden sammenhæng, skal Gravercentret og Danwatch nævnes som kilde.** 
@@ -55,6 +79,7 @@ st.markdown(
             Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. \n
             Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.
             I den lyseblå kolonne til venstre kan du søge i data.\n
+            *OBS: D. 24/10 er data opdateret, da vi har fundet flere statsobligationer, der ikke var markeret fra start.*
             """
 )
 
