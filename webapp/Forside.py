@@ -40,29 +40,6 @@ df_pl = get_data()
 
 st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
 
-
-st.markdown(
-    """
-    <style>
-    .yellow-box {
-        background-color: #fff670;
-        padding: 20px;
-        border-radius: 5px;
-        color: black;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        margin-bottom: 20px;
-    }
-    </style>
-    <div class="yellow-box">
-        <strong>HJÆLP TIL AT KOMME I GANG?</strong><br> 
-        <a href="https://forms.office.com/e/JCsXaWwQ3M" target="_blank" style="color: blue; text-decoration: underline;">
-        Tilmeld dig webinaret:</a> "Investerer din kommune i atomvåben? Sådan finder du gode historier i Gravercentrets investeringssite". D. 29/10 kl. 13-14.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
 # Title of the app
 st.title("Kommunernes og regionernes investeringer")
 
