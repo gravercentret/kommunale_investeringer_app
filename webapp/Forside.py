@@ -151,11 +151,11 @@ with st.sidebar:
     if user_choice in [all_values, municipalities, regions] and search_query or selected_categories:
         if search_query:
             st.markdown(
-                f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col("Område").n_unique()).to_numpy()[0][0]}**"
+                f"Antal kommuner/regioner, hvor '{search_query}' indgår: \n **{filtered_df.select(pl.col('Område').n_unique()).to_numpy()[0][0]}**"
             )
         else:
             st.markdown(
-                f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col("Område").n_unique()).to_numpy()[0][0]}**"
+                f"Antal kommuner/regioner, der fremgår efter filtrering: \n **{filtered_df.select(pl.col('Område').n_unique()).to_numpy()[0][0]}**"
             )
 
     write_markdown_sidebar()
@@ -164,18 +164,18 @@ with st.sidebar:
 if selected_categories:
     select_string = ", ".join(selected_categories)
 if search_query and not selected_categories:
-    st.markdown(f'Data for "{user_choice}" og "{search_query}":')
+    st.markdown(f"Data for '{user_choice}' og '{search_query}':")
 if selected_categories and not search_query:
-    st.subheader(f'Data for "{user_choice}" og "{select_string}":')
+    st.subheader(f"Data for '{user_choice}' og '{select_string}':")
 if selected_categories and search_query:
-    st.subheader(f'Data for "{user_choice}", "{select_string}" og "{search_query}":')
+    st.subheader(f"Data for '{user_choice}', '{select_string}' og '{search_query}':")
 if not selected_categories and not search_query:
     if user_choice == "Hele landet":
         st.markdown(
             f"### Data for alle kommuner og regioner: \n ##### (Vælg en enkelt kommune eller region i panelet til venstre)"
         )
     else:
-        st.subheader(f'Data for "{user_choice}":')
+        st.subheader(f"Data for '{user_choice}':")
 
 # Create three columns
 col1, col2 = st.columns([0.4, 0.6])
@@ -192,7 +192,7 @@ with col2:
     with st.container(border=True):
         header_numbers = "Antal investeringer udpeget som problematiske:"
         st.markdown(
-            f'<h4 style="text-align:center;">{header_numbers}</h4>',
+            f"<h4 style='text-align:center;'>{header_numbers}</h4>",
             unsafe_allow_html=True,
         )
 
@@ -200,7 +200,7 @@ with col2:
         problematic_count = filtered_df.filter(filtered_df["Priority"].is_in([2, 3])).shape[0]
         problematic_count = format_number_european(problematic_count)
         st.markdown(
-            f'<h2 style="text-align:center;">{problematic_count}</h2>',
+            f"<h2 style='text-align:center;'>{problematic_count}</h2>",
             unsafe_allow_html=True,
         )
 

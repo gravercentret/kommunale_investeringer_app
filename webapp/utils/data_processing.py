@@ -325,9 +325,9 @@ def write_markdown_sidebar(how_we_did=False):
     )
     st.markdown(
         (
-            f'Klik for at komme til <a href="/Forside" target="_self">forsiden</a>.'
+            f"Klik for at komme til <a href='/Forside' target='_self'>forsiden</a>."
             if how_we_did
-            else 'Læs mere om, <a href="/Sådan_har_vi_gjort" target="_self">hvordan vi har gjort</a>.'
+            else "Læs mere om, <a href='/Sådan_har_vi_gjort' target='_self'>hvordan vi har gjort</a>."
         ),
         unsafe_allow_html=True,
     )
@@ -390,7 +390,7 @@ def create_user_session_log(page_name):
     # Generate or retrieve session ID
     if "user_id" not in st.session_state:
         st.session_state["user_id"] = str(uuid.uuid4())  # Generate a unique ID
-        print(f"[{timestamp}] New user session: {st.session_state["user_id"]} (Forside)")
+        print(f"[{timestamp}] New user session: {st.session_state['user_id']} (Forside)")
     else:
         # Log the user session with a print statement
         user_id = st.session_state["user_id"]
