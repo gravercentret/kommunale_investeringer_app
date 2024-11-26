@@ -50,7 +50,7 @@ def cache_excel_for_hele_landet(_filtered_df):
 
 
 def get_ai_text(area):
-    engine = create_engine("sqlite:///data/investerings_database.db")  # Ret efter udgivelse
+    engine = create_engine("sqlite:///data/investerings_database.db") 
     with engine.connect() as conn:
         query = f"SELECT [Resumé] FROM kommunale_regioner_ai_tekster WHERE `Kommune` = '{area}';"  # Example query
 
