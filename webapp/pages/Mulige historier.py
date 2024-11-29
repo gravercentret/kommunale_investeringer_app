@@ -33,6 +33,51 @@ I det følgende finder du en liste over mulige historier, der kunne laves på ba
 """
 )
 
+with st.expander("***Opdatering: Nogle kommuner sælger ud af sortlistede investeringer***"):
+    st.write(
+        """
+        Stort set alle de 75 kommuner og fire regioner, der i Gravercetrets kortlægning viste sig at have problematiske værdipapirer oplyser to uger efter offentliggørelsen af dette site, at det har givet anledning til overvejelser omkring deres finansielle strategi - og de fleste steder har man også taget kontakt til sine kapitalforvaltere for at indgå i en dialog og høre nærmere om de problematiske investeringer. Mange steder er spørgsmålet desuden blevet diskuteret i økonomiudvalget.\n
+        Mindst ni af disse kommuner har siden offentliggørelsen valgt at skille sig af med nogle af deres investeringer på baggrund af Gravercentrets kortlægning af deres problematiske værdipapirer.\n
+        I mindst 18 kommuner har man endnu ikke afgjort, om Gravercentrets kortlægning af problematiske investeringer vil betyde ændringer i den finansielle strategi eller frasalg af værdipapirer. Dette skyldes typisk, at kommunens økonomiudvalg ikke har haft mulighed for at tage stilling til emnet eller at der stadig er en dialog i gang mellem kommunen og kapitalforvalteren.\n
+        De resterende 46 kommuner og alle fire regioner oplyser, at Gravercentrets kortlægning af problematiske investeringer på nuværende tidspunkt ikke har givet anledning til nogle ændringer eller planer om ændringer af investeringerne. \n
+        To kommuner har valgt ikke at svare.\n
+        Se mere her: https://gravercentret.dk/nyheder/kommuner-saelger-sortlistede-vaerdipapirer/ \n
+        Det kan være interessant at følge med i den videre udvikling og lave historier omkring forløbet - især omkring de kommuner, der fortsat er uafklarede omkring deres problematiske investeringer.\n
+        
+        **De ni kommuner, der har solgt problematiske papirer fra:**\n
+        - Fanø Kommune
+        - Herning Kommune
+        - Holbæk Kommune
+        - Høje-Taastrup Kommune
+        - Hørsholm Kommune
+        - Kalundborg Kommune
+        - Lemvig Kommune
+        - Norddjurs Kommune
+        - Aarhus Kommune
+
+        **De 18 kommuner, der fortsat overvejer, hvad de skal gøre:**\n
+        - Billund Kommune
+        - Faxe Kommune
+        - Furesø Kommune
+        - Gribskov Kommune
+        - Hedensted Kommune
+        - Hillerød Kommune
+        - Horsens Kommune
+        - Hvidovre Kommune
+        - Ikast-Brande Kommune
+        - Københavns Kommune
+        - Lolland Kommunen
+        - Mariagerfjord Kommune
+        - Odense Kommune
+        - Rødovre Kommune
+        - Silkeborg Kommune
+        - Struer Kommune
+        - Svendborg Kommune
+        - Varde Kommune
+
+        """
+    )
+
 with st.expander("**Kommuner og regioner har investeringer for 66,1 milliarder**"):
     st.write(
         """
