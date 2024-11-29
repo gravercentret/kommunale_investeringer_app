@@ -39,8 +39,10 @@ st.header("Eksempler på publiceret journalistik")
 st.markdown(
     """
 På denne side vil vi samle nogle eksempler på journalistiske historier, som er blevet til på baggrund af data her fra sitet. \n
+Opdatering: [Nogle kommuner sælger ud af sortlistede investeringer.](https://gravercentret.dk/nyheder/kommuner-saelger-sortlistede-vaerdipapirer/)
 """
 )
+
 
 with st.expander(
     "Danwatch: **Kommuner investerer millioner i sortlistede virksomheder**", expanded=False
