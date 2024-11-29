@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  streamlit:
+    build:
+      context: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app  # Mount your app directory for live updates
+      - db-data:/data  # Mount the directory where your SQLite database is stored
+    environment:
+      - DATABASE_URL=sqlite:///data/investerings_database.db  # Path to your SQLite DB
+
+volumes:
+  db-data:
