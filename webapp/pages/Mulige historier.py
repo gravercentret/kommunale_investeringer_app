@@ -29,7 +29,7 @@ Altså om en dansk bank, pensionsselskab eller FN har udpeget værdipapiret som 
 Gravercentret har også udpeget en række værdipapirer som kan være potentielt kontroversielle.\n
 
 I det følgende finder du en liste over mulige historier, der kunne laves på baggrund af data:\n
-*OBS: tallene er tilrettet d. 8/11 efter justeringer af markedsværdien af Odense Kommunes investeringer.*
+*OBS: tallene er tilrettet som følge af opdateringer. Se forsiden.*
 """
 )
 
@@ -86,13 +86,13 @@ with st.expander("**Kommuner og regioner har investeringer for 66,1 milliarder**
         """
     )
 
-with st.expander("**Kommuner og regioner har penge i 5.181 problematiske værdipapirer**"):
+with st.expander("**Kommuner og regioner har penge i 5.138 problematiske værdipapirer**"):
     st.write(
         """
-        Landets kommuner og regioner har investeret i mere end 5.000 værdipapirer, der er udpeget som problematiske af enten danske banker, pensionsselskaber eller FN. Helt præcist er der tale om 5.181 værdipapirer. Dertil kommer 1.420 værdipapirer som Gravercentret vurderer potentielt kan være kontroversielle, selv om de ikke er decideret sortlistet.\n
-        I alt har 79 kommuner og regioner investeret 408,1 millioner kroner i problematiske aktier.\n
-        Kalundborg Kommune er topscoreren med hele 598 værdipapirer, der er udpeget som problematiske, mens Rødovre Kommune har 330 problematiske værdipapirer og Vejen Kommune har 221.\n
-        Beløbsmæssigt er det ikke overraskende de tre store kommuner, der har flest midler placeret i problematiske aktier. København har 70,9 millioner i problematiske aktier, Region Sjælland har 22,3 millioner og Århus har 21,7 millioner.
+        Landets kommuner og regioner har investeret i mere end 5.000 værdipapirer, der er udpeget som problematiske af enten danske banker, pensionsselskaber eller FN. Helt præcist er der tale om 5.138 værdipapirer. Dertil kommer 1.420 værdipapirer som Gravercentret vurderer potentielt kan være kontroversielle, selv om de ikke er decideret sortlistet.\n
+        I alt har 79 kommuner og regioner investeret 404,9 millioner kroner i problematiske værdipapirer.\n
+        Kalundborg Kommune er topscoreren med hele 598 værdipapirer, der er udpeget som problematiske, mens Rødovre Kommune har 329 problematiske værdipapirer og Vejen Kommune har 221.\n
+        Beløbsmæssigt er det ikke overraskende de tre store kommuner, der har flest midler placeret i problematiske aktier. København har 69,9 millioner i problematiske aktier, Region Sjælland har 22,2 millioner og Århus har 21,5 millioner.
         """
     )
 
@@ -217,14 +217,14 @@ with st.expander("**Kommuner sætter penge i firmaer, der sælger alkohol**"):
 with st.expander("**Kommuner investerer i kasinoer og gambling**"):
     st.write(
         """
-        <p>46 kommuner og regioner har investeret 3,9 millioner samlet i selskaber, der beskæftiger sig med gambling, kasinoer og pengespil selv om ludomani er et samfundsproblem og selv om flere kommuner faktisk selv forbyder reklamer for pengespil på deres busser. Københavns Kommune har investeret 1 million kroner i pengespil og Aarhus Kommune har investeret 318.000 kroner.</p>
+        <p>20 kommuner og regioner har investeret omkring 700.000 samlet i selskaber, der beskæftiger sig med gambling, kasinoer og pengespil selv om ludomani er et samfundsproblem og selv om flere kommuner faktisk selv forbyder reklamer for pengespil på deres busser. Vejen Kommune ligger i top og har investeret omkring 210.000 kroner i pengespil. </p>
         <p>Kalundborg har satset på flest heste – de har investeret småbeløb i 21 forskellige gamblingfirmaer.</p>
         <p>Undersøg, hvordan det står til i de kommuner, du dækker, på <a href="/Forside" target="_self">forsiden</a> ved at vælge "gambling" som problemkategori i venstre side.</p>
         """,
         unsafe_allow_html=True,
     )
 
-with st.expander("**Kommuner og regioner uden problematiske værdipapierer**"):
+with st.expander("**Kommuner og regioner uden problematiske værdipapirer**"):
     st.write(
         """
     23 kommuner og en region har ingen problematiske investeringer, som optræder på eksklusionslister fra banker, pensionsselskaber eller FN.\n
