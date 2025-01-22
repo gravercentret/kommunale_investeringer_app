@@ -56,7 +56,7 @@ st.markdown(
             Disse oplysninger har vi sammenholdt med lister over hvilke værdipapirer, der er sortlistet af danske banker og pensionsselskaber samt FN. \n
             Herunder kan du se oplysninger fra alle kommuner og regioner – og du kan downloade oplysningerne i Excel-format.
             I den lyseblå kolonne til venstre kan du søge i data.\n
-            *OBS: D. 24/10 er data opdateret, da vi har fundet flere statsobligationer, der ikke var markeret fra start, og d. 07/11 er data opdateret, da markedsværdierne for nogle af Odense Kommunes værdipapirer er tilrettet.*
+            *OBS: Den 13/12/24 har vi fjernet selskabet Daiichi Sankyo Co. Ltd. fra problemkategorien "Gambling", da selskabet var blevet fejlmatchet med selskabet Sankyo Co. Ltd. Den 24/10, er data opdateret, da vi har fundet flere statsobligationer, der ikke var markeret fra start, og d. 07/11 er data opdateret, da markedsværdierne for nogle af Odense Kommunes værdipapirer er tilrettet.*
 
             """
 )
