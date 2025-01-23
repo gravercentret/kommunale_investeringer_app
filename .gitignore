@@ -3,3 +3,6 @@
 build
 __pycache__
 dev/
+
+# Mac specific
+.DS_Store
