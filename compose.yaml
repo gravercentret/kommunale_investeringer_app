@@ -3,14 +3,6 @@ services:
     build:
       context: .
     ports:
-      - "8501:8501"
-    volumes:
-      - .:/app  # Mount your app directory for live updates
-      - db-data:/data  # Mount the directory where your SQLite database is stored
+      - "8501:5000"
     environment:
       - DATABASE_URL=sqlite:///data/investerings_database.db  # Path to your SQLite DB
-      - PORT=8501
-      - MAIN_PAGE=webapp/Forside.py
-
-volumes:
-  db-data:
