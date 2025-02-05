@@ -21,7 +21,21 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pip3 install --user -r requirements.txt"
+	"postCreateCommand": "pip3 install --user -r requirements.txt",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-azuretools.vscode-docker",
+				"ms-vscode-remote.remote-containers",
+				"yzhang.markdown-all-in-one",
+				"DavidAnson.vscode-markdownlint",
+				"EditorConfig.EditorConfig",
+				"ms-vscode.azurecli",
+				"github.vscode-github-actions"
+			]
+		}
+	}
 
 	// Configure tool-specific properties.
 	// "customizations": {},
