@@ -5,7 +5,7 @@
 You can start the application on your local machine by running:
 `docker compose up --build`.
 
-Your application will be available at http://localhost:8501.
+Your application will be available at <http://localhost:8501>.
 
 ### Deploying your application to the cloud
 
@@ -79,7 +79,6 @@ information.
 * [Docker's Python guide](https://docs.docker.com/language/python/)
 * [containers.dev]
 * [Microsoft's SSH credentials]
-
 
 [containers.dev]: https://containers.dev/
 [Microsoft's SSH credentials]: https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials
