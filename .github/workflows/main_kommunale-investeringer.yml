@@ -52,5 +52,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ vars.ACR_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:latest
-            ${{ vars.ACR_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ vars.ACR_GRAVERCENTRET_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:latest
+            ${{ vars.ACR_GRAVERCENTRET_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
