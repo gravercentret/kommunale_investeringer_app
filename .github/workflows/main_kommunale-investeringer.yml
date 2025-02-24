@@ -6,6 +6,9 @@ name: Build and push Docker image to Azure Container Registry
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
   workflow_dispatch:
 
 env:
