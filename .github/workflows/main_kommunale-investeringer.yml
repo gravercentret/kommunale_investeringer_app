@@ -6,12 +6,11 @@ name: Build and push Docker image to Azure Container Registry
 
 on:
   push:
-    branches:
-      - main
   workflow_dispatch:
 
 env:
   IMAGE_NAME: ${{ github.repository }}
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 jobs:
   build:
@@ -46,11 +45,22 @@ jobs:
           username: ${{ vars.ACR_GRAVERCENTRET_TOKEN_NAME }}
           password: ${{ secrets.ACR_GRAVERCENTRET_TOKEN_PASSWORD }}
           
-      - name: Build and push
+      - name: Build and push as latest
+        if: github.head_ref == 'main' || github.ref_name == 'main'
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
             ${{ vars.ACR_GRAVERCENTRET_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:latest
+            ${{ vars.ACR_GRAVERCENTRET_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Build and push with branch name as tag
+        if: github.head_ref != 'main' && github.ref_name != 'main'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ vars.ACR_GRAVERCENTRET_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.BRANCH_NAME }}
             ${{ vars.ACR_GRAVERCENTRET_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
