@@ -26,7 +26,7 @@ create_user_session_log("Avanceret søgning")
 set_pandas_options()
 set_streamlit_options()
 
-st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
+st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png", link="https://gravercentret.dk/")
 
 load_css("webapp/style.css")
 

@@ -37,8 +37,7 @@ create_user_session_log("Forside")
 
 df_pl = get_data()
 
-
-st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
+st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png", link="https://gravercentret.dk/")
 
 # Title of the app
 st.title("Kommunernes og regionernes investeringer")

@@ -10,7 +10,7 @@ load_css("webapp/style.css")
 
 create_user_session_log("Mulige historier")
 
-st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
+st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png", link="https://gravercentret.dk/")
 
 with st.sidebar:
     write_markdown_sidebar()

@@ -4,7 +4,7 @@ from utils.data_processing import load_css, write_markdown_sidebar, create_user_
 
 create_user_session_log("Baggrundsinfo og citater")
 
-st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png")
+st.logo("webapp/images/GC_png_oneline_lockup_Outline_Blaa_RGB.png", link="https://gravercentret.dk/")
 
 # Apply the settings
 set_pandas_options()
